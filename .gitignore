@@ -1,0 +1,25 @@
+# Build outputs
+build/
+app/build/
+*.apk
+
+# Gradle
+.gradle/
+local.properties
+
+# IDE
+.idea/
+*.iml
+captures/
+
+# Android
+/sdcard/
+*.hprof
+
+# Crash logs
+AmmarBrowser-crash-*.txt
+AmmarBrowser-crash-latest.txt
+
+# OS
+.DS_Store
+Thumbs.db

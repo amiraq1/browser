@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_toggle_allowlist" android:title="@string/disable_blocking_site" />
+    <item android:id="@+id/menu_speed_off" android:title="@string/speed_off" />
+    <item android:id="@+id/menu_speed_balanced" android:title="@string/speed_balanced" />
+    <item android:id="@+id/menu_speed_extreme" android:title="@string/speed_extreme" />
+    <item android:id="@+id/menu_adblock_debug" android:title="@string/adblock_debug" />
+    <item android:id="@+id/menu_history" android:title="@string/history" />
+    <item android:id="@+id/menu_settings" android:title="@string/settings" />
+</menu>

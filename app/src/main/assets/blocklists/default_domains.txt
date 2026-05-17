@@ -1,0 +1,54 @@
+# Ammar Browser - Default Block List
+# Format: domain,TYPE
+# Types: AD, TRACKER, ANALYTICS, SOCIAL, SUSPICIOUS, UNKNOWN
+
+# Ads
+doubleclick.net,AD
+googlesyndication.com,AD
+adservice.google.com,AD
+googletagservices.com,AD
+adform.net,AD
+amazon-adsystem.com,AD
+rubiconproject.com,AD
+pubmatic.com,AD
+openx.net,AD
+taboola.com,AD
+outbrain.com,AD
+revcontent.com,AD
+moatads.com,AD
+adsrvr.org,AD
+adnxs.com,AD
+criteo.com,AD
+bidswitch.net,AD
+casalemedia.com,AD
+contextweb.com,AD
+smartadserver.com,AD
+
+# Analytics
+google-analytics.com,ANALYTICS
+googletagmanager.com,ANALYTICS
+scorecardresearch.com,ANALYTICS
+hotjar.com,ANALYTICS
+mixpanel.com,ANALYTICS
+segment.io,ANALYTICS
+amplitude.com,ANALYTICS
+newrelic.com,ANALYTICS
+nr-data.net,ANALYTICS
+fullstory.com,ANALYTICS
+
+# Trackers
+doubleclick.net,TRACKER
+2mdn.net,TRACKER
+adsafeprotected.com,TRACKER
+moat.com,TRACKER
+doubleverify.com,TRACKER
+
+# Social Trackers
+facebook.net,SOCIAL
+connect.facebook.net,SOCIAL
+facebook.com/tr,SOCIAL
+twitter.com/i/adsct,SOCIAL
+tiktok.com/i18n/pixel,SOCIAL
+snapchat.com/tr,SOCIAL
+linkedin.com/px,SOCIAL
+ads.pinterest.com,SOCIAL

@@ -1,0 +1,54 @@
+[Adblock Plus 2.0]
+! Title: Ammar Browser - EasyList Subset
+! Last modified: 2026-05-17
+
+! --- Ads ---
+||doubleclick.net^
+||googlesyndication.com^
+||googletagservices.com^
+||adservice.google.com^
+||taboola.com^
+||outbrain.com^
+||revcontent.com^
+||moatads.com^
+||adsrvr.org^
+||adnxs.com^
+||criteo.com^
+||bidswitch.net^
+||casalemedia.com^
+||smartadserver.com^
+||contextweb.com^
+||pubmatic.com^
+||openx.net^
+||rubiconproject.com^
+||amazon-adsystem.com^
+||adform.net^
+
+! --- Analytics ---
+||google-analytics.com^
+||googletagmanager.com^
+||scorecardresearch.com^
+||hotjar.com^
+||mixpanel.com^
+||segment.io^
+||amplitude.com^
+||newrelic.com^
+||nr-data.net^
+||fullstory.com^
+
+! --- Trackers ---
+||2mdn.net^
+||adsafeprotected.com^
+||moat.com^
+||doubleverify.com^
+
+! --- Social Trackers ---
+||connect.facebook.net^
+||facebook.net^
+||ads.pinterest.com^
+
+! --- Exceptions (do not block these) ---
+@@||google.com^
+@@||googleapis.com^
+@@||gstatic.com^
+@@||youtube.com^

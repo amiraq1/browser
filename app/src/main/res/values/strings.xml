@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ammar Browser</string>
+    <string name="url_hint">Search or enter URL</string>
+    <string name="back">Back</string>
+    <string name="forward">Forward</string>
+    <string name="refresh">Refresh</string>
+    <string name="menu">Menu</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="version_format">Version %1$s</string>
+    <string name="about_description">A privacy-focused Android browser.\nBuilt for speed and security.</string>
+    <string name="tabs">Tabs</string>
+    <string name="new_tab">New Tab</string>
+    <string name="close_tab">Close Tab</string>
+    <string name="tab_count_format">%1$d Tabs</string>
+    <string name="history">History</string>
+    <string name="clear_history">Clear History</string>
+    <string name="no_history">No browsing history</string>
+    <string name="speed_off">Speed: OFF</string>
+    <string name="speed_balanced">Speed: BALANCED ✓</string>
+    <string name="speed_extreme">Speed: EXTREME</string>
+    <string name="disable_blocking_site">Disable blocking for this site</string>
+    <string name="enable_blocking_site">Enable blocking for this site</string>
+    <string name="adblock_debug">AdBlock Debug</string>
+    <string name="recent_blocked">Recent Blocked Requests</string>
+</resources>
