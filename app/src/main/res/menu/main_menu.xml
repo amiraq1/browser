@@ -6,5 +6,7 @@
     <item android:id="@+id/menu_speed_extreme" android:title="@string/speed_extreme" />
     <item android:id="@+id/menu_adblock_debug" android:title="@string/adblock_debug" />
     <item android:id="@+id/menu_history" android:title="@string/history" />
+    <item android:id="@+id/menu_add_bookmark" android:title="@string/add_bookmark" />
+    <item android:id="@+id/menu_bookmarks" android:title="@string/bookmarks" />
     <item android:id="@+id/menu_settings" android:title="@string/settings" />
 </menu>

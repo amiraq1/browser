@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ammar.browser.R
+import com.ammar.browser.bookmarks.BookmarkRepository
 import com.ammar.browser.engine.BrowserEngine
 import com.ammar.browser.engine.EngineCallback
 import com.ammar.browser.engine.WebViewEngine
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
     private val engines = mutableMapOf<String, BrowserEngine>()
     private lateinit var adBlocker: AdBlocker
     private lateinit var historyRepository: HistoryRepository
+    private lateinit var bookmarkRepository: BookmarkRepository
 
     private lateinit var urlBar: EditText
     private lateinit var progressBar: ProgressBar
@@ -78,6 +80,15 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         }
     }
 
+    private val bookmarksLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val url = result.data?.getStringExtra(BookmarksActivity.RESULT_URL) ?: return@registerForActivityResult
+            navigateTo(url)
+        }
+    }
+
     // --- Lifecycle ---
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,6 +101,7 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         adBlocker = (application as com.ammar.browser.BrowserApp).adBlocker
         StartupTracker.mark("MainActivity.historyRepository")
         historyRepository = HistoryRepository(this)
+        bookmarkRepository = BookmarkRepository(this)
         StartupTracker.mark("MainActivity.tabManager")
         tabManager.setListener(this)
         tabManager.createNewTab(intent?.dataString ?: NewTabPage.URL)
@@ -332,6 +344,57 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
             .show()
     }
 
+    /**
+     * Saves the currently displayed page as a bookmark.
+     *
+     * Skipped (with a toast) when:
+     *  - The active tab is private.
+     *  - There is no current URL, or it is the new-tab page / blank / data URI.
+     *  - The URL is not http(s) (the repository enforces this too).
+     *
+     * If a bookmark for this URL already exists, its title and timestamp are
+     * refreshed instead of inserting a duplicate row (unique index on `url`).
+     */
+    private fun addCurrentPageAsBookmark() {
+        val tab = tabManager.getCurrentTab()
+        if (tab == null) {
+            android.widget.Toast
+                .makeText(this, R.string.bookmark_skipped_invalid, android.widget.Toast.LENGTH_SHORT)
+                .show()
+            return
+        }
+        if (tab.isPrivate) {
+            android.widget.Toast
+                .makeText(this, R.string.bookmark_skipped_private, android.widget.Toast.LENGTH_SHORT)
+                .show()
+            return
+        }
+        val engine = engines[tab.id]
+        val url = engine?.getCurrentUrl() ?: tab.url
+        if (url.isBlank() || NewTabPage.isNewTabUrl(url) ||
+            !(url.startsWith("http://") || url.startsWith("https://"))
+        ) {
+            android.widget.Toast
+                .makeText(this, R.string.bookmark_skipped_invalid, android.widget.Toast.LENGTH_SHORT)
+                .show()
+            return
+        }
+        val title = engine?.getTitle()?.takeIf { it.isNotBlank() } ?: tab.title
+        lifecycleScope.launch {
+            val result = bookmarkRepository.addOrUpdate(url, title)
+            val msgRes = when (result) {
+                BookmarkRepository.AddResult.ADDED -> R.string.bookmark_added
+                BookmarkRepository.AddResult.UPDATED -> R.string.bookmark_updated
+                BookmarkRepository.AddResult.SKIPPED -> R.string.bookmark_skipped_invalid
+            }
+            runOnUiThread {
+                android.widget.Toast
+                    .makeText(this@MainActivity, msgRes, android.widget.Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
     private fun showMainMenu(anchor: View) {
         PopupMenu(this, anchor).apply {
             menuInflater.inflate(R.menu.main_menu, menu)
@@ -360,6 +423,14 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
                     }
                     R.id.menu_history -> {
                         historyLauncher.launch(Intent(this@MainActivity, HistoryActivity::class.java))
+                        true
+                    }
+                    R.id.menu_add_bookmark -> {
+                        addCurrentPageAsBookmark()
+                        true
+                    }
+                    R.id.menu_bookmarks -> {
+                        bookmarksLauncher.launch(Intent(this@MainActivity, BookmarksActivity::class.java))
                         true
                     }
                     R.id.menu_settings -> {

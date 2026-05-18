@@ -24,4 +24,12 @@
     <string name="enable_blocking_site">Enable blocking for this site</string>
     <string name="adblock_debug">AdBlock Debug</string>
     <string name="recent_blocked">Recent Blocked Requests</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="add_bookmark">Add Bookmark</string>
+    <string name="delete_bookmark">Delete Bookmark</string>
+    <string name="no_bookmarks">No bookmarks yet</string>
+    <string name="bookmark_added">Bookmark added</string>
+    <string name="bookmark_updated">Bookmark updated</string>
+    <string name="bookmark_skipped_private">Bookmarks are disabled in private tabs</string>
+    <string name="bookmark_skipped_invalid">This page can\'t be bookmarked</string>
 </resources>
