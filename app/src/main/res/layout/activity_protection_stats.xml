@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1a1a2e">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🛡 Protection Stats"
+            android:textSize="22sp"
+            android:textColor="#4fc3f7"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Total Blocked -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Blocked"
+            android:textSize="13sp"
+            android:textColor="#aaa" />
+        <TextView
+            android:id="@+id/stat_total_blocked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="36sp"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Categories -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ads"
+            android:textSize="13sp"
+            android:textColor="#aaa" />
+        <TextView
+            android:id="@+id/stat_ads"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="22sp"
+            android:textColor="#fff"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trackers"
+            android:textSize="13sp"
+            android:textColor="#aaa" />
+        <TextView
+            android:id="@+id/stat_trackers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="22sp"
+            android:textColor="#fff"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Analytics"
+            android:textSize="13sp"
+            android:textColor="#aaa" />
+        <TextView
+            android:id="@+id/stat_analytics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="22sp"
+            android:textColor="#fff"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Social Trackers"
+            android:textSize="13sp"
+            android:textColor="#aaa" />
+        <TextView
+            android:id="@+id/stat_social"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="22sp"
+            android:textColor="#fff"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Suspicious"
+            android:textSize="13sp"
+            android:textColor="#aaa" />
+        <TextView
+            android:id="@+id/stat_suspicious"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="22sp"
+            android:textColor="#fff"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Speed Mode & Rules -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Speed Mode"
+            android:textSize="13sp"
+            android:textColor="#aaa" />
+        <TextView
+            android:id="@+id/stat_speed_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BALANCED"
+            android:textSize="18sp"
+            android:textColor="#4fc3f7"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rules Loaded"
+            android:textSize="13sp"
+            android:textColor="#aaa" />
+        <TextView
+            android:id="@+id/stat_rules_loaded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:layout_marginBottom="32dp" />
+
+        <Button
+            android:id="@+id/btn_adblock_debug"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Open AdBlock Debug"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+</ScrollView>

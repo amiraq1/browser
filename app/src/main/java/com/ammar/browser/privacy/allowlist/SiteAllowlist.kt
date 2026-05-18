@@ -50,6 +50,11 @@ object SiteAllowlist {
 
     fun getAll(): Set<String> = allowedHosts.toSet()
 
+    fun clearAll() {
+        allowedHosts.clear()
+        persist()
+    }
+
     private fun normalizeHost(host: String): String? {
         val lower = host.lowercase().trim()
         if (lower.isEmpty()) return null

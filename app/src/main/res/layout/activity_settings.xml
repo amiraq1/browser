@@ -1,25 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="#1a1a2e">
 
     <LinearLayout
-        android:id="@+id/setting_about"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?attr/selectableItemBackground">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Protection -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Protection"
+            android:textSize="14sp"
+            android:textColor="#4fc3f7"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/about"
-            android:textSize="16sp" />
+            android:text="Speed Mode"
+            android:textSize="13sp"
+            android:textColor="#aaa" />
+
+        <TextView
+            android:id="@+id/txt_speed_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current: BALANCED"
+            android:textSize="16sp"
+            android:textColor="#fff"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/btn_speed_off"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="OFF"
+                android:textAllCaps="false"
+                android:layout_marginEnd="4dp" />
+
+            <Button
+                android:id="@+id/btn_speed_balanced"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="BALANCED"
+                android:textAllCaps="false"
+                android:layout_marginHorizontal="4dp" />
+
+            <Button
+                android:id="@+id/btn_speed_extreme"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="EXTREME"
+                android:textAllCaps="false"
+                android:layout_marginStart="4dp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_protection_stats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Protection Stats"
+            android:textAllCaps="false"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btn_adblock_debug"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AdBlock Debug"
+            android:textAllCaps="false"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Privacy -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Privacy"
+            android:textSize="14sp"
+            android:textColor="#4fc3f7"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/txt_allowlist_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 sites allowlisted"
+            android:textSize="14sp"
+            android:textColor="#ccc"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btn_clear_allowlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clear Allowlisted Sites"
+            android:textAllCaps="false"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Browser -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Browser"
+            android:textSize="14sp"
+            android:textColor="#4fc3f7"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Page: New Tab Page"
+            android:textSize="14sp"
+            android:textColor="#ccc"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AmmarBrowser"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Version: 0.1.0-alpha\nFocus: Ad Blocking + Speed"
+            android:textSize="13sp"
+            android:textColor="#aaa" />
 
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

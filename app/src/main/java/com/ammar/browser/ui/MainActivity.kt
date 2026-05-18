@@ -249,6 +249,14 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
             }
         })
 
+        layout.addView(Button(this).apply {
+            text = "Protection Stats"
+            setOnClickListener {
+                startActivity(Intent(this@MainActivity, ProtectionStatsActivity::class.java))
+                dialog.dismiss()
+            }
+        })
+
         dialog.setContentView(layout)
         dialog.show()
     }

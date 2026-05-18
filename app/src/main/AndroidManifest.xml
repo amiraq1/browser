@@ -38,6 +38,11 @@
             android:parentActivityName=".ui.MainActivity" />
 
         <activity
+            android:name=".ui.ProtectionStatsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity" />
+
+        <activity
             android:name=".ui.HistoryActivity"
             android:exported="false"
             android:parentActivityName=".ui.MainActivity" />
