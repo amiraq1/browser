@@ -129,6 +129,23 @@
             android:textColor="#fff"
             android:layout_marginBottom="24dp" />
 
+        <!-- Tracker Companies -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tracker Companies"
+            android:textSize="13sp"
+            android:textColor="#aaa" />
+        <TextView
+            android:id="@+id/stat_companies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No data yet"
+            android:textSize="14sp"
+            android:textColor="#fff"
+            android:lineSpacingExtra="3dp"
+            android:layout_marginBottom="24dp" />
+
         <!-- Speed Mode & Rules -->
         <TextView
             android:layout_width="wrap_content"

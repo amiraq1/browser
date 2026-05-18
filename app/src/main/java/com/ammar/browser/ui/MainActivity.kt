@@ -26,6 +26,7 @@ import com.ammar.browser.navigation.NavigationHelper
 import com.ammar.browser.performance.SpeedMode
 import com.ammar.browser.performance.SpeedSettings
 import com.ammar.browser.privacy.PrivacyGradeCalculator
+import com.ammar.browser.privacy.TrackerCompanyClassifier
 import com.ammar.browser.privacy.adblock.AdBlocker
 import com.ammar.browser.privacy.allowlist.SiteAllowlist
 import com.ammar.browser.settings.SettingsActivity
@@ -229,11 +230,15 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
             setPadding(0, 0, 0, pad / 2)
         })
 
+        val recentHosts = adBlocker.blockedLog.getRecent().map { it.host }
+        val topCompany = TrackerCompanyClassifier.topCompany(recentHosts)
+
         layout.addView(TextView(this).apply {
             text = "Privacy Grade: $grade\n" +
                     "Protection: ${if (siteAllowed) "Allowed" else "Protected"}\n" +
                     "Zero Tracking: $zeroTracking\n" +
-                    "Blocked: $tabBlocked on this tab"
+                    "Blocked: $tabBlocked on this tab\n" +
+                    "Top tracker: $topCompany"
             textSize = 13f
             setLineSpacing(4f, 1f)
             setPadding(0, 0, 0, pad)
