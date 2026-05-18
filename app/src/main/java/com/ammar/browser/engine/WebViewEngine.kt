@@ -79,7 +79,29 @@ class WebViewEngine(
                 override fun shouldOverrideUrlLoading(
                     view: WebView?,
                     request: WebResourceRequest?
-                ): Boolean = false
+                ): Boolean {
+                    val urlStr = request?.url?.toString() ?: return false
+                    if (urlStr.startsWith("ammar://action/")) {
+                        // Origin gate: only honor native actions when the
+                        // current page is itself a local ammar:// page.
+                        // This prevents arbitrary third-party sites from
+                        // triggering native actions via redirects, iframes,
+                        // or window.location.href.
+                        val pageUrl = currentPageUrl
+                        if (pageUrl != null && pageUrl.startsWith("ammar://")) {
+                            val action = urlStr
+                                .removePrefix("ammar://action/")
+                                .trimEnd('/')
+                            if (action.isNotEmpty()) {
+                                callback?.onCustomAction(tabId, action)
+                            }
+                        }
+                        // Always swallow so the WebView never tries to
+                        // navigate to ammar://action/* (would error out).
+                        return true
+                    }
+                    return false
+                }
 
                 override fun shouldInterceptRequest(
                     view: WebView?,

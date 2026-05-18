@@ -37,4 +37,15 @@ interface EngineCallback {
     fun onPageFinished(tabId: String, url: String)
     fun onProgressChanged(tabId: String, progress: Int)
     fun onTitleChanged(tabId: String, title: String?)
+
+    /**
+     * Triggered when a local page (e.g. the new tab Shield Dashboard)
+     * navigates to an `ammar://action/<name>` URL. The engine guarantees
+     * this is only invoked when the originating page is on the `ammar://`
+     * scheme, so external sites cannot call native actions.
+     *
+     * Default implementation is a no-op so adding new actions does not
+     * break engines or callers that don't care about them.
+     */
+    fun onCustomAction(tabId: String, action: String) {}
 }

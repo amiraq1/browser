@@ -228,16 +228,6 @@ body{
   margin-top:6px;text-align:center;font-size:0.7em;color:var(--muted);letter-spacing:1px;
 }
 .foot b{color:var(--accent2)}
-
-/* ===== Toast ===== */
-#toast{
-  position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(20px);
-  background:var(--card-hi);border:1px solid var(--border-hi);
-  color:var(--text);padding:10px 14px;border-radius:12px;
-  font-size:0.85em;opacity:0;pointer-events:none;
-  transition:opacity 0.2s ease, transform 0.2s ease;max-width:90vw;
-}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style></head><body>
 <div class="wrap">
 
@@ -273,22 +263,22 @@ body{
 
   <div class="section-title">Quick actions</div>
   <div class="actions">
-    <button type="button" class="action" onclick="todo('Protection Stats')">
+    <a class="action" href="ammar://action/protection-stats">
       <div class="ico">📊</div>
       <div class="lbl"><b>Protection Stats</b><span>Detailed breakdown</span></div>
-    </button>
-    <button type="button" class="action alt" onclick="todo('Settings')">
+    </a>
+    <a class="action alt" href="ammar://action/settings">
       <div class="ico">⚙</div>
       <div class="lbl"><b>Settings</b><span>App preferences</span></div>
-    </button>
-    <button type="button" class="action" onclick="todo('Clear Browsing Data')">
+    </a>
+    <a class="action" href="ammar://action/clear-data">
       <div class="ico">🧹</div>
       <div class="lbl"><b>Clear Data</b><span>History · cookies</span></div>
-    </button>
-    <button type="button" class="action alt" onclick="todo('Speed Mode')">
+    </a>
+    <a class="action alt" href="ammar://action/extreme-mode">
       <div class="ico">⚡</div>
       <div class="lbl"><b>Extreme Mode</b><span>Currently: ${escapeHtml(mode.name)}</span></div>
-    </button>
+    </a>
   </div>
 
   <div class="section-title">Shortcuts</div>
@@ -305,8 +295,6 @@ body{
 
 </div>
 
-<div id="toast" role="status" aria-live="polite"></div>
-
 <script>
 (function(){
   var SEARCH='$searchTemplateJs';
@@ -318,19 +306,7 @@ body{
     if(q.indexOf('.')!==-1&&q.indexOf(' ')===-1){location.href='https://'+q;return;}
     location.href=SEARCH+encodeURIComponent(q);
   }
-  var toastEl=document.getElementById('toast');var toastTimer=null;
-  function toast(msg){
-    toastEl.textContent=msg;
-    toastEl.classList.add('show');
-    if(toastTimer)clearTimeout(toastTimer);
-    toastTimer=setTimeout(function(){toastEl.classList.remove('show');},2400);
-  }
-  function todo(name){
-    // No native bridge wired up yet — direct the user to the toolbar menu.
-    toast('Open '+name+' from the menu (top-right).');
-  }
   window.go=go;
-  window.todo=todo;
 })();
 </script>
 </body></html>"""

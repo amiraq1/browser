@@ -549,4 +549,49 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
             tabManager.updateTabTitle(tabId, title ?: "")
         }
     }
+
+    /**
+     * Handles `ammar://action/<name>` links fired from the local
+     * Shield Dashboard. The engine guarantees these only originate from
+     * an `ammar://` page (origin gate in [WebViewEngine]), so external
+     * sites cannot trigger native actions even via redirects.
+     *
+     * Unknown actions are ignored silently.
+     */
+    override fun onCustomAction(tabId: String, action: String) {
+        runOnUiThread {
+            when (action) {
+                "protection-stats" -> {
+                    startActivity(Intent(this, ProtectionStatsActivity::class.java))
+                }
+                "settings" -> {
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                }
+                "clear-data" -> {
+                    // Settings hosts the Clear Browsing Data buttons.
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                }
+                "extreme-mode" -> {
+                    SpeedSettings.setMode(SpeedMode.EXTREME)
+                    android.widget.Toast.makeText(
+                        this,
+                        "Extreme Mode enabled",
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
+                    updateBlockedCount()
+                    // If we're on the new tab page, regenerate it so the
+                    // dashboard immediately reflects the new mode.
+                    val engine = engines[tabId]
+                    val currentUrl = engine?.getCurrentUrl()
+                    if (engine != null && NewTabPage.isNewTabUrl(currentUrl)) {
+                        engine.loadHtml(
+                            NewTabPage.generateHtml(adBlocker),
+                            NewTabPage.URL
+                        )
+                    }
+                }
+                // Unknown action: ignore.
+            }
+        }
+    }
 }
