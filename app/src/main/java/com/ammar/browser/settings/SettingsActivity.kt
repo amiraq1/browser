@@ -15,6 +15,7 @@ import com.ammar.browser.performance.SpeedSettings
 import com.ammar.browser.privacy.CookieBannerSettings
 import com.ammar.browser.privacy.allowlist.SiteAllowlist
 import com.ammar.browser.ui.AdBlockDebugActivity
+import com.ammar.browser.ui.AboutActivity
 import com.ammar.browser.ui.ProtectionStatsActivity
 import kotlinx.coroutines.launch
 
@@ -77,6 +78,10 @@ class SettingsActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn_cookie_banner).setOnClickListener {
             CookieBannerSettings.setEnabled(!CookieBannerSettings.enabled)
             updateCookieBannerBtn()
+        }
+
+        findViewById<Button>(R.id.btn_about).setOnClickListener {
+            startActivity(Intent(this, AboutActivity::class.java))
         }
     }
 

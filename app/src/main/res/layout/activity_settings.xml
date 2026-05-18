@@ -210,21 +210,12 @@
             android:textColor="#ccc"
             android:layout_marginBottom="12dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btn_about"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="AmmarBrowser"
-            android:textSize="18sp"
-            android:textColor="#fff"
-            android:textStyle="bold"
-            android:layout_marginBottom="4dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Version: 0.1.0-alpha\nFocus: Ad Blocking + Speed"
-            android:textSize="13sp"
-            android:textColor="#aaa" />
+            android:text="About AmmarBrowser"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 </ScrollView>

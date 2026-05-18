@@ -10,18 +10,11 @@ class AboutActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
-
-        supportActionBar?.apply {
-            title = getString(R.string.about)
-            setDisplayHomeAsUpEnabled(true)
-        }
+        supportActionBar?.apply { title = "About"; setDisplayHomeAsUpEnabled(true) }
 
         findViewById<TextView>(R.id.about_version).text =
-            getString(R.string.version_format, packageManager.getPackageInfo(packageName, 0).versionName)
+            "Version ${packageManager.getPackageInfo(packageName, 0).versionName}"
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return true
-    }
+    override fun onSupportNavigateUp(): Boolean { finish(); return true }
 }

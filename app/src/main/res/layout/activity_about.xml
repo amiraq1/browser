@@ -1,31 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="32dp">
+    android:background="#1a1a2e">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:padding="24dp">
 
-    <TextView
-        android:id="@+id/about_version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textSize="14sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AmmarBrowser"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#4fc3f7" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/about_description"
-        android:textAlignment="center"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/about_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            android:textColor="#aaa" />
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Focus: Zero Tracking + Ad Blocking + Speed"
+            android:textSize="14sp"
+            android:textColor="#fff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Features"
+            android:textSize="14sp"
+            android:textColor="#4fc3f7"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="• Zero Tracking Defaults\n• HTTPS-Only Mode\n• Ad &amp; Tracker Blocking (317 rules)\n• Privacy Grade (A–D)\n• Tracker Company Classification\n• Suspicious Domain Warning\n• Cookie Banner Control (Experimental)\n• Protection Stats Dashboard\n• Per-site Privacy Controls\n• Clear Browsing Data\n• Custom New Tab Page\n• DNT / GPC Headers"
+            android:textSize="13sp"
+            android:textColor="#ccc"
+            android:lineSpacingExtra="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Privacy"
+            android:textSize="14sp"
+            android:textColor="#4fc3f7"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="• App telemetry: Off\n• Tracking SDKs: None\n• No external privacy APIs\n• Local protection only\n• No data sent to any server"
+            android:textSize="13sp"
+            android:textColor="#ccc"
+            android:lineSpacingExtra="4dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:padding="12dp"
+            android:background="#33FF9800"
+            android:text="⚠️ This is an alpha build. Some websites may break due to strict privacy protections."
+            android:textSize="12sp"
+            android:textColor="#FF9800" />
+
+    </LinearLayout>
+</ScrollView>
