@@ -178,7 +178,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Third-party cookies: Blocked\nMixed content: Blocked\nFile access: Disabled\nGeolocation: Disabled\nDNT / GPC headers: Sent\nApp telemetry: Off\nTracking SDKs: None"
+            android:text="Third-party cookies: Blocked\nMixed content: Blocked\nFile access: Disabled\nGeolocation: Disabled\nHTTPS-Only Mode: Enabled\nDNT / GPC headers: Sent\nApp telemetry: Off\nTracking SDKs: None"
             android:textSize="12sp"
             android:textColor="#aaa"
             android:lineSpacingExtra="3dp"

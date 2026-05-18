@@ -34,6 +34,7 @@ class ProtectionStatsActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.stat_suspicious).text = stats.blockedSuspicious.toString()
         findViewById<TextView>(R.id.stat_speed_mode).text = SpeedSettings.mode.name
         findViewById<TextView>(R.id.stat_rules_loaded).text = "${info.totalRulesCount} rules (${info.abpExceptionsCount} exceptions)"
+        findViewById<TextView>(R.id.stat_https).text = "Enabled (${com.ammar.browser.navigation.NavigationHelper.httpsUpgradeCount} upgrades this session)"
         findViewById<TextView>(R.id.stat_companies).text = companyCounts.entries
             .sortedByDescending { it.value }
             .joinToString("\n") { "${it.key}: ${it.value}" }

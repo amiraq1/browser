@@ -176,6 +176,21 @@
             android:text="0"
             android:textSize="18sp"
             android:textColor="#fff"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HTTPS-Only Mode"
+            android:textSize="13sp"
+            android:textColor="#aaa" />
+        <TextView
+            android:id="@+id/stat_https"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enabled"
+            android:textSize="18sp"
+            android:textColor="#4caf50"
             android:layout_marginBottom="32dp" />
 
         <Button

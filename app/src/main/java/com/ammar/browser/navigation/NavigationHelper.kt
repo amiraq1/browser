@@ -6,16 +6,31 @@ package com.ammar.browser.navigation
 object NavigationHelper {
 
     private const val DEFAULT_SEARCH_ENGINE = "https://www.google.com/search?q="
+    private val SKIP_SCHEMES = listOf("about:", "ammar:", "data:", "javascript:", "file:", "content:")
+
+    var httpsUpgradeCount: Int = 0
+        private set
 
     fun resolveInput(input: String): String {
         val trimmed = input.trim()
         if (trimmed.isEmpty()) return ""
 
-        return when {
+        val url = when {
             trimmed.startsWith("http://") || trimmed.startsWith("https://") -> trimmed
             trimmed.contains(".") && !trimmed.contains(" ") -> "https://$trimmed"
             else -> DEFAULT_SEARCH_ENGINE + java.net.URLEncoder.encode(trimmed, "UTF-8")
         }
+        return upgradeToHttps(url)
+    }
+
+    /** Upgrades http:// to https:// unless it's a special scheme. */
+    fun upgradeToHttps(url: String): String {
+        if (SKIP_SCHEMES.any { url.startsWith(it) }) return url
+        if (url.startsWith("http://")) {
+            httpsUpgradeCount++
+            return "https://" + url.removePrefix("http://")
+        }
+        return url
     }
 
     fun isUrl(input: String): Boolean {

@@ -108,8 +108,9 @@ class WebViewEngine(
 
     override fun getView(): View? = webView
     override fun loadUrl(url: String) {
+        val upgraded = com.ammar.browser.navigation.NavigationHelper.upgradeToHttps(url)
         val headers = mapOf("DNT" to "1", "Sec-GPC" to "1")
-        webView?.loadUrl(url, headers)
+        webView?.loadUrl(upgraded, headers)
     }
     override fun loadHtml(html: String, baseUrl: String?) {
         webView?.loadDataWithBaseURL(baseUrl, html, "text/html", "UTF-8", null)

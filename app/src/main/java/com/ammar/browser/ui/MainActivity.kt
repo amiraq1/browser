@@ -238,7 +238,8 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
                     "Protection: ${if (siteAllowed) "Allowed" else "Protected"}\n" +
                     "Zero Tracking: $zeroTracking\n" +
                     "Blocked: $tabBlocked on this tab\n" +
-                    "Top tracker: $topCompany"
+                    "Top tracker: $topCompany\n" +
+                    "HTTPS-Only: Enabled"
             textSize = 13f
             setLineSpacing(4f, 1f)
             setPadding(0, 0, 0, pad)
