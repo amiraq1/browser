@@ -69,6 +69,11 @@ class WebViewEngine(
                 override fun onPageFinished(view: WebView?, url: String?) {
                     currentPageUrl = url
                     url?.let { callback?.onPageFinished(tabId, it) }
+                    if (com.ammar.browser.privacy.CookieBannerSettings.enabled && url != null &&
+                        !url.startsWith("about:") && !url.startsWith("ammar:") &&
+                        !url.startsWith("data:") && !url.startsWith("file:")) {
+                        view?.evaluateJavascript(com.ammar.browser.privacy.CookieBannerHider.JS_INJECT, null)
+                    }
                 }
 
                 override fun shouldOverrideUrlLoading(

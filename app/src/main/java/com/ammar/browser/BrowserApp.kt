@@ -2,6 +2,7 @@ package com.ammar.browser
 
 import android.app.Application
 import com.ammar.browser.performance.SpeedSettings
+import com.ammar.browser.privacy.CookieBannerSettings
 import com.ammar.browser.privacy.adblock.AdBlocker
 import com.ammar.browser.privacy.allowlist.SiteAllowlist
 import com.ammar.browser.utils.CrashLogger
@@ -22,6 +23,9 @@ class BrowserApp : Application() {
 
         StartupTracker.mark("SpeedSettings.init")
         SpeedSettings.init(this)
+
+        StartupTracker.mark("CookieBannerSettings.init")
+        CookieBannerSettings.init(this)
 
         StartupTracker.mark("AdBlocker.init")
         adBlocker = AdBlocker(this)

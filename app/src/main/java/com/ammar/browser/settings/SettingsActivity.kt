@@ -12,6 +12,7 @@ import com.ammar.browser.R
 import com.ammar.browser.history.HistoryRepository
 import com.ammar.browser.performance.SpeedMode
 import com.ammar.browser.performance.SpeedSettings
+import com.ammar.browser.privacy.CookieBannerSettings
 import com.ammar.browser.privacy.allowlist.SiteAllowlist
 import com.ammar.browser.ui.AdBlockDebugActivity
 import com.ammar.browser.ui.ProtectionStatsActivity
@@ -71,6 +72,17 @@ class SettingsActivity : AppCompatActivity() {
                 toast("All browsing data cleared")
             }
         }
+
+        updateCookieBannerBtn()
+        findViewById<Button>(R.id.btn_cookie_banner).setOnClickListener {
+            CookieBannerSettings.setEnabled(!CookieBannerSettings.enabled)
+            updateCookieBannerBtn()
+        }
+    }
+
+    private fun updateCookieBannerBtn() {
+        findViewById<Button>(R.id.btn_cookie_banner).text =
+            "Cookie Banner Control: ${if (CookieBannerSettings.enabled) "Enabled" else "Disabled"}"
     }
 
     private fun setSpeed(mode: SpeedMode) {

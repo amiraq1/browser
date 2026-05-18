@@ -125,6 +125,14 @@
             android:layout_marginBottom="8dp" />
 
         <Button
+            android:id="@+id/btn_cookie_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cookie Banner Control: Enabled"
+            android:textAllCaps="false"
+            android:layout_marginBottom="12dp" />
+
+        <Button
             android:id="@+id/btn_clear_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
