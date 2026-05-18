@@ -2,26 +2,33 @@ package com.ammar.browser.settings
 
 import android.content.Intent
 import android.os.Bundle
+import android.webkit.CookieManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.ammar.browser.R
+import com.ammar.browser.history.HistoryRepository
 import com.ammar.browser.performance.SpeedMode
 import com.ammar.browser.performance.SpeedSettings
 import com.ammar.browser.privacy.allowlist.SiteAllowlist
 import com.ammar.browser.ui.AdBlockDebugActivity
 import com.ammar.browser.ui.ProtectionStatsActivity
+import kotlinx.coroutines.launch
 
 class SettingsActivity : AppCompatActivity() {
+
+    private lateinit var historyRepository: HistoryRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         supportActionBar?.apply { title = "Settings"; setDisplayHomeAsUpEnabled(true) }
 
-        updateSpeedModeDisplay()
+        historyRepository = HistoryRepository(this)
 
+        updateSpeedModeDisplay()
         findViewById<Button>(R.id.btn_speed_off).setOnClickListener { setSpeed(SpeedMode.OFF) }
         findViewById<Button>(R.id.btn_speed_balanced).setOnClickListener { setSpeed(SpeedMode.BALANCED) }
         findViewById<Button>(R.id.btn_speed_extreme).setOnClickListener { setSpeed(SpeedMode.EXTREME) }
@@ -37,7 +44,32 @@ class SettingsActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn_clear_allowlist).setOnClickListener {
             SiteAllowlist.clearAll()
             updateAllowlistCount()
-            Toast.makeText(this, "Allowlist cleared", Toast.LENGTH_SHORT).show()
+            toast("Allowlist cleared")
+        }
+
+        findViewById<Button>(R.id.btn_clear_history).setOnClickListener {
+            lifecycleScope.launch {
+                historyRepository.clearAll()
+                toast("History cleared")
+            }
+        }
+        findViewById<Button>(R.id.btn_clear_cookies).setOnClickListener {
+            CookieManager.getInstance().removeAllCookies(null)
+            CookieManager.getInstance().flush()
+            toast("Cookies cleared")
+        }
+        findViewById<Button>(R.id.btn_clear_cache).setOnClickListener {
+            applicationContext.cacheDir.deleteRecursively()
+            toast("Cache cleared")
+        }
+        findViewById<Button>(R.id.btn_clear_all).setOnClickListener {
+            lifecycleScope.launch {
+                historyRepository.clearAll()
+                CookieManager.getInstance().removeAllCookies(null)
+                CookieManager.getInstance().flush()
+                applicationContext.cacheDir.deleteRecursively()
+                toast("All browsing data cleared")
+            }
         }
     }
 
@@ -52,11 +84,23 @@ class SettingsActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn_speed_off).alpha = if (mode == SpeedMode.OFF) 1f else 0.5f
         findViewById<Button>(R.id.btn_speed_balanced).alpha = if (mode == SpeedMode.BALANCED) 1f else 0.5f
         findViewById<Button>(R.id.btn_speed_extreme).alpha = if (mode == SpeedMode.EXTREME) 1f else 0.5f
+        val zt = findViewById<TextView>(R.id.txt_zero_tracking)
+        if (mode == SpeedMode.EXTREME) {
+            zt.text = "Zero Tracking Mode: Enabled"
+            zt.setTextColor(0xFF4CAF50.toInt())
+        } else {
+            zt.text = "Zero Tracking Mode: Partial"
+            zt.setTextColor(0xFFFF9800.toInt())
+        }
     }
 
     private fun updateAllowlistCount() {
         val count = SiteAllowlist.getAll().size
         findViewById<TextView>(R.id.txt_allowlist_count).text = "$count sites allowlisted"
+    }
+
+    private fun toast(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     override fun onSupportNavigateUp(): Boolean { finish(); return true }

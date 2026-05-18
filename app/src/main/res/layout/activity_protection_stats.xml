@@ -19,6 +19,23 @@
             android:textStyle="bold"
             android:layout_marginBottom="24dp" />
 
+        <!-- Privacy Grade -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Privacy Grade"
+            android:textSize="13sp"
+            android:textColor="#aaa" />
+        <TextView
+            android:id="@+id/stat_privacy_grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="B"
+            android:textSize="48sp"
+            android:textColor="#4fc3f7"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp" />
+
         <!-- Total Blocked -->
         <TextView
             android:layout_width="wrap_content"

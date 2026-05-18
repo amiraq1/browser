@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ammar.browser.BrowserApp
 import com.ammar.browser.R
 import com.ammar.browser.performance.SpeedSettings
+import com.ammar.browser.privacy.PrivacyGradeCalculator
 
 class ProtectionStatsActivity : AppCompatActivity() {
 
@@ -18,7 +19,9 @@ class ProtectionStatsActivity : AppCompatActivity() {
         val adBlocker = (application as BrowserApp).adBlocker
         val stats = adBlocker.stats
         val info = adBlocker.loadInfo
+        val grade = PrivacyGradeCalculator.calculate(null, adBlocker, null)
 
+        findViewById<TextView>(R.id.stat_privacy_grade).text = grade.toString()
         findViewById<TextView>(R.id.stat_total_blocked).text = stats.totalBlocked.toString()
         findViewById<TextView>(R.id.stat_ads).text = stats.blockedAds.toString()
         findViewById<TextView>(R.id.stat_trackers).text = stats.blockedTrackers.toString()

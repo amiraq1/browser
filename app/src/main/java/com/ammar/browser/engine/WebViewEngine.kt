@@ -47,7 +47,18 @@ class WebViewEngine(
                 useWideViewPort = true
                 mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
                 setSupportMultipleWindows(false)
+                // Privacy defaults
+                allowFileAccess = false
+                allowContentAccess = false
+                @Suppress("DEPRECATION")
+                allowFileAccessFromFileURLs = false
+                @Suppress("DEPRECATION")
+                allowUniversalAccessFromFileURLs = false
+                setGeolocationEnabled(false)
             }
+            // Block third-party cookies, allow first-party
+            android.webkit.CookieManager.getInstance().setAcceptCookie(true)
+            android.webkit.CookieManager.getInstance().setAcceptThirdPartyCookies(this, false)
 
             webViewClient = object : WebViewClient() {
                 override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
@@ -96,7 +107,10 @@ class WebViewEngine(
     }
 
     override fun getView(): View? = webView
-    override fun loadUrl(url: String) { webView?.loadUrl(url) }
+    override fun loadUrl(url: String) {
+        val headers = mapOf("DNT" to "1", "Sec-GPC" to "1")
+        webView?.loadUrl(url, headers)
+    }
     override fun loadHtml(html: String, baseUrl: String?) {
         webView?.loadDataWithBaseURL(baseUrl, html, "text/html", "UTF-8", null)
     }

@@ -25,6 +25,7 @@ import com.ammar.browser.history.HistoryRepository
 import com.ammar.browser.navigation.NavigationHelper
 import com.ammar.browser.performance.SpeedMode
 import com.ammar.browser.performance.SpeedSettings
+import com.ammar.browser.privacy.PrivacyGradeCalculator
 import com.ammar.browser.privacy.adblock.AdBlocker
 import com.ammar.browser.privacy.allowlist.SiteAllowlist
 import com.ammar.browser.settings.SettingsActivity
@@ -206,11 +207,13 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
     private fun showProtectionPanel() {
         val dialog = BottomSheetDialog(this)
         val currentUrl = currentEngine()?.getCurrentUrl()
+        val host = currentUrl?.let { android.net.Uri.parse(it).host } ?: "—"
         val siteAllowed = SiteAllowlist.isAllowed(currentUrl)
         val tabId = tabManager.getCurrentTab()?.id
         val tabBlocked = tabId?.let { adBlocker.perTabStats.getTotalBlocked(it) } ?: 0
         val totalBlocked = adBlocker.stats.totalBlocked
         val mode = SpeedSettings.mode
+        val zeroTracking = if (mode == SpeedMode.EXTREME) "Enabled" else "Partial"
 
         val pad = (16 * resources.displayMetrics.density).toInt()
         val layout = LinearLayout(this).apply {
@@ -218,15 +221,23 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
             setPadding(pad, pad, pad, pad)
         }
 
-        val info = TextView(this).apply {
-            text = "Site: ${if (siteAllowed) "Allowed" else "Protected"}\n" +
-                    "Speed Mode: ${mode.name}\n" +
-                    "Blocked (tab): $tabBlocked\n" +
-                    "Blocked (total): $totalBlocked"
-            textSize = 15f
+        val grade = PrivacyGradeCalculator.calculate(currentUrl, adBlocker, tabId)
+
+        layout.addView(TextView(this).apply {
+            text = "\uD83D\uDEE1 $host"
+            textSize = 16f
+            setPadding(0, 0, 0, pad / 2)
+        })
+
+        layout.addView(TextView(this).apply {
+            text = "Privacy Grade: $grade\n" +
+                    "Protection: ${if (siteAllowed) "Allowed" else "Protected"}\n" +
+                    "Zero Tracking: $zeroTracking\n" +
+                    "Blocked: $tabBlocked on this tab"
+            textSize = 13f
+            setLineSpacing(4f, 1f)
             setPadding(0, 0, 0, pad)
-        }
-        layout.addView(info)
+        })
 
         fun speedBtn(label: String, m: SpeedMode) = Button(this).apply {
             text = label + if (mode == m) " ✓" else ""
@@ -237,8 +248,28 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         layout.addView(speedBtn("Speed EXTREME", SpeedMode.EXTREME))
 
         layout.addView(Button(this).apply {
-            text = if (siteAllowed) "Enable blocking for this site" else "Disable blocking for this site"
+            text = if (siteAllowed) "Enable protection for this site" else "Disable protection for this site"
             setOnClickListener { toggleAllowlistForCurrentSite(); dialog.dismiss() }
+        })
+
+        layout.addView(Button(this).apply {
+            text = "Clear cookies for this site"
+            setOnClickListener {
+                val cm = android.webkit.CookieManager.getInstance()
+                val siteCookies = cm.getCookie(currentUrl ?: "")
+                if (siteCookies != null && host != "—") {
+                    // Remove each cookie by setting expired value
+                    siteCookies.split(";").forEach { cookie ->
+                        val name = cookie.split("=").firstOrNull()?.trim() ?: return@forEach
+                        cm.setCookie(host, "$name=; Expires=Thu, 01 Jan 1970 00:00:00 GMT")
+                    }
+                    cm.flush()
+                    android.widget.Toast.makeText(this@MainActivity, "Cookies cleared for $host", android.widget.Toast.LENGTH_SHORT).show()
+                } else {
+                    android.widget.Toast.makeText(this@MainActivity, "No cookies for this site", android.widget.Toast.LENGTH_SHORT).show()
+                }
+                dialog.dismiss()
+            }
         })
 
         layout.addView(Button(this).apply {

@@ -13,16 +13,16 @@ object SpeedSettings {
 
     private var prefs: SharedPreferences? = null
 
-    var mode: SpeedMode = SpeedMode.BALANCED
+    var mode: SpeedMode = SpeedMode.EXTREME
         private set
 
     fun init(context: Context) {
         prefs = context.applicationContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val saved = prefs?.getString(KEY_MODE, null)
         mode = try {
-            if (saved != null) SpeedMode.valueOf(saved) else SpeedMode.BALANCED
+            if (saved != null) SpeedMode.valueOf(saved) else SpeedMode.EXTREME
         } catch (_: Exception) {
-            SpeedMode.BALANCED
+            SpeedMode.EXTREME
         }
     }
 

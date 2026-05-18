@@ -114,6 +114,76 @@
             android:textAllCaps="false"
             android:layout_marginBottom="24dp" />
 
+        <!-- Browsing Data -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Browsing Data"
+            android:textSize="14sp"
+            android:textColor="#4fc3f7"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btn_clear_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clear History"
+            android:textAllCaps="false"
+            android:layout_marginBottom="6dp" />
+
+        <Button
+            android:id="@+id/btn_clear_cookies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clear Cookies"
+            android:textAllCaps="false"
+            android:layout_marginBottom="6dp" />
+
+        <Button
+            android:id="@+id/btn_clear_cache"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clear Cache"
+            android:textAllCaps="false"
+            android:layout_marginBottom="6dp" />
+
+        <Button
+            android:id="@+id/btn_clear_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clear All Browsing Data"
+            android:textAllCaps="false"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Privacy Info -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Privacy Defaults"
+            android:textSize="14sp"
+            android:textColor="#4fc3f7"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/txt_zero_tracking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zero Tracking Mode: Enabled"
+            android:textSize="14sp"
+            android:textColor="#4caf50"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Third-party cookies: Blocked\nMixed content: Blocked\nFile access: Disabled\nGeolocation: Disabled\nDNT / GPC headers: Sent\nApp telemetry: Off\nTracking SDKs: None"
+            android:textSize="12sp"
+            android:textColor="#aaa"
+            android:lineSpacingExtra="3dp"
+            android:layout_marginBottom="24dp" />
+
         <!-- Browser -->
         <TextView
             android:layout_width="wrap_content"
