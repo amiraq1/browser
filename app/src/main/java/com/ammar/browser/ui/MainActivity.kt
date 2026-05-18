@@ -26,6 +26,7 @@ import com.ammar.browser.navigation.NavigationHelper
 import com.ammar.browser.performance.SpeedMode
 import com.ammar.browser.performance.SpeedSettings
 import com.ammar.browser.privacy.PrivacyGradeCalculator
+import com.ammar.browser.privacy.SuspiciousDomainChecker
 import com.ammar.browser.privacy.TrackerCompanyClassifier
 import com.ammar.browser.privacy.adblock.AdBlocker
 import com.ammar.browser.privacy.allowlist.SiteAllowlist
@@ -312,7 +313,22 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
 
     private fun navigateTo(input: String) {
         val url = NavigationHelper.resolveInput(input)
-        if (url.isNotEmpty()) currentEngine()?.loadUrl(url)
+        if (url.isEmpty()) return
+        if (SuspiciousDomainChecker.isSuspicious(url)) {
+            showSuspiciousWarning(url)
+        } else {
+            currentEngine()?.loadUrl(url)
+        }
+    }
+
+    private fun showSuspiciousWarning(url: String) {
+        val reason = SuspiciousDomainChecker.getReason(url)
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("⚠️ This site may be unsafe")
+            .setMessage("$url\n\n$reason")
+            .setNegativeButton("Go Back", null)
+            .setPositiveButton("Continue Anyway") { _, _ -> currentEngine()?.loadUrl(url) }
+            .show()
     }
 
     private fun showMainMenu(anchor: View) {
