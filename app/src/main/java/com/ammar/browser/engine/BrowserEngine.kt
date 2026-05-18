@@ -13,6 +13,7 @@ interface BrowserEngine {
     fun createEngineView(context: Context): View
     fun getView(): View?
     fun loadUrl(url: String)
+    fun loadHtml(html: String, baseUrl: String? = null)
     fun goBack(): Boolean
     fun goForward(): Boolean
     fun reload()

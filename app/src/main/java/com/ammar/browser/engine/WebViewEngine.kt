@@ -97,6 +97,9 @@ class WebViewEngine(
 
     override fun getView(): View? = webView
     override fun loadUrl(url: String) { webView?.loadUrl(url) }
+    override fun loadHtml(html: String, baseUrl: String?) {
+        webView?.loadDataWithBaseURL(baseUrl, html, "text/html", "UTF-8", null)
+    }
 
     override fun goBack(): Boolean {
         if (webView?.canGoBack() == true) { webView?.goBack(); return true }

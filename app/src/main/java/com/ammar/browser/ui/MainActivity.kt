@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
             when (action) {
                 TabSwitcherActivity.ACTION_SELECT -> tabManager.selectTab(tabId)
                 TabSwitcherActivity.ACTION_CLOSE -> tabManager.closeTab(tabId)
-                TabSwitcherActivity.ACTION_NEW -> tabManager.createNewTab("https://www.google.com")
+                TabSwitcherActivity.ACTION_NEW -> tabManager.createNewTab(NewTabPage.URL)
             }
         }
     }
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         historyRepository = HistoryRepository(this)
         StartupTracker.mark("MainActivity.tabManager")
         tabManager.setListener(this)
-        tabManager.createNewTab(intent?.dataString ?: "https://www.google.com")
+        tabManager.createNewTab(intent?.dataString ?: NewTabPage.URL)
         StartupTracker.mark("MainActivity.onCreate complete")
     }
 
@@ -178,7 +178,8 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         val tab = tabManager.getCurrentTab() ?: return
         val engine = engines[tab.id]
 
-        urlBar.setText(engine?.getCurrentUrl() ?: tab.url)
+        val currentUrl = engine?.getCurrentUrl() ?: tab.url
+        urlBar.setText(if (NewTabPage.isNewTabUrl(currentUrl)) "" else currentUrl)
         btnBack.alpha = if (engine?.canGoBack() == true) 1.0f else 0.4f
         btnForward.alpha = if (engine?.canGoForward() == true) 1.0f else 0.4f
         btnTabs.text = tabManager.getTabCount().toString()
@@ -332,7 +333,10 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
     override fun onTabCreated(tab: Tab) {
         val engine = createEngineForTab(tab.id)
         showEngineForTab(tab.id)
-        if (tab.url.isNotEmpty()) {
+        if (NewTabPage.isNewTabUrl(tab.url)) {
+            engine.loadHtml(NewTabPage.generateHtml(adBlocker), NewTabPage.URL)
+            urlBar.setText("")
+        } else if (tab.url.isNotEmpty()) {
             engine.loadUrl(tab.url)
         }
     }
@@ -363,7 +367,7 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
 
             // Only update UI if this is the active tab
             if (isActiveTab(tabId)) {
-                urlBar.setText(url)
+                urlBar.setText(if (NewTabPage.isNewTabUrl(url)) "" else url)
                 progressBar.visibility = View.VISIBLE
             }
         }
@@ -389,9 +393,9 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
                 updateBlockedCount()
             }
 
-            // Record history (skip private tabs)
+            // Record history (skip private tabs and new tab page)
             val tab = tabManager.getAllTabs().find { it.id == tabId }
-            if (tab != null && !tab.isPrivate) {
+            if (tab != null && !tab.isPrivate && !NewTabPage.isNewTabUrl(url)) {
                 val title = engine?.getTitle() ?: tab.title
                 lifecycleScope.launch { historyRepository.recordVisit(url, title) }
             }
