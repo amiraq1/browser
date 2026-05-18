@@ -23,3 +23,7 @@ AmmarBrowser-crash-latest.txt
 # OS
 .DS_Store
 Thumbs.db
+
+# Signing keys
+*.keystore
+*.jks
