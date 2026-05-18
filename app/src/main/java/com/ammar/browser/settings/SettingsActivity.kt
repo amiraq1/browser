@@ -14,6 +14,8 @@ import com.ammar.browser.performance.SpeedMode
 import com.ammar.browser.performance.SpeedSettings
 import com.ammar.browser.privacy.CookieBannerSettings
 import com.ammar.browser.privacy.allowlist.SiteAllowlist
+import com.ammar.browser.search.SearchEngine
+import com.ammar.browser.search.SearchSettings
 import com.ammar.browser.ui.AdBlockDebugActivity
 import com.ammar.browser.ui.AboutActivity
 import com.ammar.browser.ui.ProtectionStatsActivity
@@ -80,6 +82,20 @@ class SettingsActivity : AppCompatActivity() {
             updateCookieBannerBtn()
         }
 
+        updateSearchEngineDisplay()
+        findViewById<Button>(R.id.btn_search_duckduckgo).setOnClickListener {
+            setSearchEngine(SearchEngine.DUCKDUCKGO)
+        }
+        findViewById<Button>(R.id.btn_search_brave).setOnClickListener {
+            setSearchEngine(SearchEngine.BRAVE)
+        }
+        findViewById<Button>(R.id.btn_search_startpage).setOnClickListener {
+            setSearchEngine(SearchEngine.STARTPAGE)
+        }
+        findViewById<Button>(R.id.btn_search_google).setOnClickListener {
+            setSearchEngine(SearchEngine.GOOGLE)
+        }
+
         findViewById<Button>(R.id.btn_about).setOnClickListener {
             startActivity(Intent(this, AboutActivity::class.java))
         }
@@ -114,6 +130,25 @@ class SettingsActivity : AppCompatActivity() {
     private fun updateAllowlistCount() {
         val count = SiteAllowlist.getAll().size
         findViewById<TextView>(R.id.txt_allowlist_count).text = "$count sites allowlisted"
+    }
+
+    private fun setSearchEngine(engine: SearchEngine) {
+        SearchSettings.setEngine(engine)
+        updateSearchEngineDisplay()
+        toast("Search engine: ${engine.displayName}")
+    }
+
+    private fun updateSearchEngineDisplay() {
+        val current = SearchSettings.currentEngine
+        findViewById<TextView>(R.id.txt_search_engine).text = "Current: ${current.displayName}"
+        findViewById<Button>(R.id.btn_search_duckduckgo).alpha =
+            if (current == SearchEngine.DUCKDUCKGO) 1f else 0.5f
+        findViewById<Button>(R.id.btn_search_brave).alpha =
+            if (current == SearchEngine.BRAVE) 1f else 0.5f
+        findViewById<Button>(R.id.btn_search_startpage).alpha =
+            if (current == SearchEngine.STARTPAGE) 1f else 0.5f
+        findViewById<Button>(R.id.btn_search_google).alpha =
+            if (current == SearchEngine.GOOGLE) 1f else 0.5f
     }
 
     private fun toast(msg: String) {

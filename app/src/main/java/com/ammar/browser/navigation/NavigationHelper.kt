@@ -1,11 +1,16 @@
 package com.ammar.browser.navigation
 
+import com.ammar.browser.search.SearchSettings
+
 /**
  * Handles URL parsing and search query detection.
+ *
+ * Search queries are routed through the user's selected engine (see
+ * [com.ammar.browser.search.SearchSettings]); the default is DuckDuckGo
+ * to match the Zero Tracking identity.
  */
 object NavigationHelper {
 
-    private const val DEFAULT_SEARCH_ENGINE = "https://www.google.com/search?q="
     private val SKIP_SCHEMES = listOf("about:", "ammar:", "data:", "javascript:", "file:", "content:")
 
     var httpsUpgradeCount: Int = 0
@@ -18,7 +23,7 @@ object NavigationHelper {
         val url = when {
             trimmed.startsWith("http://") || trimmed.startsWith("https://") -> trimmed
             trimmed.contains(".") && !trimmed.contains(" ") -> "https://$trimmed"
-            else -> DEFAULT_SEARCH_ENGINE + java.net.URLEncoder.encode(trimmed, "UTF-8")
+            else -> SearchSettings.currentEngine.searchUrl(trimmed)
         }
         return upgradeToHttps(url)
     }

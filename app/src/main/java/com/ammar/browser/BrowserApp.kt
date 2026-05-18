@@ -5,6 +5,7 @@ import com.ammar.browser.performance.SpeedSettings
 import com.ammar.browser.privacy.CookieBannerSettings
 import com.ammar.browser.privacy.adblock.AdBlocker
 import com.ammar.browser.privacy.allowlist.SiteAllowlist
+import com.ammar.browser.search.SearchSettings
 import com.ammar.browser.utils.CrashLogger
 import com.ammar.browser.utils.StartupTracker
 
@@ -23,6 +24,9 @@ class BrowserApp : Application() {
 
         StartupTracker.mark("SpeedSettings.init")
         SpeedSettings.init(this)
+
+        StartupTracker.mark("SearchSettings.init")
+        SearchSettings.init(this)
 
         StartupTracker.mark("CookieBannerSettings.init")
         CookieBannerSettings.init(this)
