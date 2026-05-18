@@ -2,7 +2,7 @@
 # Format: domain,TYPE
 # Types: AD, TRACKER, ANALYTICS, SOCIAL, SUSPICIOUS, UNKNOWN
 
-# Ads
+# --- Ads ---
 doubleclick.net,AD
 googlesyndication.com,AD
 adservice.google.com,AD
@@ -23,8 +23,64 @@ bidswitch.net,AD
 casalemedia.com,AD
 contextweb.com,AD
 smartadserver.com,AD
+adroll.com,AD
+yieldmo.com,AD
+media.net,AD
+lijit.com,AD
+mgid.com,AD
+zergnet.com,AD
+sharethrough.com,AD
+33across.com,AD
+indexexchange.com,AD
+sovrn.com,AD
+triplelift.com,AD
+spotxchange.com,AD
+spotx.tv,AD
+advertising.com,AD
+adblade.com,AD
+adcolony.com,AD
+unity3d.com/ads,AD
+unityads.unity3d.com,AD
+vungle.com,AD
+applovin.com,AD
+mopub.com,AD
+inmobi.com,AD
+smaato.com,AD
+fyber.com,AD
+ironsrc.com,AD
+chartboost.com,AD
+admob.com,AD
+startapp.com,AD
+tapjoy.com,AD
+leadbolt.com,AD
+revmob.com,AD
+aerserv.com,AD
+admarvel.com,AD
+nexage.com,AD
+millennialmedia.com,AD
+flurry.com,AD
+supersonicads.com,AD
+avocarrot.com,AD
+loopme.com,AD
+inner-active.com,AD
+mobfox.com,AD
+buzzcity.com,AD
+madvertise.com,AD
+epom.com,AD
+propellerads.com,AD
+popads.net,AD
+popcash.net,AD
+clickadu.com,AD
+hilltopads.com,AD
+trafficjunky.com,AD
+exoclick.com,AD
+juicyads.com,AD
+trafficfactory.biz,AD
+plugrush.com,AD
+adcash.com,AD
+adsterra.com,AD
 
-# Analytics
+# --- Analytics ---
 google-analytics.com,ANALYTICS
 googletagmanager.com,ANALYTICS
 scorecardresearch.com,ANALYTICS
@@ -35,15 +91,80 @@ amplitude.com,ANALYTICS
 newrelic.com,ANALYTICS
 nr-data.net,ANALYTICS
 fullstory.com,ANALYTICS
+quantserve.com,ANALYTICS
+chartbeat.com,ANALYTICS
+heapanalytics.com,ANALYTICS
+kissmetrics.com,ANALYTICS
+crazyegg.com,ANALYTICS
+mouseflow.com,ANALYTICS
+luckyorange.com,ANALYTICS
+inspectlet.com,ANALYTICS
+clicktale.net,ANALYTICS
+optimizely.com,ANALYTICS
+omtrdc.net,ANALYTICS
+demdex.net,ANALYTICS
+omniture.com,ANALYTICS
+webtrends.com,ANALYTICS
+statcounter.com,ANALYTICS
+histats.com,ANALYTICS
+clicky.com,ANALYTICS
+matomo.cloud,ANALYTICS
+plausible.io,ANALYTICS
+parsely.com,ANALYTICS
+mxpnl.com,ANALYTICS
+segment.com,ANALYTICS
+bugsnag.com,ANALYTICS
+sentry.io,ANALYTICS
+rollbar.com,ANALYTICS
+logrocket.com,ANALYTICS
+smartlook.com,ANALYTICS
+clarity.ms,ANALYTICS
 
-# Trackers
+# --- Trackers ---
 doubleclick.net,TRACKER
 2mdn.net,TRACKER
 adsafeprotected.com,TRACKER
 moat.com,TRACKER
 doubleverify.com,TRACKER
+tapad.com,TRACKER
+bluekai.com,TRACKER
+exelator.com,TRACKER
+krxd.net,TRACKER
+rlcdn.com,TRACKER
+agkn.com,TRACKER
+eyeota.net,TRACKER
+intentiq.com,TRACKER
+adsymptotic.com,TRACKER
+adlightning.com,TRACKER
+bounceexchange.com,TRACKER
+brealtime.com,TRACKER
+crwdcntrl.net,TRACKER
+dotomi.com,TRACKER
+effectivemeasure.net,TRACKER
+everesttech.net,TRACKER
+imrworldwide.com,TRACKER
+iperceptions.com,TRACKER
+marketo.net,TRACKER
+mookie1.com,TRACKER
+myvisualiq.net,TRACKER
+narrativ.com,TRACKER
+npttech.com,TRACKER
+owneriq.net,TRACKER
+pippio.com,TRACKER
+rfihub.com,TRACKER
+richrelevance.com,TRACKER
+sailthru.com,TRACKER
+semasio.net,TRACKER
+simplereach.com,TRACKER
+sitescout.com,TRACKER
+t.co,TRACKER
+tidaltv.com,TRACKER
+turn.com,TRACKER
+undertone.com,TRACKER
+weborama.com,TRACKER
+zedo.com,TRACKER
 
-# Social Trackers
+# --- Social Trackers ---
 facebook.net,SOCIAL
 connect.facebook.net,SOCIAL
 facebook.com/tr,SOCIAL
@@ -52,3 +173,25 @@ tiktok.com/i18n/pixel,SOCIAL
 snapchat.com/tr,SOCIAL
 linkedin.com/px,SOCIAL
 ads.pinterest.com,SOCIAL
+ads-twitter.com,SOCIAL
+analytics.tiktok.com,SOCIAL
+sc-static.net,SOCIAL
+snap.licdn.com,SOCIAL
+px.ads.linkedin.com,SOCIAL
+ct.pinterest.com,SOCIAL
+widgets.pinterest.com,SOCIAL
+platform.twitter.com,SOCIAL
+syndication.twitter.com,SOCIAL
+
+# --- Suspicious / Telemetry (EXTREME mode targets) ---
+telemetry.mozilla.org,SUSPICIOUS
+telemetry.microsoft.com,SUSPICIOUS
+vortex.data.microsoft.com,SUSPICIOUS
+settings-win.data.microsoft.com,SUSPICIOUS
+watson.telemetry.microsoft.com,SUSPICIOUS
+dc.services.visualstudio.com,SUSPICIOUS
+browser.events.data.msn.com,SUSPICIOUS
+data.microsoft.com,SUSPICIOUS
+metrics.icloud.com,SUSPICIOUS
+diagnosics.support.apple.com,SUSPICIOUS
+xp.apple.com,SUSPICIOUS

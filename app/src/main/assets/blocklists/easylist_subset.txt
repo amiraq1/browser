@@ -1,6 +1,6 @@
 [Adblock Plus 2.0]
 ! Title: Ammar Browser - EasyList Subset
-! Last modified: 2026-05-17
+! Last modified: 2026-05-18
 
 ! --- Ads ---
 ||doubleclick.net^
@@ -23,6 +23,43 @@
 ||rubiconproject.com^
 ||amazon-adsystem.com^
 ||adform.net^
+||adroll.com^
+||yieldmo.com^
+||media.net^
+||lijit.com^
+||mgid.com^
+||zergnet.com^
+||sharethrough.com^
+||33across.com^
+||indexexchange.com^
+||sovrn.com^
+||triplelift.com^
+||spotxchange.com^
+||spotx.tv^
+||advertising.com^
+||adblade.com^
+||adcolony.com^
+||unityads.unity3d.com^
+||vungle.com^
+||applovin.com^
+||mopub.com^
+||inmobi.com^
+||smaato.com^
+||fyber.com^
+||ironsrc.com^
+||chartboost.com^
+||admob.com^
+||startapp.com^
+||tapjoy.com^
+||propellerads.com^
+||popads.net^
+||popcash.net^
+||clickadu.com^
+||hilltopads.com^
+||trafficjunky.com^
+||exoclick.com^
+||adcash.com^
+||adsterra.com^
 
 ! --- Analytics ---
 ||google-analytics.com^
@@ -35,20 +72,85 @@
 ||newrelic.com^
 ||nr-data.net^
 ||fullstory.com^
+||quantserve.com^
+||chartbeat.com^
+||heapanalytics.com^
+||kissmetrics.com^
+||crazyegg.com^
+||mouseflow.com^
+||luckyorange.com^
+||inspectlet.com^
+||clicktale.net^
+||optimizely.com^
+||omtrdc.net^
+||demdex.net^
+||omniture.com^
+||statcounter.com^
+||histats.com^
+||clicky.com^
+||clarity.ms^
+||parsely.com^
+||mxpnl.com^
+||smartlook.com^
+||logrocket.com^
 
 ! --- Trackers ---
 ||2mdn.net^
 ||adsafeprotected.com^
 ||moat.com^
 ||doubleverify.com^
+||tapad.com^
+||bluekai.com^
+||exelator.com^
+||krxd.net^
+||rlcdn.com^
+||agkn.com^
+||eyeota.net^
+||intentiq.com^
+||bounceexchange.com^
+||crwdcntrl.net^
+||everesttech.net^
+||imrworldwide.com^
+||marketo.net^
+||mookie1.com^
+||rfihub.com^
+||richrelevance.com^
+||sailthru.com^
+||semasio.net^
+||turn.com^
+||undertone.com^
+||weborama.com^
+||zedo.com^
 
 ! --- Social Trackers ---
 ||connect.facebook.net^
 ||facebook.net^
 ||ads.pinterest.com^
+||ads-twitter.com^
+||analytics.tiktok.com^
+||sc-static.net^
+||snap.licdn.com^
+||px.ads.linkedin.com^
+||ct.pinterest.com^
+||platform.twitter.com^
+||syndication.twitter.com^
+
+! --- Suspicious / Telemetry ---
+||telemetry.mozilla.org^
+||telemetry.microsoft.com^
+||vortex.data.microsoft.com^
+||settings-win.data.microsoft.com^
+||watson.telemetry.microsoft.com^
+||dc.services.visualstudio.com^
+||browser.events.data.msn.com^
+||metrics.icloud.com^
 
 ! --- Exceptions (do not block these) ---
 @@||google.com^
 @@||googleapis.com^
 @@||gstatic.com^
 @@||youtube.com^
+@@||cdn.jsdelivr.net^
+@@||cdnjs.cloudflare.com^
+@@||fonts.googleapis.com^
+@@||ajax.googleapis.com^

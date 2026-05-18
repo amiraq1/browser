@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -29,6 +31,7 @@ import com.ammar.browser.settings.SettingsActivity
 import com.ammar.browser.tabs.Tab
 import com.ammar.browser.tabs.TabManager
 import com.ammar.browser.utils.StartupTracker
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
@@ -140,6 +143,7 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         btnRefresh.setOnClickListener { currentEngine()?.reload() }
         btnMenu.setOnClickListener { showMainMenu(it) }
         btnTabs.setOnClickListener { openTabSwitcher() }
+        blockedCount.setOnClickListener { showProtectionPanel() }
         swipeRefresh.setOnRefreshListener { currentEngine()?.reload() }
     }
 
@@ -189,13 +193,63 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         val total = adBlocker.stats.totalBlocked
         val mode = SpeedSettings.mode.name
         val currentUrl = currentEngine()?.getCurrentUrl()
-        val siteStatus = if (SiteAllowlist.isAllowed(currentUrl)) "Allowed" else "Protected"
-        if (total > 0 || SpeedSettings.mode != SpeedMode.OFF) {
-            blockedCount.text = "\u26A1 Blocked: $tabBlocked tab / $total total | $mode | $siteStatus"
+        val siteAllowed = SiteAllowlist.isAllowed(currentUrl)
+        if (total > 0 || SpeedSettings.mode != SpeedMode.OFF || siteAllowed) {
+            blockedCount.text = if (siteAllowed) "\uD83D\uDEE1 Allowed | $mode" else "\uD83D\uDEE1 $tabBlocked blocked | $mode"
             blockedCount.visibility = View.VISIBLE
         } else {
             blockedCount.visibility = View.GONE
         }
+    }
+
+    private fun showProtectionPanel() {
+        val dialog = BottomSheetDialog(this)
+        val currentUrl = currentEngine()?.getCurrentUrl()
+        val siteAllowed = SiteAllowlist.isAllowed(currentUrl)
+        val tabId = tabManager.getCurrentTab()?.id
+        val tabBlocked = tabId?.let { adBlocker.perTabStats.getTotalBlocked(it) } ?: 0
+        val totalBlocked = adBlocker.stats.totalBlocked
+        val mode = SpeedSettings.mode
+
+        val pad = (16 * resources.displayMetrics.density).toInt()
+        val layout = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(pad, pad, pad, pad)
+        }
+
+        val info = TextView(this).apply {
+            text = "Site: ${if (siteAllowed) "Allowed" else "Protected"}\n" +
+                    "Speed Mode: ${mode.name}\n" +
+                    "Blocked (tab): $tabBlocked\n" +
+                    "Blocked (total): $totalBlocked"
+            textSize = 15f
+            setPadding(0, 0, 0, pad)
+        }
+        layout.addView(info)
+
+        fun speedBtn(label: String, m: SpeedMode) = Button(this).apply {
+            text = label + if (mode == m) " ✓" else ""
+            setOnClickListener { SpeedSettings.setMode(m); updateBlockedCount(); dialog.dismiss() }
+        }
+        layout.addView(speedBtn("Speed OFF", SpeedMode.OFF))
+        layout.addView(speedBtn("Speed BALANCED", SpeedMode.BALANCED))
+        layout.addView(speedBtn("Speed EXTREME", SpeedMode.EXTREME))
+
+        layout.addView(Button(this).apply {
+            text = if (siteAllowed) "Enable blocking for this site" else "Disable blocking for this site"
+            setOnClickListener { toggleAllowlistForCurrentSite(); dialog.dismiss() }
+        })
+
+        layout.addView(Button(this).apply {
+            text = "Open AdBlock Debug"
+            setOnClickListener {
+                startActivity(Intent(this@MainActivity, AdBlockDebugActivity::class.java))
+                dialog.dismiss()
+            }
+        })
+
+        dialog.setContentView(layout)
+        dialog.show()
     }
 
     private fun toggleAllowlistForCurrentSite() {
