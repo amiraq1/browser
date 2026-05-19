@@ -5,4 +5,11 @@
     <color name="accent">#FF6D00</color>
     <color name="background">#FFFFFF</color>
     <color name="surface">#FAFAFA</color>
+
+    <!-- Nabd / نبض brand palette (Phase Brand-1) -->
+    <color name="nabd_deep_navy">#0B1020</color>
+    <color name="nabd_pulse_cyan">#00E5FF</color>
+    <color name="nabd_teal">#00C2B8</color>
+    <color name="nabd_neon_green">#39FF88</color>
+    <color name="nabd_slate">#1A2233</color>
 </resources>
