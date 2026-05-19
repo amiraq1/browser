@@ -9,10 +9,10 @@ import com.ammar.browser.search.SearchSettings
  * Generates the local HTML for the **Nabd Home / Shield Dashboard** new tab page.
  *
  * Phase Brand-3 redesign: a privacy-app style home with a status header,
- * a hero shield+pulse mark, a large search bar, a status card and a
- * visual bottom nav. All assets are inline — no network fetches, no
- * external images, no remote fonts — keeping the new tab page consistent
- * with the Zero Tracking defaults of the rest of the app.
+ * a hero shield+pulse mark, a large search bar and a status card. All
+ * assets are inline — no network fetches, no external images, no remote
+ * fonts — keeping the new tab page consistent with the Zero Tracking
+ * defaults of the rest of the app.
  *
  * The public surface ([URL], [isNewTabUrl], [generateHtml]) is unchanged so
  * the rest of the app (MainActivity, BookmarkRepository, NavigationHelper,
@@ -96,9 +96,10 @@ body{
     radial-gradient(900px 500px at 50% -120px, rgba(0,229,255,0.10), transparent 60%),
     radial-gradient(700px 400px at 100% 110%, rgba(57,255,136,0.05), transparent 60%),
     linear-gradient(180deg,var(--bg-grad-1),var(--bg-grad-2));
-  /* extra bottom space so the last content clears the fixed bottom nav
-     even on devices with gesture-nav safe-area inset (~24-30px). */
-  padding:14px 14px calc(112px + env(safe-area-inset-bottom));
+  /* Normal bottom padding — the real browser toolbar lives in the
+     Activity, not in this HTML, so we only need a comfortable scroll-end
+     gap plus the safe-area inset for gesture-nav devices. */
+  padding:14px 14px calc(32px + env(safe-area-inset-bottom));
   min-height:100vh;
   min-height:100dvh;             /* dynamic viewport when supported */
   display:flex;flex-direction:column;align-items:center;
@@ -192,28 +193,6 @@ body{
   letter-spacing:1px;margin-top:2px;padding:0 4px;
 }
 .foot b{color:var(--cyan);font-weight:700}
-
-/* ============== Bottom nav (visual) ============== */
-.bottomnav{
-  position:fixed;left:0;right:0;bottom:0;
-  display:flex;justify-content:space-around;align-items:stretch;
-  background:rgba(11,16,32,0.92);
-  -webkit-backdrop-filter:blur(14px);
-  backdrop-filter:blur(14px);
-  border-top:1px solid var(--border);
-  padding:6px 4px calc(6px + env(safe-area-inset-bottom));
-  z-index:100;
-}
-.nav-item{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
-  flex:1;text-decoration:none;color:var(--muted);cursor:pointer;
-  padding:6px 0;border:none;background:transparent;font-family:inherit;
-}
-.nav-item .nav-icon{font-size:18px;line-height:1}
-.nav-item .nav-label{font-size:10px;letter-spacing:0.5px;font-weight:600}
-.nav-item.active{color:var(--cyan)}
-.nav-item.active .nav-icon{text-shadow:0 0 10px rgba(0,229,255,0.7)}
-.nav-item:active{color:var(--text)}
 </style></head><body>
 <div class="page">
 
@@ -303,30 +282,6 @@ body{
   </div>
 
 </div>
-
-<!-- ============== Bottom nav (visual + safe links) ============== -->
-<nav class="bottomnav">
-  <a class="nav-item active" href="ammar://newtab" aria-label="Home">
-    <div class="nav-icon">⌂</div>
-    <div class="nav-label">Home</div>
-  </a>
-  <button class="nav-item" type="button" onclick="window.history.back()" aria-label="Tabs">
-    <div class="nav-icon">▦</div>
-    <div class="nav-label">Tabs</div>
-  </button>
-  <a class="nav-item" href="ammar://action/protection-stats" aria-label="Shield">
-    <div class="nav-icon">🛡</div>
-    <div class="nav-label">Shield</div>
-  </a>
-  <a class="nav-item" href="ammar://action/settings" aria-label="Settings">
-    <div class="nav-icon">⚙</div>
-    <div class="nav-label">Settings</div>
-  </a>
-  <a class="nav-item" href="ammar://action/bookmarks" aria-label="Bookmarks">
-    <div class="nav-icon">★</div>
-    <div class="nav-label">Bookmarks</div>
-  </a>
-</nav>
 
 <script>
 (function(){
