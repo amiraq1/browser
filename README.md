@@ -10,6 +10,10 @@ Built on top of Android WebView. All privacy and ad-blocking logic runs locally 
 
 Version: **0.1.0-alpha** (debug build, for testing only).
 
+## Documentation
+
+- Arabic Project Review / تقرير مراجعة المشروع: [docs/PROJECT_REVIEW_AR.md](docs/PROJECT_REVIEW_AR.md)
+
 ## Features
 
 ### Core
