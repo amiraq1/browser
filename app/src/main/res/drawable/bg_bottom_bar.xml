@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Bottom toolbar background — Nabd brand: Deep Navy fill with a subtle
+    top hairline that separates the navigation toolbar from page content.
+    Drawable-only; no behavior, no IDs.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/nabd_deep_navy" />
+        </shape>
+    </item>
+    <item android:gravity="top" android:height="1dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#1F2A3E" />
+        </shape>
+    </item>
+</layer-list>

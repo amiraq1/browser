@@ -2,22 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/nabd_deep_navy">
 
     <!-- Top: URL Bar + Shield -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/surface"
+        android:background="@drawable/bg_top_bar"
         android:elevation="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="48dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingHorizontal="8dp">
+            android:paddingHorizontal="10dp">
 
             <EditText
                 android:id="@+id/url_bar"
@@ -27,6 +28,8 @@
                 android:paddingHorizontal="14dp"
                 android:background="@drawable/bg_url_bar"
                 android:hint="@string/url_hint"
+                android:textColor="#E6EDF6"
+                android:textColorHint="#7C8BA0"
                 android:inputType="textUri"
                 android:imeOptions="actionGo"
                 android:singleLine="true"
@@ -41,18 +44,24 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:max="100"
+            android:progressDrawable="@drawable/progress_browser"
             android:visibility="gone" />
 
         <!-- Shield / Blocked count -->
         <TextView
             android:id="@+id/blocked_count"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="14dp"
-            android:paddingVertical="3dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="6dp"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
             android:textSize="11sp"
-            android:textColor="#E65100"
-            android:background="#1A000000"
+            android:textStyle="bold"
+            android:textColor="@color/nabd_pulse_cyan"
+            android:background="@drawable/bg_protection_chip"
             android:visibility="gone" />
 
     </LinearLayout>
@@ -74,38 +83,41 @@
     <!-- Bottom: Navigation Toolbar -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="52dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="@color/surface"
+        android:background="@drawable/bg_bottom_bar"
         android:elevation="4dp"
-        android:paddingHorizontal="8dp">
+        android:paddingHorizontal="6dp">
 
         <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:src="@android:drawable/ic_media_previous"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="@color/nabd_pulse_cyan"
+            android:background="@drawable/bg_nav_button"
             android:contentDescription="@string/back" />
 
         <ImageButton
             android:id="@+id/btn_forward"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:src="@android:drawable/ic_media_next"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="@color/nabd_pulse_cyan"
+            android:background="@drawable/bg_nav_button"
             android:contentDescription="@string/forward" />
 
         <ImageButton
             android:id="@+id/btn_refresh"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:src="@android:drawable/ic_popup_sync"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="@color/nabd_pulse_cyan"
+            android:background="@drawable/bg_nav_button"
             android:contentDescription="@string/refresh" />
 
         <TextView
@@ -117,16 +129,18 @@
             android:text="1"
             android:textSize="13sp"
             android:textStyle="bold"
+            android:textColor="@color/nabd_pulse_cyan"
             android:background="@drawable/bg_tab_counter"
             android:contentDescription="@string/tabs" />
 
         <ImageButton
             android:id="@+id/btn_menu"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:src="@android:drawable/ic_menu_more"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="@color/nabd_pulse_cyan"
+            android:background="@drawable/bg_nav_button"
             android:contentDescription="@string/menu" />
 
     </LinearLayout>
