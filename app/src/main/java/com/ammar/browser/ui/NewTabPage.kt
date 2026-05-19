@@ -95,15 +95,23 @@ object NewTabPage {
 html,body{
   background:var(--bg);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  -webkit-font-smoothing:antialiased;min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;             /* never horizontal scroll */
 }
+html{height:auto}                /* let document grow with content */
 body{
   background:
     radial-gradient(900px 500px at 50% -120px, rgba(0,229,255,0.10), transparent 60%),
     radial-gradient(700px 400px at 100% 110%, rgba(57,255,136,0.05), transparent 60%),
     linear-gradient(180deg,var(--bg-grad-1),var(--bg-grad-2));
-  padding:14px 14px 92px;  /* room for fixed bottom nav */
+  /* extra bottom space so the last content clears the fixed bottom nav
+     even on devices with gesture-nav safe-area inset (~24-30px). */
+  padding:14px 14px calc(112px + env(safe-area-inset-bottom));
+  min-height:100vh;
+  min-height:100dvh;             /* dynamic viewport when supported */
   display:flex;flex-direction:column;align-items:center;
+  overscroll-behavior-y:contain; /* no pull-to-refresh-like glow */
+  touch-action:pan-y;            /* vertical scroll is the only gesture */
 }
 .page{width:100%;max-width:540px;display:flex;flex-direction:column;gap:16px}
 
