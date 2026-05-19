@@ -9,10 +9,10 @@ import com.ammar.browser.search.SearchSettings
  * Generates the local HTML for the **Nabd Home / Shield Dashboard** new tab page.
  *
  * Phase Brand-3 redesign: a privacy-app style home with a status header,
- * a hero shield+pulse mark, a large search bar, a quick-actions grid, a
- * status card and a visual bottom nav. All assets are inline — no network
- * fetches, no external images, no remote fonts — keeping the new tab page
- * consistent with the Zero Tracking defaults of the rest of the app.
+ * a hero shield+pulse mark, a large search bar, a status card and a
+ * visual bottom nav. All assets are inline — no network fetches, no
+ * external images, no remote fonts — keeping the new tab page consistent
+ * with the Zero Tracking defaults of the rest of the app.
  *
  * The public surface ([URL], [isNewTabUrl], [generateHtml]) is unchanged so
  * the rest of the app (MainActivity, BookmarkRepository, NavigationHelper,
@@ -27,7 +27,6 @@ object NewTabPage {
 
     fun generateHtml(adBlocker: AdBlocker): String {
         val mode = SpeedSettings.mode
-        val total = adBlocker.stats.totalBlocked
         val ads = adBlocker.stats.blockedAds
         val trackers = adBlocker.stats.blockedTrackers +
             adBlocker.stats.blockedAnalytics +
@@ -51,15 +50,8 @@ object NewTabPage {
         val searchTemplateJs = escapeJsString(searchEngine.urlTemplate)
         val searchEngineName = escapeHtml(searchEngine.displayName)
 
-        val totalStr = formatCount(total)
         val adsStr = formatCount(ads)
         val trackersStr = formatCount(trackers)
-
-        // Subtitle for "Trackers Blocked" card — shows the live count.
-        val trackersCardSub = if (total == 0)
-            "View protection stats"
-        else
-            "$totalStr blocked · view stats"
 
         val speedModeName = escapeHtml(mode.name)
         val speedDotClass = when (mode) {
@@ -182,29 +174,6 @@ body{
   text-transform:uppercase;padding-left:4px;margin-top:4px;font-weight:600;
 }
 
-/* ============== Quick cards grid ============== */
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.qcard{
-  background:var(--card);border:1px solid var(--border);border-radius:16px;
-  padding:14px;display:flex;flex-direction:column;gap:6px;
-  text-decoration:none;color:var(--text);cursor:pointer;
-  transition:border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
-  min-height:96px;
-}
-.qcard:active{
-  background:var(--card-hi);border-color:var(--border-hi);transform:scale(0.98);
-}
-.qcard-icon{
-  width:36px;height:36px;border-radius:11px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;line-height:1;
-}
-.qicon-cyan {background:rgba(0,229,255,0.10);color:var(--cyan); border:1px solid rgba(0,229,255,0.22)}
-.qicon-green{background:rgba(57,255,136,0.10);color:var(--green);border:1px solid rgba(57,255,136,0.22)}
-.qicon-teal {background:rgba(0,194,184,0.10);color:var(--teal); border:1px solid rgba(0,194,184,0.22)}
-.qcard-title{font-size:13.5px;font-weight:700;color:var(--text);letter-spacing:0.2px}
-.qcard-sub{font-size:11px;color:var(--muted);line-height:1.4}
-
 /* ============== Status card ============== */
 .status-card{
   background:var(--card);border:1px solid var(--border);border-radius:16px;
@@ -299,48 +268,6 @@ body{
            autocapitalize="off" autocorrect="off" spellcheck="false" inputmode="url">
   </form>
   <div class="search-hint">or enter a website address — <b>HTTPS-Only</b> on</div>
-
-  <!-- ============== Quick actions ============== -->
-  <div class="section-label">Quick actions</div>
-  <div class="grid">
-
-    <a class="qcard" href="ammar://action/protection-stats">
-      <div class="qcard-icon qicon-cyan">🛡</div>
-      <div class="qcard-title">Privacy Shield</div>
-      <div class="qcard-sub">Your activity stays private</div>
-    </a>
-
-    <a class="qcard" href="ammar://action/protection-stats">
-      <div class="qcard-icon qicon-green">🚫</div>
-      <div class="qcard-title">Trackers Blocked</div>
-      <div class="qcard-sub">$trackersCardSub</div>
-    </a>
-
-    <a class="qcard" href="ammar://action/bookmarks">
-      <div class="qcard-icon qicon-teal">★</div>
-      <div class="qcard-title">Bookmarks</div>
-      <div class="qcard-sub">Saved pages</div>
-    </a>
-
-    <a class="qcard" href="ammar://action/clear-data">
-      <div class="qcard-icon qicon-cyan">🧹</div>
-      <div class="qcard-title">Clear Data</div>
-      <div class="qcard-sub">Remove browsing traces</div>
-    </a>
-
-    <a class="qcard" href="ammar://action/settings">
-      <div class="qcard-icon qicon-teal">⚙</div>
-      <div class="qcard-title">Settings</div>
-      <div class="qcard-sub">Customize protection</div>
-    </a>
-
-    <a class="qcard" href="ammar://action/extreme-mode">
-      <div class="qcard-icon qicon-green">⚡</div>
-      <div class="qcard-title">Extreme Mode</div>
-      <div class="qcard-sub">Strongest protection</div>
-    </a>
-
-  </div>
 
   <!-- ============== Status ============== -->
   <div class="section-label">Status</div>
