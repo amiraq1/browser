@@ -571,6 +571,9 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
                     // Settings hosts the Clear Browsing Data buttons.
                     startActivity(Intent(this, SettingsActivity::class.java))
                 }
+                "bookmarks" -> {
+                    bookmarksLauncher.launch(Intent(this, BookmarksActivity::class.java))
+                }
                 "extreme-mode" -> {
                     SpeedSettings.setMode(SpeedMode.EXTREME)
                     android.widget.Toast.makeText(
