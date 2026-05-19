@@ -2,271 +2,404 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1a1a2e">
+    android:background="@color/nabd_deep_navy"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="16dp">
 
-        <!-- Protection -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Protection"
-            android:textSize="14sp"
-            android:textColor="#4fc3f7"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Speed Mode"
-            android:textSize="13sp"
-            android:textColor="#aaa" />
-
-        <TextView
-            android:id="@+id/txt_speed_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Current: BALANCED"
-            android:textSize="16sp"
-            android:textColor="#fff"
-            android:layout_marginBottom="8dp" />
-
+        <!-- ============================================================ -->
+        <!-- Header                                                       -->
+        <!-- ============================================================ -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
-            <Button
-                android:id="@+id/btn_speed_off"
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="OFF"
-                android:textAllCaps="false"
-                android:layout_marginEnd="4dp" />
+                android:text="Settings · الإعدادات"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.02" />
 
-            <Button
-                android:id="@+id/btn_speed_balanced"
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="BALANCED"
-                android:textAllCaps="false"
-                android:layout_marginHorizontal="4dp" />
-
-            <Button
-                android:id="@+id/btn_speed_extreme"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="EXTREME"
-                android:textAllCaps="false"
-                android:layout_marginStart="4dp" />
+                android:text="Nabd · privacy panel"
+                android:textColor="@color/nabd_teal"
+                android:textSize="13sp"
+                android:layout_marginTop="2dp" />
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_protection_stats"
+        <!-- ============================================================ -->
+        <!-- Protection                                                   -->
+        <!-- ============================================================ -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Protection Stats"
-            android:textAllCaps="false"
-            android:layout_marginBottom="8dp" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_nabd_card"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/btn_adblock_debug"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Protection"
+                android:textSize="15sp"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Speed Mode"
+                android:textSize="13sp"
+                android:textColor="#B0BEC5" />
+
+            <TextView
+                android:id="@+id/txt_speed_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current: BALANCED"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <Button
+                    android:id="@+id/btn_speed_off"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="OFF"
+                    android:textAllCaps="false"
+                    android:textColor="@color/nabd_pulse_cyan"
+                    android:backgroundTint="@color/nabd_deep_navy"
+                    android:layout_marginEnd="4dp" />
+
+                <Button
+                    android:id="@+id/btn_speed_balanced"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="BALANCED"
+                    android:textAllCaps="false"
+                    android:textColor="@color/nabd_pulse_cyan"
+                    android:backgroundTint="@color/nabd_deep_navy"
+                    android:layout_marginHorizontal="4dp" />
+
+                <Button
+                    android:id="@+id/btn_speed_extreme"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="EXTREME"
+                    android:textAllCaps="false"
+                    android:textColor="@color/nabd_pulse_cyan"
+                    android:backgroundTint="@color/nabd_deep_navy"
+                    android:layout_marginStart="4dp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_protection_stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Protection Stats"
+                android:textAllCaps="false"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:backgroundTint="@color/nabd_deep_navy"
+                android:layout_marginBottom="6dp" />
+
+            <Button
+                android:id="@+id/btn_adblock_debug"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="AdBlock Debug"
+                android:textAllCaps="false"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:backgroundTint="@color/nabd_deep_navy" />
+
+        </LinearLayout>
+
+        <!-- ============================================================ -->
+        <!-- Privacy                                                      -->
+        <!-- ============================================================ -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="AdBlock Debug"
-            android:textAllCaps="false"
-            android:layout_marginBottom="24dp" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_nabd_card"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
 
-        <!-- Privacy -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Privacy"
-            android:textSize="14sp"
-            android:textColor="#4fc3f7"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Privacy"
+                android:textSize="15sp"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
 
-        <TextView
-            android:id="@+id/txt_allowlist_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0 sites allowlisted"
-            android:textSize="14sp"
-            android:textColor="#ccc"
-            android:layout_marginBottom="8dp" />
+            <TextView
+                android:id="@+id/txt_allowlist_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 sites allowlisted"
+                android:textSize="14sp"
+                android:textColor="#B0BEC5"
+                android:layout_marginBottom="10dp" />
 
-        <Button
-            android:id="@+id/btn_clear_allowlist"
+            <Button
+                android:id="@+id/btn_clear_allowlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clear Allowlisted Sites"
+                android:textAllCaps="false"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:backgroundTint="@color/nabd_deep_navy" />
+
+        </LinearLayout>
+
+        <!-- ============================================================ -->
+        <!-- Browsing Data                                                -->
+        <!-- ============================================================ -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Clear Allowlisted Sites"
-            android:textAllCaps="false"
-            android:layout_marginBottom="24dp" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_nabd_card"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
 
-        <!-- Browsing Data -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Browsing Data"
-            android:textSize="14sp"
-            android:textColor="#4fc3f7"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Browsing Data"
+                android:textSize="15sp"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
 
-        <Button
-            android:id="@+id/btn_cookie_banner"
+            <Button
+                android:id="@+id/btn_cookie_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cookie Banner Control: Enabled"
+                android:textAllCaps="false"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:backgroundTint="@color/nabd_deep_navy"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/btn_clear_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clear History"
+                android:textAllCaps="false"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:backgroundTint="@color/nabd_deep_navy"
+                android:layout_marginBottom="6dp" />
+
+            <Button
+                android:id="@+id/btn_clear_cookies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clear Cookies"
+                android:textAllCaps="false"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:backgroundTint="@color/nabd_deep_navy"
+                android:layout_marginBottom="6dp" />
+
+            <Button
+                android:id="@+id/btn_clear_cache"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clear Cache"
+                android:textAllCaps="false"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:backgroundTint="@color/nabd_deep_navy"
+                android:layout_marginBottom="6dp" />
+
+            <Button
+                android:id="@+id/btn_clear_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clear All Browsing Data"
+                android:textAllCaps="false"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:backgroundTint="@color/nabd_deep_navy" />
+
+        </LinearLayout>
+
+        <!-- ============================================================ -->
+        <!-- Privacy Defaults                                             -->
+        <!-- ============================================================ -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cookie Banner Control: Enabled"
-            android:textAllCaps="false"
-            android:layout_marginBottom="12dp" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_nabd_card"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/btn_clear_history"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Privacy Defaults"
+                android:textSize="15sp"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:id="@+id/txt_zero_tracking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zero Tracking Mode: Enabled"
+                android:textSize="14sp"
+                android:textColor="#4caf50"
+                android:textStyle="bold"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Third-party cookies: Blocked\nMixed content: Blocked\nFile access: Disabled\nGeolocation: Disabled\nHTTPS-Only Mode: Enabled\nSuspicious domain warning: Enabled\nDNT / GPC headers: Sent\nApp telemetry: Off\nTracking SDKs: None"
+                android:textSize="12sp"
+                android:textColor="#B0BEC5"
+                android:lineSpacingExtra="3dp" />
+
+        </LinearLayout>
+
+        <!-- ============================================================ -->
+        <!-- Search Engine                                                -->
+        <!-- ============================================================ -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Clear History"
-            android:textAllCaps="false"
-            android:layout_marginBottom="6dp" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_nabd_card"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/btn_clear_cookies"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Search Engine"
+                android:textSize="15sp"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:id="@+id/txt_search_engine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current: DuckDuckGo"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/btn_search_duckduckgo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DuckDuckGo"
+                android:textAllCaps="false"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:backgroundTint="@color/nabd_deep_navy"
+                android:layout_marginBottom="6dp" />
+
+            <Button
+                android:id="@+id/btn_search_brave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Brave Search"
+                android:textAllCaps="false"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:backgroundTint="@color/nabd_deep_navy"
+                android:layout_marginBottom="6dp" />
+
+            <Button
+                android:id="@+id/btn_search_startpage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Startpage"
+                android:textAllCaps="false"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:backgroundTint="@color/nabd_deep_navy"
+                android:layout_marginBottom="6dp" />
+
+            <Button
+                android:id="@+id/btn_search_google"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Google"
+                android:textAllCaps="false"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:backgroundTint="@color/nabd_deep_navy" />
+
+        </LinearLayout>
+
+        <!-- ============================================================ -->
+        <!-- Browser                                                      -->
+        <!-- ============================================================ -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Clear Cookies"
-            android:textAllCaps="false"
-            android:layout_marginBottom="6dp" />
+            android:orientation="vertical"
+            android:background="@drawable/bg_nabd_card"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/btn_clear_cache"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Clear Cache"
-            android:textAllCaps="false"
-            android:layout_marginBottom="6dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Browser"
+                android:textSize="15sp"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
 
-        <Button
-            android:id="@+id/btn_clear_all"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Clear All Browsing Data"
-            android:textAllCaps="false"
-            android:layout_marginBottom="24dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start Page: New Tab Page"
+                android:textSize="14sp"
+                android:textColor="#B0BEC5"
+                android:layout_marginBottom="12dp" />
 
-        <!-- Privacy Info -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Privacy Defaults"
-            android:textSize="14sp"
-            android:textColor="#4fc3f7"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            <Button
+                android:id="@+id/btn_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="About Nabd Browser"
+                android:textAllCaps="false"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:backgroundTint="@color/nabd_deep_navy" />
 
-        <TextView
-            android:id="@+id/txt_zero_tracking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Zero Tracking Mode: Enabled"
-            android:textSize="14sp"
-            android:textColor="#4caf50"
-            android:layout_marginBottom="4dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Third-party cookies: Blocked\nMixed content: Blocked\nFile access: Disabled\nGeolocation: Disabled\nHTTPS-Only Mode: Enabled\nSuspicious domain warning: Enabled\nDNT / GPC headers: Sent\nApp telemetry: Off\nTracking SDKs: None"
-            android:textSize="12sp"
-            android:textColor="#aaa"
-            android:lineSpacingExtra="3dp"
-            android:layout_marginBottom="24dp" />
-
-        <!-- Search Engine -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search Engine"
-            android:textSize="14sp"
-            android:textColor="#4fc3f7"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/txt_search_engine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Current: DuckDuckGo"
-            android:textSize="16sp"
-            android:textColor="#fff"
-            android:layout_marginBottom="8dp" />
-
-        <Button
-            android:id="@+id/btn_search_duckduckgo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="DuckDuckGo"
-            android:textAllCaps="false"
-            android:layout_marginBottom="6dp" />
-
-        <Button
-            android:id="@+id/btn_search_brave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Brave Search"
-            android:textAllCaps="false"
-            android:layout_marginBottom="6dp" />
-
-        <Button
-            android:id="@+id/btn_search_startpage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Startpage"
-            android:textAllCaps="false"
-            android:layout_marginBottom="6dp" />
-
-        <Button
-            android:id="@+id/btn_search_google"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Google"
-            android:textAllCaps="false"
-            android:layout_marginBottom="24dp" />
-
-        <!-- Browser -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Browser"
-            android:textSize="14sp"
-            android:textColor="#4fc3f7"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start Page: New Tab Page"
-            android:textSize="14sp"
-            android:textColor="#ccc"
-            android:layout_marginBottom="12dp" />
-
-        <Button
-            android:id="@+id/btn_about"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="About Nabd Browser"
-            android:textAllCaps="false" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
