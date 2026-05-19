@@ -265,7 +265,7 @@
             android:id="@+id/btn_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="About AmmarBrowser"
+            android:text="About Nabd Browser"
             android:textAllCaps="false" />
 
     </LinearLayout>

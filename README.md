@@ -1,6 +1,8 @@
-# Ammar Browser Android
+# Nabd Browser / متصفح نبض
 
 A privacy-focused Android web browser with built-in ad/tracker blocking. Designed with a modular architecture that allows swapping the rendering engine in the future (WebView → Chromium custom / GeckoView).
+
+> The project was previously developed under the working name **AmmarBrowser**. Internal package and applicationId still use `com.ammar.browser` — the user-facing brand is now **Nabd Browser / نبض**.
 
 ## Current Status: v0.1-alpha
 
@@ -73,7 +75,7 @@ com.ammar.browser/
 
 ## Security / Privacy Notice
 
-- AmmarBrowser لا يرسل URLs أو بيانات التصفح لأي سيرفر.
+- Nabd Browser / نبض لا يرسل URLs أو بيانات التصفح لأي سيرفر.
 - لا يوجد Firebase / Analytics / Ads SDK.
 - كل الحماية الحالية محلية داخل التطبيق.
 - v0.1-alpha هي debug build للاختبار فقط.

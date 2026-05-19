@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 
 /**
  * Persisted search-engine preference. Defaults to [SearchEngine.DUCKDUCKGO]
- * to align with the Zero Tracking identity of AmmarBrowser.
+ * to align with the Zero Tracking identity of Nabd Browser.
  *
  * Mirrors the lifecycle of [com.ammar.browser.performance.SpeedSettings]:
  * [init] is called once from [com.ammar.browser.BrowserApp.onCreate], after

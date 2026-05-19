@@ -13,10 +13,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AmmarBrowser"
-            android:textSize="24sp"
+            android:text="نبض"
+            android:textSize="28sp"
             android:textStyle="bold"
             android:textColor="#4fc3f7" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Nabd Browser"
+            android:textSize="16sp"
+            android:textColor="#fff" />
 
         <TextView
             android:id="@+id/about_version"

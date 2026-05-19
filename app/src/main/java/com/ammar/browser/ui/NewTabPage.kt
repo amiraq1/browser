@@ -81,7 +81,7 @@ object NewTabPage {
         return """<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="color-scheme" content="dark">
-<title>AmmarBrowser — Shield Dashboard</title>
+<title>Nabd Browser — Shield Dashboard</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
@@ -232,7 +232,7 @@ body{
 <div class="wrap">
 
   <div class="brand">
-    <div class="name">🛡 AmmarBrowser</div>
+    <div class="name">🛡 نبض · Nabd Browser</div>
     <div class="sub">Zero Tracking Browser</div>
   </div>
 

@@ -49,7 +49,7 @@ object CrashLogger {
         } catch (_: Exception) { 0 }
 
         return buildString {
-            appendLine("=== Ammar Browser Crash Report ===")
+            appendLine("=== Nabd Browser Crash Report ===")
             appendLine("Timestamp: ${SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(Date())}")
             appendLine("Package: ${ctx?.packageName ?: "?"}")
             appendLine("Version: $versionName ($versionCode)")
@@ -74,8 +74,8 @@ object CrashLogger {
 
     private fun writeReport(report: String) {
         val timestamp = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.US).format(Date())
-        val fileName = "AmmarBrowser-crash-$timestamp.txt"
-        val latestName = "AmmarBrowser-crash-latest.txt"
+        val fileName = "NabdBrowser-crash-$timestamp.txt"
+        val latestName = "NabdBrowser-crash-latest.txt"
 
         // Try Downloads
         val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
