@@ -1,18 +1,13 @@
 package com.ammar.browser.ui
 
-import com.ammar.browser.performance.SpeedMode
-import com.ammar.browser.performance.SpeedSettings
 import com.ammar.browser.privacy.adblock.AdBlocker
 import com.ammar.browser.search.SearchSettings
 
 /**
- * Generates the local HTML for the **Nabd Home / Shield Dashboard** new tab page.
+ * Generates the local HTML for the Nabd Browser new tab page.
  *
- * Phase Brand-3 redesign: a privacy-app style home with a status header,
- * a hero shield+pulse mark, a large search bar and a status card. All
- * assets are inline — no network fetches, no external images, no remote
- * fonts — keeping the new tab page consistent with the Zero Tracking
- * defaults of the rest of the app.
+ * The page is intentionally small and local-only: a centered search/address
+ * bar with inline controls and no network assets.
  *
  * The public surface ([URL], [isNewTabUrl], [generateHtml]) is unchanged so
  * the rest of the app (MainActivity, BookmarkRepository, NavigationHelper,
@@ -25,42 +20,12 @@ object NewTabPage {
     fun isNewTabUrl(url: String?): Boolean =
         url.isNullOrBlank() || url == URL || url == "about:blank" || url.startsWith("data:")
 
+    @Suppress("UNUSED_PARAMETER")
     fun generateHtml(adBlocker: AdBlocker): String {
-        val mode = SpeedSettings.mode
-        val ads = adBlocker.stats.blockedAds
-        val trackers = adBlocker.stats.blockedTrackers +
-            adBlocker.stats.blockedAnalytics +
-            adBlocker.stats.blockedSocial
-
-        // Zero Tracking state derived from speed mode.
-        val zeroTrackingState = when (mode) {
-            SpeedMode.EXTREME -> "ON"
-            SpeedMode.BALANCED -> "Partial"
-            SpeedMode.OFF -> "OFF"
-        }
-        val zeroTrackingPillClass = when (mode) {
-            SpeedMode.EXTREME -> "pill-green"
-            SpeedMode.BALANCED -> "pill-cyan"
-            SpeedMode.OFF -> "pill-warn"
-        }
-
-        val adBlockStatus = if (mode == SpeedMode.OFF) "Disabled" else "Enabled"
-
         val searchEngine = SearchSettings.currentEngine
         val searchTemplateJs = escapeJsString(searchEngine.urlTemplate)
-        val searchEngineName = escapeHtml(searchEngine.displayName)
 
-        val adsStr = formatCount(ads)
-        val trackersStr = formatCount(trackers)
-
-        val speedModeName = escapeHtml(mode.name)
-        val speedDotClass = when (mode) {
-            SpeedMode.EXTREME -> "green"
-            SpeedMode.BALANCED -> "cyan"
-            SpeedMode.OFF -> "warn"
-        }
-
-        return """<!DOCTYPE html><html lang="en" dir="ltr"><head>
+        return """<!DOCTYPE html><html lang="ar" dir="ltr"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="dark">
@@ -69,219 +34,100 @@ object NewTabPage {
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
   --bg:#0B1020;
-  --bg-grad-1:#0B1020;
-  --bg-grad-2:#0E1530;
-  --card:#101729;
-  --card-hi:#16213d;
-  --border:#1e2a45;
-  --border-hi:#2a3a60;
+  --bar:#101827;
+  --bar-hi:#162033;
+  --border:rgba(0,229,255,0.34);
   --text:#E6EDF6;
-  --text-soft:#A7B6CC;
-  --muted:#6E7E96;
+  --muted:#8DA1B8;
   --cyan:#00E5FF;
   --teal:#00C2B8;
   --green:#39FF88;
-  --warn:#ffb74d;
-  --danger:#ef5350;
 }
-html,body{
-  background:var(--bg);color:var(--text);
+html,body{width:100%;min-height:100%;background:var(--bg);color:var(--text)}
+body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;             /* never horizontal scroll */
-}
-html{height:auto}                /* let document grow with content */
-body{
-  background:
-    radial-gradient(900px 500px at 50% -120px, rgba(0,229,255,0.10), transparent 60%),
-    radial-gradient(700px 400px at 100% 110%, rgba(57,255,136,0.05), transparent 60%),
-    linear-gradient(180deg,var(--bg-grad-1),var(--bg-grad-2));
-  /* Normal bottom padding — the real browser toolbar lives in the
-     Activity, not in this HTML, so we only need a comfortable scroll-end
-     gap plus the safe-area inset for gesture-nav devices. */
-  padding:14px 14px calc(32px + env(safe-area-inset-bottom));
+  padding:24px;
   min-height:100vh;
-  min-height:100dvh;             /* dynamic viewport when supported */
-  display:flex;flex-direction:column;align-items:center;
-  overscroll-behavior-y:contain; /* no pull-to-refresh-like glow */
-  touch-action:pan-y;            /* vertical scroll is the only gesture */
+  min-height:100dvh;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  overscroll-behavior:contain;
 }
-.page{width:100%;max-width:540px;display:flex;flex-direction:column;gap:16px}
-
-/* ============== Top status bar ============== */
-.topbar{display:flex;align-items:center;gap:10px;padding:2px 2px 0}
-.topbar-left{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
-.shield-mini{width:22px;height:22px;color:var(--cyan);display:inline-flex;flex-shrink:0}
-.shield-mini svg{width:100%;height:100%;display:block}
-.topbar-title{font-size:14px;font-weight:600;color:var(--text);letter-spacing:0.3px}
-.topbar-pill{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:5px 10px;border-radius:999px;
-  font-size:10.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
-  flex-shrink:0;
+.search-shell{
+  width:min(100%,620px);
+  min-height:64px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  background:var(--bar);
+  box-shadow:0 14px 40px rgba(0,0,0,0.24),0 0 24px rgba(0,194,184,0.08);
 }
-.topbar-pill .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.pill-green{background:rgba(57,255,136,0.10);color:var(--green);border:1px solid rgba(57,255,136,0.28)}
-.pill-green .dot{background:var(--green);box-shadow:0 0 6px var(--green)}
-.pill-cyan{background:rgba(0,229,255,0.10);color:var(--cyan);border:1px solid rgba(0,229,255,0.28)}
-.pill-cyan .dot{background:var(--cyan);box-shadow:0 0 6px var(--cyan)}
-.pill-warn{background:rgba(255,183,77,0.10);color:var(--warn);border:1px solid rgba(255,183,77,0.28)}
-.pill-warn .dot{background:var(--warn);box-shadow:0 0 6px var(--warn)}
-
-/* ============== Hero ============== */
-.hero{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0 4px}
-.hero-shield{width:84px;height:84px;display:block}
-.hero-shield svg{width:100%;height:100%;display:block;filter:drop-shadow(0 0 14px rgba(0,229,255,0.35))}
-.hero-name-ar{
-  font-size:30px;font-weight:800;color:var(--cyan);
-  letter-spacing:1px;line-height:1;margin-top:6px;
-  text-shadow:0 0 18px rgba(0,229,255,0.45);
-}
-.hero-name-en{
-  font-size:16px;font-weight:700;color:var(--text);
-  letter-spacing:1.5px;margin-top:4px;
-}
-.hero-tagline{
-  font-size:10.5px;color:var(--teal);letter-spacing:3px;
-  text-transform:uppercase;margin-top:4px;font-weight:600;
-}
-
-/* ============== Search ============== */
-.search{position:relative;width:100%}
-.search input{
-  width:100%;padding:15px 16px 15px 46px;border-radius:16px;
-  background:var(--card);color:var(--text);border:1px solid var(--border);
-  font-size:15px;outline:none;
-  transition:border-color 0.15s ease, box-shadow 0.15s ease;
-}
-.search input::placeholder{color:var(--muted)}
-.search input:focus{
+.search-shell:focus-within{
   border-color:var(--cyan);
-  box-shadow:0 0 0 3px rgba(0,229,255,0.18);
+  box-shadow:0 14px 40px rgba(0,0,0,0.28),0 0 0 3px rgba(0,229,255,0.16);
 }
-.search-icon{
-  position:absolute;left:16px;top:50%;transform:translateY(-50%);
-  color:var(--cyan);font-size:16px;pointer-events:none;
+.search-shell input{
+  min-width:0;
+  flex:1;
+  height:48px;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--text);
+  font-size:16px;
+  line-height:1.2;
+  text-align:right;
 }
-.search-hint{
-  font-size:10.5px;color:var(--muted);letter-spacing:0.4px;
-  text-align:center;margin-top:-6px;
+.search-shell input::placeholder{color:var(--muted);opacity:1}
+.icon-btn{
+  width:48px;
+  height:48px;
+  flex:0 0 48px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(0,229,255,0.16);
+  border-radius:50%;
+  background:var(--bar-hi);
+  color:var(--cyan);
+  font-size:26px;
+  font-weight:500;
+  outline:0;
 }
-.search-hint b{color:var(--teal);font-weight:600}
-
-/* ============== Section labels ============== */
-.section-label{
-  font-size:10.5px;color:var(--muted);letter-spacing:2px;
-  text-transform:uppercase;padding-left:4px;margin-top:4px;font-weight:600;
+.icon-btn:active{background:#0F2630;color:var(--green)}
+.icon-btn svg{width:22px;height:22px;display:block;stroke:currentColor}
+.submit-btn{color:var(--green);border-color:rgba(57,255,136,0.24)}
+@media (max-width:380px){
+  body{padding:16px}
+  .search-shell{gap:6px;padding:7px}
+  .icon-btn{width:44px;height:44px;flex-basis:44px}
+  .search-shell input{height:44px;font-size:15px}
 }
-
-/* ============== Status card ============== */
-.status-card{
-  background:var(--card);border:1px solid var(--border);border-radius:16px;
-  padding:14px;display:flex;flex-direction:column;gap:9px;
-}
-.status-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-soft)}
-.status-row b{color:var(--text);font-weight:600}
-.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.status-dot.green{background:var(--green);box-shadow:0 0 6px rgba(57,255,136,0.6)}
-.status-dot.cyan {background:var(--cyan); box-shadow:0 0 6px rgba(0,229,255,0.6)}
-.status-dot.warn {background:var(--warn); box-shadow:0 0 6px rgba(255,183,77,0.6)}
-
-/* ============== Footer ============== */
-.foot{
-  text-align:center;font-size:10.5px;color:var(--muted);
-  letter-spacing:1px;margin-top:2px;padding:0 4px;
-}
-.foot b{color:var(--cyan);font-weight:700}
 </style></head><body>
-<div class="page">
-
-  <!-- ============== Top status bar ============== -->
-  <header class="topbar">
-    <div class="topbar-left">
-      <span class="shield-mini">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M12 2 L20 5 L20 12 C20 17 16.5 21 12 22.5 C7.5 21 4 17 4 12 L4 5 Z"
-                fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-          <path d="M7.5 12.5 L10 12.5 L11.5 15.5 L13.5 9.5 L15 12.5 L17 12.5"
-                fill="none" stroke="currentColor" stroke-width="1.6"
-                stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </span>
-      <span class="topbar-title">Protected</span>
-    </div>
-    <span class="topbar-pill $zeroTrackingPillClass">
-      <span class="dot"></span>Zero Tracking · $zeroTrackingState
-    </span>
-  </header>
-
-  <!-- ============== Hero ============== -->
-  <section class="hero">
-    <div class="hero-shield">
-      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <linearGradient id="shieldStroke" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#00E5FF"/>
-            <stop offset="1" stop-color="#00C2B8"/>
-          </linearGradient>
-        </defs>
-        <path d="M32 4 L52 12 L52 30 C52 44 42 54 32 60 C22 54 12 44 12 30 L12 12 Z"
-              fill="rgba(0,229,255,0.04)"
-              stroke="url(#shieldStroke)" stroke-width="2.6" stroke-linejoin="round"/>
-        <path d="M14 34 L22 34 L26 26 L32 42 L38 28 L42 34 L50 34"
-              fill="none" stroke="#39FF88" stroke-width="2.4"
-              stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="50" cy="34" r="2.6" fill="#39FF88"/>
-      </svg>
-    </div>
-    <div class="hero-name-ar">نبض</div>
-    <div class="hero-name-en">Nabd Browser</div>
-    <div class="hero-tagline">Zero Tracking Browser</div>
-  </section>
-
-  <!-- ============== Search ============== -->
-  <form class="search" onsubmit="go(event)" autocomplete="off">
-    <span class="search-icon">🔍</span>
-    <input type="text" id="q"
-           placeholder="Search privately with $searchEngineName"
-           autocapitalize="off" autocorrect="off" spellcheck="false" inputmode="url">
-  </form>
-  <div class="search-hint">or enter a website address — <b>HTTPS-Only</b> on</div>
-
-  <!-- ============== Status ============== -->
-  <div class="section-label">Status</div>
-  <div class="status-card">
-    <div class="status-row">
-      <span class="status-dot green"></span>
-      <span>Zero Tracking · <b>$zeroTrackingState</b></span>
-    </div>
-    <div class="status-row">
-      <span class="status-dot green"></span>
-      <span>HTTPS-Only · <b>Enabled</b></span>
-    </div>
-    <div class="status-row">
-      <span class="status-dot green"></span>
-      <span>No telemetry</span>
-    </div>
-    <div class="status-row">
-      <span class="status-dot green"></span>
-      <span>Local-only protection</span>
-    </div>
-    <div class="status-row">
-      <span class="status-dot $speedDotClass"></span>
-      <span>Speed Mode · <b>$speedModeName</b></span>
-    </div>
-    <div class="status-row">
-      <span class="status-dot cyan"></span>
-      <span>Ads blocked: <b>$adsStr</b> · Trackers: <b>$trackersStr</b></span>
-    </div>
-  </div>
-
-  <div class="foot">
-    AdBlock <b>$adBlockStatus</b> · No telemetry · Local-only · Search via <b>$searchEngineName</b>
-  </div>
-
-</div>
+<form class="search-shell" onsubmit="go(event)" autocomplete="off">
+  <button class="icon-btn add-btn" type="button" aria-label="إضافة">+</button>
+  <input type="text" id="q"
+         placeholder="ابحث أو اكتب رابطاً..."
+         autocapitalize="off" autocorrect="off" spellcheck="false" inputmode="url" dir="auto">
+  <button class="icon-btn mic-btn" type="button" aria-label="ميكروفون">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Z"/>
+      <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+      <path d="M12 19v3"/>
+    </svg>
+  </button>
+  <button class="icon-btn submit-btn" type="submit" aria-label="انتقال">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M5 12h14"/>
+      <path d="m13 6 6 6-6 6"/>
+    </svg>
+  </button>
+</form>
 
 <script>
 (function(){
@@ -299,26 +145,6 @@ body{
 </script>
 </body></html>"""
     }
-
-    // --- helpers (private) -------------------------------------------------
-
-    private fun formatCount(n: Int): String =
-        // Use plain string formatting; no Locale dependency to keep output
-        // deterministic regardless of device locale.
-        if (n < 1000) n.toString() else buildString {
-            val s = n.toString()
-            for (i in s.indices) {
-                if (i > 0 && (s.length - i) % 3 == 0) append(',')
-                append(s[i])
-            }
-        }
-
-    private fun escapeHtml(s: String): String =
-        s.replace("&", "&amp;")
-            .replace("<", "&lt;")
-            .replace(">", "&gt;")
-            .replace("\"", "&quot;")
-            .replace("'", "&#39;")
 
     /** Escape for embedding inside a JavaScript single-quoted string literal. */
     private fun escapeJsString(s: String): String =
