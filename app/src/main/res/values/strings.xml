@@ -32,4 +32,7 @@
     <string name="bookmark_updated">Bookmark updated</string>
     <string name="bookmark_skipped_private">Bookmarks are disabled in private tabs</string>
     <string name="bookmark_skipped_invalid">This page can\'t be bookmarked</string>
+    <string name="download_started">Download started</string>
+    <string name="download_failed">Download failed</string>
+    <string name="download_description">Downloading file</string>
 </resources>

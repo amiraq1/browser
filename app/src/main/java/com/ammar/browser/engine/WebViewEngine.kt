@@ -1,15 +1,22 @@
 package com.ammar.browser.engine
 
 import android.annotation.SuppressLint
+import android.app.DownloadManager
 import android.content.Context
 import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Environment
 import android.view.View
+import android.webkit.CookieManager
+import android.webkit.URLUtil
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
+import com.ammar.browser.R
 import com.ammar.browser.privacy.adblock.AdBlocker
 import com.ammar.browser.privacy.adblock.BlockDecision
 import java.io.ByteArrayInputStream
@@ -59,6 +66,16 @@ class WebViewEngine(
             // Block third-party cookies, allow first-party
             android.webkit.CookieManager.getInstance().setAcceptCookie(true)
             android.webkit.CookieManager.getInstance().setAcceptThirdPartyCookies(this, false)
+            setDownloadListener { url, userAgent, contentDisposition, mimeType, contentLength ->
+                handleDownload(
+                    context = context.applicationContext,
+                    url = url,
+                    userAgent = userAgent,
+                    contentDisposition = contentDisposition,
+                    mimeType = mimeType,
+                    contentLength = contentLength
+                )
+            }
 
             webViewClient = object : WebViewClient() {
                 override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
@@ -167,6 +184,63 @@ class WebViewEngine(
 
     override fun setCallback(callback: EngineCallback) {
         this.callback = callback
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun handleDownload(
+        context: Context,
+        url: String?,
+        userAgent: String?,
+        contentDisposition: String?,
+        mimeType: String?,
+        contentLength: Long
+    ) {
+        val downloadUrl = url?.trim().orEmpty()
+        if (!isDownloadableUrl(downloadUrl)) return
+
+        try {
+            val filename = URLUtil.guessFileName(downloadUrl, contentDisposition, mimeType)
+            val request = DownloadManager.Request(Uri.parse(downloadUrl)).apply {
+                userAgent?.takeIf { it.isNotBlank() }?.let {
+                    addRequestHeader("User-Agent", it)
+                }
+                CookieManager.getInstance()
+                    .getCookie(downloadUrl)
+                    ?.takeIf { it.isNotBlank() }
+                    ?.let { addRequestHeader("Cookie", it) }
+                mimeType?.takeIf { it.isNotBlank() }?.let { setMimeType(it) }
+                setTitle(filename)
+                setDescription(context.getString(R.string.download_description))
+                setNotificationVisibility(
+                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+                )
+                setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
+            }
+            val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as? DownloadManager
+            if (manager == null) {
+                Toast.makeText(context, R.string.download_failed, Toast.LENGTH_SHORT).show()
+                return
+            }
+            manager.enqueue(request)
+            Toast.makeText(context, R.string.download_started, Toast.LENGTH_SHORT).show()
+        } catch (ignored: Exception) {
+            Toast.makeText(context, R.string.download_failed, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun isDownloadableUrl(url: String?): Boolean {
+        if (url.isNullOrBlank()) return false
+        val normalized = url.lowercase()
+        if (
+            normalized.startsWith("ammar://") ||
+            normalized.startsWith("about:") ||
+            normalized.startsWith("data:") ||
+            normalized.startsWith("file:") ||
+            normalized.startsWith("content:")
+        ) {
+            return false
+        }
+        return normalized.startsWith("http://") || normalized.startsWith("https://")
     }
 
     companion object {
