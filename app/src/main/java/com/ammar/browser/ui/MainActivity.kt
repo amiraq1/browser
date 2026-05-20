@@ -225,7 +225,6 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         val siteAllowed = SiteAllowlist.isAllowed(currentUrl)
         val tabId = tabManager.getCurrentTab()?.id
         val tabBlocked = tabId?.let { adBlocker.perTabStats.getTotalBlocked(it) } ?: 0
-        val totalBlocked = adBlocker.stats.totalBlocked
         val mode = SpeedSettings.mode
         val zeroTracking = if (mode == SpeedMode.EXTREME) "Enabled" else "Partial"
 

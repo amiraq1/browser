@@ -40,7 +40,6 @@ object NewTabPage {
   --text:#E6EDF6;
   --muted:#8DA1B8;
   --cyan:#00E5FF;
-  --teal:#00C2B8;
   --green:#39FF88;
 }
 html,body{width:100%;min-height:100%;background:var(--bg);color:var(--text)}
