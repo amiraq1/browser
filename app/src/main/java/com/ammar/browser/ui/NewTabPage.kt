@@ -110,7 +110,7 @@ body{
 }
 </style></head><body>
 <form class="search-shell" onsubmit="go(event)" autocomplete="off">
-  <button class="icon-btn add-btn" type="button" aria-label="إضافة">+</button>
+  <button class="icon-btn add-btn" type="button" aria-label="إضافة" onclick="openBookmarks()">+</button>
   <input type="text" id="q"
          placeholder="ابحث أو اكتب رابطاً..."
          autocapitalize="off" autocorrect="off" spellcheck="false" inputmode="url" dir="auto">
@@ -140,7 +140,11 @@ body{
     if(q.indexOf('.')!==-1&&q.indexOf(' ')===-1){location.href='https://'+q;return;}
     location.href=SEARCH+encodeURIComponent(q);
   }
+  function openBookmarks(){
+    location.href='ammar://action/bookmarks';
+  }
   window.go=go;
+  window.openBookmarks=openBookmarks;
 })();
 </script>
 </body></html>"""
