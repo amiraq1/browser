@@ -4,11 +4,25 @@ A privacy-focused Android web browser with built-in ad/tracker blocking. Designe
 
 > The project was previously developed under the working name **AmmarBrowser**. Internal package and applicationId still use `com.ammar.browser` — the user-facing brand is now **Nabd Browser / نبض**.
 
-## Current Status: v0.1-alpha
+## Current Status: v0.3-alpha
 
 Built on top of Android WebView. All privacy and ad-blocking logic runs locally inside the app — no servers, no telemetry, no third-party SDKs.
 
-Version: **0.1.0-alpha** (debug build, for testing only).
+Version: **0.3.0-alpha** (debug build, for testing only).
+
+### v0.3-alpha highlights
+
+- Search-only Home — minimal centered search bar, no Quick Actions cards.
+- Download Manager via Android `DownloadManager` (saved to the device Downloads folder).
+- Downloads surfaced in Settings and About so users know where files land.
+- AdBlock request-path performance optimization — pre-computed dotted suffix and path rule fields, zero per-request string allocations on the hot path.
+- Startup / NewTab cleanup — dead helper, dead parameter, and unused import removed.
+- Nabd brand UI polish across Home, AdBlock Debug, and the main toolbar.
+
+### Earlier alphas
+
+- **v0.2-alpha**: Bookmarks, Search Engine Selector, Shield Dashboard, Native Quick Actions, rebrand to Nabd Browser.
+- **v0.1-alpha**: MVP WebView browser, Tabs, History, AdBlock core, HTTPS-Only, Zero Tracking defaults.
 
 ## Documentation
 
@@ -82,7 +96,7 @@ com.ammar.browser/
 - Nabd Browser / نبض لا يرسل URLs أو بيانات التصفح لأي سيرفر.
 - لا يوجد Firebase / Analytics / Ads SDK.
 - كل الحماية الحالية محلية داخل التطبيق.
-- v0.1-alpha هي debug build للاختبار فقط.
+- v0.3-alpha هي debug build للاختبار فقط.
 - بعض المواقع قد تنكسر بسبب إعدادات الخصوصية الصارمة (يمكن إضافتها إلى الـ allowlist).
 
 ## Build
@@ -118,16 +132,23 @@ app/build/outputs/apk/debug/app-debug.apk
 - [x] Suspicious Domain warning
 - [x] Cookie Banner Control (experimental)
 - [x] v0.1-alpha release prep
+- [x] Bookmarks (v0.2-alpha)
+- [x] Search Engine Selector (v0.2-alpha)
+- [x] Rebrand to Nabd Browser (v0.2-alpha)
+- [x] Search-only Home (v0.3-alpha)
+- [x] Plus button opens Bookmarks (v0.3-alpha)
+- [x] Download Manager via Android DownloadManager (v0.3-alpha)
+- [x] AdBlock request-path performance optimization (v0.3-alpha)
+- [x] Startup / NewTab cleanup (v0.3-alpha)
 
 ### Planned
-- [ ] Bookmarks
-- [ ] Download Manager
-- [ ] Import / export settings
+- [ ] Bookmark folders + search + import/export
+- [ ] Settings import / export
 - [ ] Better EasyList support
 - [ ] More tracker categories
 - [ ] Better icon / branding
 - [ ] Release signing
-- [ ] GitHub release
+- [ ] GitHub Releases with attached APK
 - [ ] Later: GeckoView or Chromium engine research
 
 ## License

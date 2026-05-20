@@ -24,13 +24,24 @@
 | البند | الحالة |
 |---|---|
 | **v0.1-alpha** | مرفوعة على GitHub (https://github.com/amiraq1/Browser) |
-| **v0.2-alpha** | قيد التطوير — local commits |
+| **v0.2-alpha** | مرفوعة على GitHub |
+| **v0.3-alpha** | مرفوعة على GitHub |
 | البناء | BUILD SUCCESSFUL على Java 17 / Gradle 8.5 |
-| حجم APK (debug) | ~8.8 MB |
+| حجم APK (debug) | ~6.2 MB |
 | التتبّع / التحليلات | لا شيء (Zero Telemetry) |
 | تخزين بيانات خارجية | لا شيء |
 
-### v0.2-alpha تتضمن (محلياً، لم تُرفع بعد):
+### تحديث v0.3-alpha
+
+- **صفحة بداية بسيطة بشريط بحث فقط** (Search-only Home).
+- زر `+` على صفحة البداية يفتح Bookmarks.
+- **دعم التنزيلات** عبر Android `DownloadManager` (تُحفظ الملفات في مجلد Downloads).
+- إظهار توضيح في Settings و About بأن الملفات تُحفظ في Downloads.
+- **تحسين أداء AdBlock**: إعادة هيكلة المسار الساخن لتتجنب تخصيص نصوص لكل request (precompute للـ dotted suffix و path rules).
+- **تحسين startup**: إزالة helper غير مستخدم في `BrowserApp` و parameter ميت في `NewTabPage.generateHtml` و import ميت — بدون تغيير في السلوك.
+- **لا telemetry ولا SDKs خارجية** — كما هو الحال منذ البداية.
+
+### v0.2-alpha تتضمن:
 
 1. **Bookmarks** — طبقة بيانات Room كاملة + شاشة عرض/حذف.
 2. **Search Engine Selector** — اختيار محرك البحث، DuckDuckGo افتراضياً.
@@ -243,10 +254,14 @@ com.ammar.browser/
 - [x] Shield Dashboard (v0.2-alpha)
 - [x] Native Quick Actions (v0.2-alpha)
 - [x] Rebrand to Nabd Browser (v0.2-alpha)
+- [x] Search-only Home (v0.3-alpha)
+- [x] Plus button opens Bookmarks (v0.3-alpha)
+- [x] Download Manager via Android DownloadManager (v0.3-alpha)
+- [x] AdBlock request-path performance optimization (v0.3-alpha)
+- [x] Startup / NewTab cleanup (v0.3-alpha)
 
 ### قيد التخطيط
 - [ ] Bookmark folders + search + import/export
-- [ ] Download Manager
 - [ ] Settings import/export
 - [ ] Better EasyList support (تحديثات دورية)
 - [ ] More tracker categories
