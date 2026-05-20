@@ -393,6 +393,22 @@
                 android:text="Start Page: New Tab Page"
                 android:textSize="14sp"
                 android:textColor="#B0BEC5"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/downloads_label"
+                android:textSize="13sp"
+                android:textColor="#B0BEC5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/downloads_location"
+                android:textSize="14sp"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="2dp"
                 android:layout_marginBottom="12dp" />
 
             <Button

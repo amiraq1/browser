@@ -176,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:lineSpacingExtra="5dp"
-                android:text="• Zero Tracking Defaults\n• HTTPS-Only Mode\n• Ad &amp; Tracker Blocking\n• Privacy Grade\n• Tracker Companies\n• Suspicious Domain Warning\n• Cookie Banner Control Experimental\n• Protection Stats\n• Bookmarks\n• Search Engine Selector"
+                android:text="• Zero Tracking Defaults\n• HTTPS-Only Mode\n• Ad &amp; Tracker Blocking\n• Privacy Grade\n• Tracker Companies\n• Suspicious Domain Warning\n• Cookie Banner Control Experimental\n• Protection Stats\n• Bookmarks\n• Search Engine Selector\n• Android Download Manager support"
                 android:textColor="#D7F8FF"
                 android:textSize="14sp" />
 
