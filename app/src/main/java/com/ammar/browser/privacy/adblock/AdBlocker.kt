@@ -15,12 +15,22 @@ class AdBlocker(context: Context? = null) {
 
     private val rules: List<BlockRule>
     private val domainIndex: Map<String, BlockDecision>
+    private val domainSuffixIndex: List<Pair<String, BlockDecision>>
+    private val pathRules: List<PathRule>
     private val exceptions: Set<String>
+    private val dotExceptions: List<String>
     val stats = BlockStats()
     val blockedLog = BlockedRequestLog()
     val perTabStats = PerTabBlockStats()
     val loadInfo: AdBlockLoadInfo
     private val currentMode: SpeedMode get() = SpeedSettings.mode
+
+    private data class PathRule(
+        val hostPart: String,
+        val hostPartDot: String,
+        val pathPart: String,
+        val decision: BlockDecision
+    )
 
     companion object {
         private val SUSPICIOUS_KEYWORDS = listOf(
@@ -34,7 +44,27 @@ class AdBlocker(context: Context? = null) {
         rules = loaded.rules
         exceptions = loaded.exceptions
         loadInfo = loaded.info
-        domainIndex = buildDomainIndex()
+
+        // Build host-only domain index and pre-split path rules in a single pass.
+        // Pre-computing the dotted suffix forms (".${domain}") avoids per-request
+        // string allocations on the request matching hot path.
+        val hostIndex = mutableMapOf<String, BlockDecision>()
+        val paths = mutableListOf<PathRule>()
+        for (rule in rules) {
+            if (rule.domain.contains("/")) {
+                val hostPart = rule.domain.substringBefore("/")
+                val pathPart = "/" + rule.domain.substringAfter("/")
+                paths.add(PathRule(hostPart, ".$hostPart", pathPart, rule.decision))
+            } else {
+                hostIndex[rule.domain] = rule.decision
+            }
+        }
+        domainIndex = hostIndex
+        // Snapshot map iteration order once; first-match-wins behavior is preserved.
+        domainSuffixIndex = hostIndex.entries.map { ".${it.key}" to it.value }
+        pathRules = paths
+        dotExceptions = exceptions.map { ".$it" }
+
         Log.d("AdBlocker", "Initialized: ${rules.size} rules, ${exceptions.size} exceptions")
     }
 
@@ -72,8 +102,8 @@ class AdBlocker(context: Context? = null) {
 
     private fun isException(requestHost: String): Boolean {
         if (exceptions.contains(requestHost)) return true
-        for (ex in exceptions) {
-            if (requestHost.endsWith(".$ex")) return true
+        for (dot in dotExceptions) {
+            if (requestHost.endsWith(dot)) return true
         }
         return false
     }
@@ -118,27 +148,15 @@ class AdBlocker(context: Context? = null) {
 
     private fun matchDomain(requestHost: String, requestUrl: String): BlockDecision {
         domainIndex[requestHost]?.let { return it }
-        for ((domain, decision) in domainIndex) {
-            if (requestHost.endsWith(".$domain")) return decision
+        for ((dotDomain, decision) in domainSuffixIndex) {
+            if (requestHost.endsWith(dotDomain)) return decision
         }
-        for (rule in rules) {
-            if (rule.domain.contains("/")) {
-                val hostPart = rule.domain.substringBefore("/")
-                val pathPart = "/" + rule.domain.substringAfter("/")
-                if ((requestHost == hostPart || requestHost.endsWith(".$hostPart")) &&
-                    requestUrl.contains(pathPart)
-                ) return rule.decision
-            }
+        for (rule in pathRules) {
+            if ((requestHost == rule.hostPart || requestHost.endsWith(rule.hostPartDot)) &&
+                requestUrl.contains(rule.pathPart)
+            ) return rule.decision
         }
         return BlockDecision.ALLOW
-    }
-
-    private fun buildDomainIndex(): Map<String, BlockDecision> {
-        val index = mutableMapOf<String, BlockDecision>()
-        for (rule in rules) {
-            if (!rule.domain.contains("/")) index[rule.domain] = rule.decision
-        }
-        return index
     }
 
     private fun extractHost(url: String): String? = try {
