@@ -36,8 +36,4 @@ class BrowserApp : Application() {
 
         StartupTracker.mark("BrowserApp.onCreate complete")
     }
-
-    companion object {
-        fun getAdBlocker(app: Application): AdBlocker = (app as BrowserApp).adBlocker
-    }
 }

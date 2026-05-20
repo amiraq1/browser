@@ -466,7 +466,7 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         val engine = createEngineForTab(tab.id)
         showEngineForTab(tab.id)
         if (NewTabPage.isNewTabUrl(tab.url)) {
-            engine.loadHtml(NewTabPage.generateHtml(adBlocker), NewTabPage.URL)
+            engine.loadHtml(NewTabPage.generateHtml(), NewTabPage.URL)
             urlBar.setText("")
         } else if (tab.url.isNotEmpty()) {
             engine.loadUrl(tab.url)
@@ -587,7 +587,7 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
                     val currentUrl = engine?.getCurrentUrl()
                     if (engine != null && NewTabPage.isNewTabUrl(currentUrl)) {
                         engine.loadHtml(
-                            NewTabPage.generateHtml(adBlocker),
+                            NewTabPage.generateHtml(),
                             NewTabPage.URL
                         )
                     }

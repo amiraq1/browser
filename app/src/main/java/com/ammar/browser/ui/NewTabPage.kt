@@ -1,6 +1,5 @@
 package com.ammar.browser.ui
 
-import com.ammar.browser.privacy.adblock.AdBlocker
 import com.ammar.browser.search.SearchSettings
 
 /**
@@ -20,8 +19,7 @@ object NewTabPage {
     fun isNewTabUrl(url: String?): Boolean =
         url.isNullOrBlank() || url == URL || url == "about:blank" || url.startsWith("data:")
 
-    @Suppress("UNUSED_PARAMETER")
-    fun generateHtml(adBlocker: AdBlocker): String {
+    fun generateHtml(): String {
         val searchEngine = SearchSettings.currentEngine
         val searchTemplateJs = escapeJsString(searchEngine.urlTemplate)
 
