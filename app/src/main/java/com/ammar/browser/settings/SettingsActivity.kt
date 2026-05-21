@@ -18,6 +18,7 @@ import com.ammar.browser.search.SearchEngine
 import com.ammar.browser.search.SearchSettings
 import com.ammar.browser.ui.AdBlockDebugActivity
 import com.ammar.browser.ui.AboutActivity
+import com.ammar.browser.ui.DownloadsActivity
 import com.ammar.browser.ui.ProtectionStatsActivity
 import kotlinx.coroutines.launch
 
@@ -98,6 +99,9 @@ class SettingsActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btn_about).setOnClickListener {
             startActivity(Intent(this, AboutActivity::class.java))
+        }
+        findViewById<Button>(R.id.btn_downloads).setOnClickListener {
+            startActivity(Intent(this, DownloadsActivity::class.java))
         }
     }
 

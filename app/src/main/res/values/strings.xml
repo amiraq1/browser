@@ -37,4 +37,10 @@
     <string name="download_description">Downloading file</string>
     <string name="downloads_label">Downloads</string>
     <string name="downloads_location">Saved to device Downloads folder</string>
+    <string name="downloads_title">Downloads</string>
+    <string name="downloads_subtitle">التنزيلات</string>
+    <string name="downloads_info">Files downloaded by Nabd are saved to your device Downloads folder.</string>
+    <string name="open_downloads_folder">Open Downloads Folder</string>
+    <string name="downloads_privacy_note">Nabd does not read or index your downloaded files.</string>
+    <string name="downloads_open_failed">Unable to open Downloads folder</string>
 </resources>
