@@ -10,6 +10,7 @@ import com.ammar.browser.R
 import com.ammar.browser.performance.SpeedSettings
 import com.ammar.browser.privacy.PrivacyGradeCalculator
 import com.ammar.browser.privacy.TrackerCompanyClassifier
+import com.ammar.browser.utils.nabdSlideOptions
 
 class ProtectionStatsActivity : AppCompatActivity() {
 
@@ -41,7 +42,10 @@ class ProtectionStatsActivity : AppCompatActivity() {
             .ifEmpty { "No data yet" }
 
         findViewById<Button>(R.id.btn_adblock_debug).setOnClickListener {
-            startActivity(Intent(this, AdBlockDebugActivity::class.java))
+            startActivity(
+                Intent(this, AdBlockDebugActivity::class.java),
+                nabdSlideOptions().toBundle()
+            )
         }
     }
 }

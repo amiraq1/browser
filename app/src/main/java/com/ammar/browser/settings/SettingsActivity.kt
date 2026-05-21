@@ -21,6 +21,7 @@ import com.ammar.browser.ui.AdBlockDebugActivity
 import com.ammar.browser.ui.AboutActivity
 import com.ammar.browser.ui.DownloadsActivity
 import com.ammar.browser.ui.ProtectionStatsActivity
+import com.ammar.browser.utils.nabdSlideOptions
 import kotlinx.coroutines.launch
 
 class SettingsActivity : AppCompatActivity() {
@@ -40,10 +41,16 @@ class SettingsActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn_speed_extreme).setOnClickListener { setSpeed(SpeedMode.EXTREME) }
 
         findViewById<Button>(R.id.btn_protection_stats).setOnClickListener {
-            startActivity(Intent(this, ProtectionStatsActivity::class.java))
+            startActivity(
+                Intent(this, ProtectionStatsActivity::class.java),
+                nabdSlideOptions().toBundle()
+            )
         }
         findViewById<Button>(R.id.btn_adblock_debug).setOnClickListener {
-            startActivity(Intent(this, AdBlockDebugActivity::class.java))
+            startActivity(
+                Intent(this, AdBlockDebugActivity::class.java),
+                nabdSlideOptions().toBundle()
+            )
         }
 
         updateAllowlistCount()
@@ -99,10 +106,16 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btn_about).setOnClickListener {
-            startActivity(Intent(this, AboutActivity::class.java))
+            startActivity(
+                Intent(this, AboutActivity::class.java),
+                nabdSlideOptions().toBundle()
+            )
         }
         findViewById<Button>(R.id.btn_downloads).setOnClickListener {
-            startActivity(Intent(this, DownloadsActivity::class.java))
+            startActivity(
+                Intent(this, DownloadsActivity::class.java),
+                nabdSlideOptions().toBundle()
+            )
         }
 
         updateLiteModeBtn()

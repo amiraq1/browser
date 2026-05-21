@@ -36,6 +36,7 @@ import com.ammar.browser.settings.SettingsActivity
 import com.ammar.browser.tabs.Tab
 import com.ammar.browser.tabs.TabManager
 import com.ammar.browser.utils.StartupTracker
+import com.ammar.browser.utils.nabdSlideOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
 
@@ -310,7 +311,10 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         layout.addView(Button(this).apply {
             text = "Open AdBlock Debug"
             setOnClickListener {
-                startActivity(Intent(this@MainActivity, AdBlockDebugActivity::class.java))
+                startActivity(
+                    Intent(this@MainActivity, AdBlockDebugActivity::class.java),
+                    nabdSlideOptions().toBundle()
+                )
                 dialog.dismiss()
             }
         })
@@ -318,7 +322,10 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         layout.addView(Button(this).apply {
             text = "Protection Stats"
             setOnClickListener {
-                startActivity(Intent(this@MainActivity, ProtectionStatsActivity::class.java))
+                startActivity(
+                    Intent(this@MainActivity, ProtectionStatsActivity::class.java),
+                    nabdSlideOptions().toBundle()
+                )
                 dialog.dismiss()
             }
         })
@@ -433,11 +440,17 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
                     R.id.menu_speed_balanced -> { SpeedSettings.setMode(SpeedMode.BALANCED); updateBlockedCount(); true }
                     R.id.menu_speed_extreme -> { SpeedSettings.setMode(SpeedMode.EXTREME); updateBlockedCount(); true }
                     R.id.menu_adblock_debug -> {
-                        startActivity(Intent(this@MainActivity, AdBlockDebugActivity::class.java))
+                        startActivity(
+                            Intent(this@MainActivity, AdBlockDebugActivity::class.java),
+                            nabdSlideOptions().toBundle()
+                        )
                         true
                     }
                     R.id.menu_history -> {
-                        historyLauncher.launch(Intent(this@MainActivity, HistoryActivity::class.java))
+                        historyLauncher.launch(
+                            Intent(this@MainActivity, HistoryActivity::class.java),
+                            nabdSlideOptions()
+                        )
                         true
                     }
                     R.id.menu_add_bookmark -> {
@@ -445,11 +458,17 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
                         true
                     }
                     R.id.menu_bookmarks -> {
-                        bookmarksLauncher.launch(Intent(this@MainActivity, BookmarksActivity::class.java))
+                        bookmarksLauncher.launch(
+                            Intent(this@MainActivity, BookmarksActivity::class.java),
+                            nabdSlideOptions()
+                        )
                         true
                     }
                     R.id.menu_settings -> {
-                        startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+                        startActivity(
+                            Intent(this@MainActivity, SettingsActivity::class.java),
+                            nabdSlideOptions().toBundle()
+                        )
                         true
                     }
                     else -> false
@@ -473,7 +492,7 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
             putExtra(TabSwitcherActivity.EXTRA_TABS, jsonArray.toString())
             putExtra(TabSwitcherActivity.EXTRA_ACTIVE_TAB_ID, tabManager.getCurrentTab()?.id)
         }
-        tabSwitcherLauncher.launch(intent)
+        tabSwitcherLauncher.launch(intent, nabdSlideOptions())
     }
 
     // --- TabManager.Listener ---
@@ -577,17 +596,29 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         runOnUiThread {
             when (action) {
                 "protection-stats" -> {
-                    startActivity(Intent(this, ProtectionStatsActivity::class.java))
+                    startActivity(
+                        Intent(this, ProtectionStatsActivity::class.java),
+                        nabdSlideOptions().toBundle()
+                    )
                 }
                 "settings" -> {
-                    startActivity(Intent(this, SettingsActivity::class.java))
+                    startActivity(
+                        Intent(this, SettingsActivity::class.java),
+                        nabdSlideOptions().toBundle()
+                    )
                 }
                 "clear-data" -> {
                     // Settings hosts the Clear Browsing Data buttons.
-                    startActivity(Intent(this, SettingsActivity::class.java))
+                    startActivity(
+                        Intent(this, SettingsActivity::class.java),
+                        nabdSlideOptions().toBundle()
+                    )
                 }
                 "bookmarks" -> {
-                    bookmarksLauncher.launch(Intent(this, BookmarksActivity::class.java))
+                    bookmarksLauncher.launch(
+                        Intent(this, BookmarksActivity::class.java),
+                        nabdSlideOptions()
+                    )
                 }
                 "extreme-mode" -> {
                     SpeedSettings.setMode(SpeedMode.EXTREME)
