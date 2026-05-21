@@ -207,11 +207,11 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         val tabId = tabManager.getCurrentTab()?.id
         val tabBlocked = tabId?.let { adBlocker.perTabStats.getTotalBlocked(it) } ?: 0
         val total = adBlocker.stats.totalBlocked
-        val mode = SpeedSettings.mode.name
+        val mode = SpeedSettings.mode
         val currentUrl = currentEngine()?.getCurrentUrl()
         val siteAllowed = SiteAllowlist.isAllowed(currentUrl)
-        if (total > 0 || SpeedSettings.mode != SpeedMode.OFF || siteAllowed) {
-            blockedCount.text = if (siteAllowed) "\uD83D\uDEE1 Allowed | $mode" else "\uD83D\uDEE1 $tabBlocked blocked | $mode"
+        if (total > 0 || mode != SpeedMode.OFF || siteAllowed) {
+            blockedCount.text = if (siteAllowed) "\uD83D\uDEE1 Allowed | ${mode.name}" else "\uD83D\uDEE1 $tabBlocked blocked | ${mode.name}"
             blockedCount.visibility = View.VISIBLE
         } else {
             blockedCount.visibility = View.GONE
