@@ -25,6 +25,17 @@ interface BrowserEngine {
     fun destroy()
 
     fun setCallback(callback: EngineCallback)
+
+    /**
+     * Apply the current Lite Mode setting to this engine's view.
+     * When enabled, automatic image loading is disabled.
+     * When disabled, image loading is restored.
+     *
+     * Default implementation is a no-op so non-WebView engines
+     * (Chromium custom / GeckoView in the future) don't have to
+     * implement it until they're added.
+     */
+    fun applyLiteMode(enabled: Boolean) {}
 }
 
 /**

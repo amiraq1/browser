@@ -26,6 +26,7 @@ import com.ammar.browser.history.HistoryRepository
 import com.ammar.browser.navigation.NavigationHelper
 import com.ammar.browser.performance.SpeedMode
 import com.ammar.browser.performance.SpeedSettings
+import com.ammar.browser.performance.LiteModeSettings
 import com.ammar.browser.privacy.PrivacyGradeCalculator
 import com.ammar.browser.privacy.SuspiciousDomainChecker
 import com.ammar.browser.privacy.TrackerCompanyClassifier
@@ -105,6 +106,16 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         StartupTracker.mark("MainActivity.tabManager")
         tabManager.setListener(this)
         tabManager.createNewTab(intent?.dataString ?: NewTabPage.URL)
+
+        // Live-apply Lite Mode toggle to every live engine so the user
+        // does not need to restart the app for the setting to take effect.
+        LiteModeSettings.onChange = { value ->
+            runOnUiThread {
+                engines.values.forEach { it.applyLiteMode(value) }
+                currentEngine()?.reload()
+            }
+        }
+
         StartupTracker.mark("MainActivity.onCreate complete")
     }
 
@@ -114,6 +125,7 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
     }
 
     override fun onDestroy() {
+        LiteModeSettings.onChange = null
         engines.values.forEach { it.destroy() }
         engines.clear()
         super.onDestroy()

@@ -12,6 +12,7 @@ import com.ammar.browser.R
 import com.ammar.browser.history.HistoryRepository
 import com.ammar.browser.performance.SpeedMode
 import com.ammar.browser.performance.SpeedSettings
+import com.ammar.browser.performance.LiteModeSettings
 import com.ammar.browser.privacy.CookieBannerSettings
 import com.ammar.browser.privacy.allowlist.SiteAllowlist
 import com.ammar.browser.search.SearchEngine
@@ -103,6 +104,23 @@ class SettingsActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn_downloads).setOnClickListener {
             startActivity(Intent(this, DownloadsActivity::class.java))
         }
+
+        updateLiteModeBtn()
+        findViewById<Button>(R.id.btn_lite_mode).setOnClickListener {
+            val newValue = !LiteModeSettings.enabled
+            LiteModeSettings.setEnabled(newValue)
+            updateLiteModeBtn()
+            toast(
+                if (newValue) getString(R.string.lite_mode_enabled)
+                else getString(R.string.lite_mode_disabled)
+            )
+        }
+    }
+
+    private fun updateLiteModeBtn() {
+        findViewById<Button>(R.id.btn_lite_mode).text =
+            if (LiteModeSettings.enabled) getString(R.string.lite_mode_on)
+            else getString(R.string.lite_mode_off)
     }
 
     private fun updateCookieBannerBtn() {

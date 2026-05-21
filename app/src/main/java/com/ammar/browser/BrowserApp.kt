@@ -2,6 +2,7 @@ package com.ammar.browser
 
 import android.app.Application
 import com.ammar.browser.performance.SpeedSettings
+import com.ammar.browser.performance.LiteModeSettings
 import com.ammar.browser.privacy.CookieBannerSettings
 import com.ammar.browser.privacy.adblock.AdBlocker
 import com.ammar.browser.privacy.allowlist.SiteAllowlist
@@ -24,6 +25,9 @@ class BrowserApp : Application() {
 
         StartupTracker.mark("SpeedSettings.init")
         SpeedSettings.init(this)
+
+        StartupTracker.mark("LiteModeSettings.init")
+        LiteModeSettings.init(this)
 
         StartupTracker.mark("SearchSettings.init")
         SearchSettings.init(this)

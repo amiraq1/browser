@@ -19,6 +19,7 @@ import android.widget.Toast
 import com.ammar.browser.R
 import com.ammar.browser.privacy.adblock.AdBlocker
 import com.ammar.browser.privacy.adblock.BlockDecision
+import com.ammar.browser.performance.LiteModeSettings
 import java.io.ByteArrayInputStream
 
 /**
@@ -53,6 +54,11 @@ class WebViewEngine(
                 useWideViewPort = true
                 mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
                 setSupportMultipleWindows(false)
+                // Lite Mode: optional, OFF by default. When ON, the WebView
+                // skips automatic image loading to save bandwidth and speed
+                // up rendering. All privacy defaults below are independent
+                // of this setting.
+                loadsImagesAutomatically = !LiteModeSettings.enabled
                 // Privacy defaults
                 allowFileAccess = false
                 allowContentAccess = false
@@ -183,6 +189,15 @@ class WebViewEngine(
 
     override fun setCallback(callback: EngineCallback) {
         this.callback = callback
+    }
+
+    /**
+     * Live-applies the Lite Mode toggle to this WebView. Only flips
+     * `loadsImagesAutomatically` and never touches privacy or AdBlock
+     * settings.
+     */
+    override fun applyLiteMode(enabled: Boolean) {
+        webView?.settings?.loadsImagesAutomatically = !enabled
     }
 
     @Suppress("UNUSED_PARAMETER")

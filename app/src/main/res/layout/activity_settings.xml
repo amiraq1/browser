@@ -146,6 +146,53 @@
         </LinearLayout>
 
         <!-- ============================================================ -->
+        <!-- Performance                                                  -->
+        <!-- ============================================================ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_nabd_card"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Performance"
+                android:textSize="15sp"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lite_mode_title"
+                android:textSize="13sp"
+                android:textColor="#B0BEC5" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lite_mode_description"
+                android:textSize="13sp"
+                android:textColor="#8DA1B8"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/btn_lite_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lite_mode_off"
+                android:textAllCaps="false"
+                android:textColor="@color/nabd_pulse_cyan"
+                android:backgroundTint="@color/nabd_deep_navy" />
+
+        </LinearLayout>
+
+        <!-- ============================================================ -->
         <!-- Privacy                                                      -->
         <!-- ============================================================ -->
         <LinearLayout

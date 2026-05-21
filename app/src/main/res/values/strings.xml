@@ -43,4 +43,10 @@
     <string name="open_downloads_folder">Open Downloads Folder</string>
     <string name="downloads_privacy_note">Nabd does not read or index your downloaded files.</string>
     <string name="downloads_open_failed">Unable to open Downloads folder</string>
+    <string name="lite_mode_title">Lite Mode</string>
+    <string name="lite_mode_description">Blocks images to reduce data usage. Some sites may look incomplete.</string>
+    <string name="lite_mode_on">Lite Mode: ON</string>
+    <string name="lite_mode_off">Lite Mode: OFF</string>
+    <string name="lite_mode_enabled">Lite Mode enabled</string>
+    <string name="lite_mode_disabled">Lite Mode disabled</string>
 </resources>
