@@ -10,6 +10,19 @@ Built on top of Android WebView. All privacy and ad-blocking logic runs locally 
 
 Version: **0.3.0-alpha** (debug build, for testing only).
 
+### v0.4 development highlights
+
+The following improvements have landed on `main` since the v0.3-alpha tag and are part of v0.4 development. The release version inside the app is still `0.3.0-alpha` until v0.4 is formally tagged.
+
+- Downloads Screen — informational in-app screen reachable from Settings → Downloads, with an "Open Downloads Folder" button that ladders through safe Intents and falls back to a Toast.
+- Lite Mode setting — optional, OFF by default. When ON, the WebView skips automatic image loading to reduce data usage and speed up rendering. Local-only, no proxy, no telemetry.
+- Shield Panel now shows the current Lite Mode status as a `Lite Mode: ON / OFF` row.
+- WebView performance cleanup — removed the deprecated WebSQL `databaseEnabled = true` no-op and tightened a redundant speed-mode read in the Shield counter.
+- AdBlock request-path optimization — kept and extended from v0.3 (precomputed dotted suffix and path rule fields) to remove per-request allocations.
+- Startup / NewTab cleanup — kept from v0.3.
+
+Privacy locks remain intact across all of v0.4: HTTPS-Only, third-party cookies blocked, mixed content blocked, file/content/geolocation access disabled, DNT and GPC headers, no telemetry, no SDKs, no new permissions.
+
 ### v0.3-alpha highlights
 
 - Search-only Home — minimal centered search bar, no Quick Actions cards.
@@ -140,6 +153,10 @@ app/build/outputs/apk/debug/app-debug.apk
 - [x] Download Manager via Android DownloadManager (v0.3-alpha)
 - [x] AdBlock request-path performance optimization (v0.3-alpha)
 - [x] Startup / NewTab cleanup (v0.3-alpha)
+- [x] Downloads Screen (v0.4 development)
+- [x] Lite Mode setting — optional, OFF by default (v0.4 development)
+- [x] Lite Mode status in Shield Panel (v0.4 development)
+- [x] WebView performance cleanup (v0.4 development)
 
 ### Planned
 - [ ] Bookmark folders + search + import/export

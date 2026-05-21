@@ -125,3 +125,15 @@ Shield panel:
   `docs(specs): add Lite Mode spec`
 - commit 2 لاحقاً:
   `feat(performance): add Lite Mode setting`
+
+## 12. Implementation Status
+
+- **Implemented in v0.4 development.**
+  - Spec landed in commit `af6fe32 docs(specs): add Lite Mode spec`.
+  - Setting + WebView wiring landed in `d7efe44 feat(performance): add Lite Mode setting`.
+  - Shield Panel status row landed in `215814c feat(shield): show Lite Mode status in Shield panel`.
+- **Default OFF** — `LiteModeSettings.enabled` defaults to `false`; SharedPreferences read defaults to `false`.
+- **Uses `WebSettings.loadsImagesAutomatically` only.** No other WebView setting is touched. JavaScript, DOM Storage, `cacheMode`, mixed-content policy, file/content/geolocation access, third-party cookie blocking, and DNT/GPC headers are all unchanged.
+- **QA passed** — see Phase v0.4-6 final QA report on `main`. All 20 checklist items pass; no defects.
+- **No new permissions** — the manifest still has only `INTERNET`, `ACCESS_NETWORK_STATE`, and the legacy `WRITE_EXTERNAL_STORAGE android:maxSdkVersion="28"`.
+- **No telemetry / proxy / remote calls** — `LiteModeSettings` reads/writes one local SharedPreferences key. No network code path involved.

@@ -26,10 +26,25 @@
 | **v0.1-alpha** | مرفوعة على GitHub (https://github.com/amiraq1/Browser) |
 | **v0.2-alpha** | مرفوعة على GitHub |
 | **v0.3-alpha** | مرفوعة على GitHub |
+| **v0.4** | قيد التطوير على `main` (لم تُوسم بعد) |
 | البناء | BUILD SUCCESSFUL على Java 17 / Gradle 8.5 |
 | حجم APK (debug) | ~6.2 MB |
 | التتبّع / التحليلات | لا شيء (Zero Telemetry) |
 | تخزين بيانات خارجية | لا شيء |
+
+### تحديثات v0.4 قيد التطوير
+
+التغييرات التالية مدمجة في فرع `main` بعد وسم `v0.3-alpha`، وستُطلق رسمياً عند وسم `v0.4`. النسخة الظاهرة داخل التطبيق لا تزال `0.3.0-alpha` حتى ذلك الحين.
+
+- **شاشة التنزيلات (Downloads Screen)** — شاشة معلوماتية داخل التطبيق يمكن الوصول إليها من Settings → Downloads. تعرض رسالة واضحة بأن الملفات تُحفظ في مجلد Downloads، وزر "Open Downloads Folder" يحاول فتح مجلد التنزيلات أو تطبيق الملفات عبر سلسلة Intents آمنة، مع Toast واضح عند الفشل.
+- **Lite Mode اختياري** لتحسين السرعة وتقليل البيانات عبر تعطيل تحميل الصور تلقائياً (`WebSettings.loadsImagesAutomatically = false`). فقط هذا الإعداد يتغير، ولا يُمسّ أي إعداد آخر.
+- **Lite Mode غير مفعل افتراضياً** (Default OFF) ومحفوظ في SharedPreferences.
+- **يظهر في Shield Panel** كسطر حالة `Lite Mode: ON/OFF`.
+- **لا proxy، لا telemetry، لا permissions جديدة** — الإعداد محلي بالكامل، لا يُرسل URLs أو بيانات لأي سيرفر، ولا يضيف صلاحيات تخزين أو شبكة جديدة.
+- **تحسينات AdBlock** — نقل تخصيص النصوص (dotted suffix و path rules) من المسار الساخن لكل request إلى وقت التهيئة، فيُلغى التخصيص لكل طلب.
+- **تحسينات WebView** — حذف `databaseEnabled = true` (deprecated WebSQL، بلا أثر منذ API 19) وتبسيط قراءة `SpeedSettings.mode` المكررة في عداد الـ Shield.
+- **تحسينات startup/NewTab** — حذف helper غير مستعمل في `BrowserApp` و parameter ميت في `NewTabPage`.
+- **القفل الكامل للخصوصية مستمر**: HTTPS-Only، third-party cookies blocked، mixed content blocked، file/content/geolocation disabled، DNT/GPC headers — لم يُمَس أي منها.
 
 ### تحديث v0.3-alpha
 
