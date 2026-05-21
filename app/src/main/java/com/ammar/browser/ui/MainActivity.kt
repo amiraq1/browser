@@ -264,7 +264,11 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
                     "Blocked: $tabBlocked on this tab\n" +
                     "Top tracker: $topCompany\n" +
                     "HTTPS-Only: Enabled\n" +
-                    "Cookie banners: ${if (com.ammar.browser.privacy.CookieBannerSettings.enabled) "Hidden" else "Off"}"
+                    "Cookie banners: ${if (com.ammar.browser.privacy.CookieBannerSettings.enabled) "Hidden" else "Off"}\n" +
+                    getString(
+                        if (LiteModeSettings.enabled) R.string.lite_mode_status_on
+                        else R.string.lite_mode_status_off
+                    )
             textSize = 13f
             setLineSpacing(4f, 1f)
             setPadding(0, 0, 0, pad)

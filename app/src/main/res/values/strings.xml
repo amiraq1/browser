@@ -49,4 +49,6 @@
     <string name="lite_mode_off">Lite Mode: OFF</string>
     <string name="lite_mode_enabled">Lite Mode enabled</string>
     <string name="lite_mode_disabled">Lite Mode disabled</string>
+    <string name="lite_mode_status_on">Lite Mode: ON</string>
+    <string name="lite_mode_status_off">Lite Mode: OFF</string>
 </resources>
