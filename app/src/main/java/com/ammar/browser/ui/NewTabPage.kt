@@ -52,8 +52,15 @@ body{
   overflow:hidden;
   overscroll-behavior:contain;
 }
-.search-shell{
+.newtab-center{
   width:min(100%,620px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+}
+.search-shell{
+  width:100%;
   min-height:64px;
   display:flex;
   align-items:center;
@@ -99,6 +106,13 @@ body{
 .icon-btn:active{background:#0F2630;color:var(--green)}
 .icon-btn svg{width:22px;height:22px;display:block;stroke:currentColor}
 .submit-btn{color:var(--green);border-color:rgba(57,255,136,0.24)}
+.hint{
+  color:rgba(141,161,184,0.72);
+  font-size:11px;
+  line-height:1.4;
+  letter-spacing:0.01em;
+  text-align:center;
+}
 @media (max-width:380px){
   body{padding:16px}
   .search-shell{gap:6px;padding:7px}
@@ -106,8 +120,9 @@ body{
   .search-shell input{height:44px;font-size:15px}
 }
 </style></head><body>
+<main class="newtab-center" aria-label="Nabd new tab search">
 <form class="search-shell" onsubmit="go(event)" autocomplete="off">
-  <button class="icon-btn add-btn" type="button" aria-label="إضافة" onclick="openBookmarks()">+</button>
+  <button class="icon-btn add-btn" type="button" aria-label="إضافة">+</button>
   <input type="text" id="q"
          placeholder="ابحث أو اكتب رابطاً..."
          autocapitalize="off" autocorrect="off" spellcheck="false" inputmode="url" dir="auto">
@@ -125,6 +140,8 @@ body{
     </svg>
   </button>
 </form>
+<p class="hint">HTTPS-Only · Zero Tracking · Local-only</p>
+</main>
 
 <script>
 (function(){
@@ -137,11 +154,7 @@ body{
     if(q.indexOf('.')!==-1&&q.indexOf(' ')===-1){location.href='https://'+q;return;}
     location.href=SEARCH+encodeURIComponent(q);
   }
-  function openBookmarks(){
-    location.href='ammar://action/bookmarks';
-  }
   window.go=go;
-  window.openBookmarks=openBookmarks;
 })();
 </script>
 </body></html>"""
