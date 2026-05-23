@@ -1,81 +1,155 @@
 # Nabd Browser — Download Manager Spec
 
 ## 1. Problem
-نبض حالياً متصفح خصوصية جيد، لكن لا يملك Download Manager واضح. المستخدم يحتاج تنزيل ملفات من WebView بطريقة آمنة، مفهومة، ومحلية.
+
+Nabd Browser حالياً متصفح Privacy-first لكنه لا يحتوي Download Manager.
+عند الضغط على روابط تحميل أو تنزيل ملفات، المستخدم يحتاج تجربة واضحة وآمنة:
+- يعرف اسم الملف
+- يعرف الحجم إن أمكن
+- يوافق قبل التنزيل
+- يعرف مكان الحفظ
+- لا يتم تحميل شيء بصمت
 
 ## 2. Goals
-- دعم تحميل الملفات من صفحات الويب.
-- استخدام Android DownloadManager قدر الإمكان.
-- عرض Toast أو إشعار واضح عند بدء التحميل.
-- احترام الخصوصية: لا telemetry، لا إرسال روابط لأي سيرفر.
-- حفظ الملفات في مجلد Downloads العام.
-- التعامل مع اسم الملف ونوعه وحجمه إن توفر.
-- منع crash عند روابط download غير مكتملة.
-- الحفاظ على WebView وAdBlock وHTTPS-Only.
+
+- دعم تحميل الملفات من WebView.
+- عرض dialog تأكيد قبل التحميل.
+- إظهار:
+  - اسم الملف
+  - نوع الملف
+  - الحجم إن توفر
+  - مصدر الرابط / host
+- حفظ الملفات في مجلد Downloads الخاص بالنظام.
+- إرسال إشعار أو Toast عند بدء/نجاح/فشل التحميل.
+- فتح الملف بعد التحميل إن أمكن.
+- الحفاظ على مبادئ الخصوصية:
+  - لا إرسال URLs لأي سيرفر
+  - لا telemetry
+  - لا tracking
+  - كل شيء محلي
 
 ## 3. Non-goals
-- لا Download UI كامل الآن.
-- لا pause/resume مخصص.
-- لا download queue داخل التطبيق.
-- لا player أو preview.
-- لا تغيير AdBlock logic.
-- لا تغيير Room/database.
-- لا إضافة dependencies.
-- لا دعم torrent أو background custom service.
 
-## 4. User Stories
-- كمستخدم، عندما أضغط رابط PDF أو APK أو ZIP، يبدأ التحميل.
-- كمستخدم، أرى Toast يقول إن التحميل بدأ.
-- كمستخدم، أجد الملف في Downloads.
-- كمستخدم، إذا فشل الرابط أو كان غير آمن، لا ينهار التطبيق.
-- كمستخدم، التحميل لا يرسل بيانات خارجية من التطبيق.
+- لا download acceleration.
+- لا parallel download chunks.
+- لا background service معقد الآن.
+- لا custom file picker في المرحلة الأولى.
+- لا cloud sync.
+- لا إرسال روابط التحميل لأي API خارجي.
+- لا تغيير AdBlock logic.
+- لا تغيير Search/NewTab/Bookmarks/History.
+
+## 4. User Flow
+
+1. المستخدم يضغط رابط تحميل داخل WebView.
+2. WebViewEngine يلتقط download request.
+3. MainActivity يستقبل request عبر callback.
+4. يظهر dialog:
+   - Download file?
+   - filename
+   - host
+   - size if known
+   - Cancel / Download
+5. إذا وافق المستخدم:
+   - يبدأ DownloadManager system service.
+   - يتم الحفظ في public Downloads.
+   - يظهر notification من Android DownloadManager.
+   - يظهر Toast "Download started".
+6. عند الفشل:
+   - لا crash
+   - يظهر Toast مناسب إن أمكن.
 
 ## 5. Technical Plan
-- استخدام WebView.setDownloadListener داخل WebViewEngine أو MainActivity حسب الأنسب.
-- عند onDownloadStart:
-  - استخرج url, userAgent, contentDisposition, mimeType, contentLength.
-  - استخدم URLUtil.guessFileName.
-  - استخدم DownloadManager.Request.
-  - أضف headers الضرورية مثل User-Agent و Cookie إذا آمن ومطلوب.
-  - setNotificationVisibility(VISIBILITY_VISIBLE_NOTIFY_COMPLETED).
-  - setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename).
-  - enqueue عبر DownloadManager.
-  - Toast: Download started.
-- أضف permission إن كانت ضرورية فقط حسب target SDK.
-- لا تطلب صلاحيات غير لازمة.
-- تعامل مع exceptions بـ Toast آمن.
 
-## 6. Privacy/Security
+الملفات المحتملة:
+
+- engine/BrowserEngine.kt
+  - أضف callback جديد مثل:
+    onDownloadRequested(tabId, url, userAgent, contentDisposition, mimeType, contentLength)
+
+- engine/WebViewEngine.kt
+  - استخدم webView.setDownloadListener
+  - مرر الطلب للـ callback
+  - لا تبدأ التحميل مباشرة داخل engine
+
+- ui/MainActivity.kt
+  - نفذ onDownloadRequested
+  - استخرج filename عبر URLUtil.guessFileName
+  - اعرض AlertDialog تأكيد
+  - استخدم Android DownloadManager
+  - Request:
+    - setTitle(filename)
+    - setDescription(host)
+    - setNotificationVisibility(VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+    - setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
+    - addRequestHeader("User-Agent", userAgent) إذا موجود
+  - تعامل مع exceptions
+
+- AndroidManifest.xml
+  - افحص هل تحتاج WRITE_EXTERNAL_STORAGE للأجهزة القديمة.
+  - للأندرويد الحديث DownloadManager public downloads غالباً لا يحتاج صلاحية خاصة، لكن تحقق.
+  - لا تضف permission غير ضروري.
+
+- strings.xml
+  - أضف نصوص dialog/toasts.
+
+## 6. Privacy/Security Requirements
+
+- لا تنزيل تلقائي بدون موافقة المستخدم.
+- لا تحميل روابط schemes غير http/https.
+- لا إرسال URL لأي طرف خارجي.
 - لا telemetry.
-- لا تسجيل URLs في logs.
-- لا إرسال URLs لأي خدمة.
-- لا تحميل schemes داخلية:
-  - ammar://
-  - about:
-  - data:
-  - file:
-  - content:
-- HTTPS-Only موجود للتنقل، لكن downloads القادمة من WebView قد تكون http/https حسب الموقع. يجب توثيق السلوك.
-- لا تستخدم addJavascriptInterface.
+- اعرض host للمستخدم حتى يعرف المصدر.
+- إذا filename مشبوه أو فارغ، استخدم اسم آمن من URLUtil.
+- لا تنفذ الملف بعد التحميل تلقائياً بدون اختيار المستخدم.
+- لا تكسر Suspicious Domain Warning.
+- لا تكسر HTTPS-Only.
 
-## 7. Files likely affected
-- app/src/main/java/com/ammar/browser/engine/WebViewEngine.kt
-- app/src/main/java/com/ammar/browser/engine/BrowserEngine.kt إذا احتجنا callback
-- app/src/main/java/com/ammar/browser/ui/MainActivity.kt إذا احتجنا Context/Toast
-- app/src/main/AndroidManifest.xml إذا احتجنا permission
-- app/src/main/res/values/strings.xml لإضافة نصوص Toast
+## 7. Edge Cases
+
+- URL فارغ أو scheme غير مدعوم.
+- filename فارغ.
+- contentLength = -1.
+- mimeType فارغ.
+- DownloadManager غير متاح أو يرمي exception.
+- storage غير متاح.
+- نفس اسم الملف موجود سابقاً.
+- userAgent null.
+- رابط download من data: أو blob: لا ندعمه في المرحلة الأولى.
 
 ## 8. Acceptance Tests
-- BUILD SUCCESSFUL.
-- فتح رابط PDF يبدأ تحميل.
-- فتح رابط ZIP يبدأ تحميل.
-- Toast يظهر.
-- الملف يظهر في Downloads.
-- لا crash مع URL فارغ أو data: أو about: أو ammar://.
-- البحث والـ New Tab لا يتأثران.
-- AdBlock وHTTPS-Only وSettings وBookmarks لا تتأثر.
-- لا صلاحيات خطيرة غير مبررة.
 
-## 9. Commit Plan
-- commit 1: docs(specs): add download manager spec
-- commit 2 لاحقاً: feat(downloads): handle WebView downloads with Android DownloadManager
+- BUILD SUCCESSFUL.
+- الضغط على رابط PDF/ZIP/APK يعرض dialog.
+- Cancel لا يبدأ التحميل.
+- Download يبدأ التحميل عبر Android DownloadManager.
+- Toast يظهر.
+- لا crash عند contentLength غير معروف.
+- لا crash عند mimeType null.
+- http/https فقط مسموحة.
+- NewTab/Search/Bookmarks/History/AdBlock/Settings لا تتأثر.
+- لا IDs مكسورة.
+- لا permissions غير ضرورية.
+
+## 9. Implementation Steps
+
+Step 1:
+- أضف download callback في BrowserEngine.
+
+Step 2:
+- اربط WebView.setDownloadListener في WebViewEngine.
+
+Step 3:
+- نفذ dialog + DownloadManager في MainActivity.
+
+Step 4:
+- أضف strings.
+
+Step 5:
+- build + manual test.
+
+## 10. Commit Plan
+
+إذا نجحت:
+- commit واحد:
+  feat(downloads): add basic download manager support
