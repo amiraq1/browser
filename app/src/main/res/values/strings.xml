@@ -32,8 +32,12 @@
     <string name="bookmark_updated">Bookmark updated</string>
     <string name="bookmark_skipped_private">Bookmarks are disabled in private tabs</string>
     <string name="bookmark_skipped_invalid">This page can\'t be bookmarked</string>
+    <string name="download_dialog_title">Download file?</string>
+    <string name="download_action">Download</string>
+    <string name="download_cancel">Cancel</string>
     <string name="download_started">Download started</string>
     <string name="download_failed">Download failed</string>
+    <string name="download_unsupported">Unsupported download link</string>
     <string name="download_description">Downloading file</string>
     <string name="downloads_label">Downloads</string>
     <string name="downloads_location">Saved to device Downloads folder</string>

@@ -584,6 +584,102 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         }
     }
 
+    // --- EngineCallback: Download ---
+
+    override fun onDownloadRequested(
+        tabId: String,
+        url: String,
+        userAgent: String?,
+        contentDisposition: String?,
+        mimeType: String?,
+        contentLength: Long
+    ) {
+        runOnUiThread {
+            // Only allow http/https downloads
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                android.widget.Toast.makeText(
+                    this, R.string.download_unsupported, android.widget.Toast.LENGTH_SHORT
+                ).show()
+                return@runOnUiThread
+            }
+
+            val host = android.net.Uri.parse(url).host ?: "unknown"
+            val filename = android.webkit.URLUtil.guessFileName(url, contentDisposition, mimeType)
+
+            // Build info message
+            val info = buildString {
+                append(filename)
+                append("\n")
+                append(host)
+                if (!mimeType.isNullOrBlank()) {
+                    append("\n")
+                    append(mimeType)
+                }
+                if (contentLength > 0) {
+                    append("\n")
+                    append(formatFileSize(contentLength))
+                }
+            }
+
+            androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle(R.string.download_dialog_title)
+                .setMessage(info)
+                .setNegativeButton(R.string.download_cancel, null)
+                .setPositiveButton(R.string.download_action) { _, _ ->
+                    startDownload(url, userAgent, filename, host, mimeType)
+                }
+                .show()
+        }
+    }
+
+    private fun startDownload(
+        url: String,
+        userAgent: String?,
+        filename: String,
+        host: String,
+        mimeType: String?
+    ) {
+        try {
+            val request = android.app.DownloadManager.Request(android.net.Uri.parse(url)).apply {
+                setTitle(filename)
+                setDescription(host)
+                if (!mimeType.isNullOrBlank()) setMimeType(mimeType)
+                setNotificationVisibility(
+                    android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+                )
+                setDestinationInExternalPublicDir(
+                    android.os.Environment.DIRECTORY_DOWNLOADS, filename
+                )
+                userAgent?.takeIf { it.isNotBlank() }?.let {
+                    addRequestHeader("User-Agent", it)
+                }
+            }
+            val manager = getSystemService(DOWNLOAD_SERVICE) as? android.app.DownloadManager
+            if (manager == null) {
+                android.widget.Toast.makeText(
+                    this, R.string.download_failed, android.widget.Toast.LENGTH_SHORT
+                ).show()
+                return
+            }
+            manager.enqueue(request)
+            android.widget.Toast.makeText(
+                this, R.string.download_started, android.widget.Toast.LENGTH_SHORT
+            ).show()
+        } catch (_: Exception) {
+            android.widget.Toast.makeText(
+                this, R.string.download_failed, android.widget.Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun formatFileSize(bytes: Long): String {
+        return when {
+            bytes >= 1_048_576 -> String.format("%.1f MB", bytes / 1_048_576.0)
+            bytes >= 1024 -> String.format("%.0f KB", bytes / 1024.0)
+            else -> "$bytes B"
+        }
+    }
+
     /**
      * Handles `ammar://action/<name>` links fired from the local
      * Shield Dashboard. The engine guarantees these only originate from

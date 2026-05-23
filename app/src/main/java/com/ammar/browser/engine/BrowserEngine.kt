@@ -59,4 +59,21 @@ interface EngineCallback {
      * break engines or callers that don't care about them.
      */
     fun onCustomAction(tabId: String, action: String) {}
+
+    /**
+     * Triggered when the WebView receives a download request.
+     * The engine does NOT start the download itself; the consumer
+     * (typically MainActivity) is responsible for showing a confirmation
+     * dialog and initiating the download via Android DownloadManager.
+     *
+     * Default implementation is a no-op for backward compatibility.
+     */
+    fun onDownloadRequested(
+        tabId: String,
+        url: String,
+        userAgent: String?,
+        contentDisposition: String?,
+        mimeType: String?,
+        contentLength: Long
+    ) {}
 }
