@@ -14,7 +14,7 @@ Version: **0.3.0-alpha** (debug build, for testing only).
 
 The following improvements have landed on `main` since the v0.3-alpha tag and are part of v0.4 development. The release version inside the app is still `0.3.0-alpha` until v0.4 is formally tagged.
 
-- Downloads Screen — informational in-app screen reachable from Settings → Downloads, with an "Open Downloads Folder" button that ladders through safe Intents and falls back to a Toast.
+- Downloads Screen — informational in-app screen reachable from Settings → Downloads, with a "Recent Downloads" list queried from Android DownloadManager and an "Open Downloads Folder" button that ladders through safe Intents and falls back to a Toast.
 - Lite Mode setting — optional, OFF by default. When ON, the WebView skips automatic image loading to reduce data usage and speed up rendering. Local-only, no proxy, no telemetry.
 - Shield Panel now shows the current Lite Mode status as a `Lite Mode: ON / OFF` row.
 - WebView performance cleanup — removed the deprecated WebSQL `databaseEnabled = true` no-op and tightened a redundant speed-mode read in the Shield counter.
@@ -27,6 +27,7 @@ Privacy locks remain intact across all of v0.4: HTTPS-Only, third-party cookies 
 
 - Search-only Home — minimal centered search bar, no Quick Actions cards.
 - Download Manager via Android `DownloadManager` (saved to the device Downloads folder).
+- Downloads Screen — shows recent downloads list with status/size, plus "Open Downloads Folder" button.
 - Downloads surfaced in Settings and About so users know where files land.
 - AdBlock request-path performance optimization — pre-computed dotted suffix and path rule fields, zero per-request string allocations on the hot path.
 - Startup / NewTab cleanup — dead helper, dead parameter, and unused import removed.
