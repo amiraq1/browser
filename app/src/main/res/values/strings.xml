@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Browser</string>
+    <string name="app_name">نبض</string>
     <string name="search_hint">Search or enter URL</string>
     <string name="go">Go</string>
     <string name="home">Home</string>
