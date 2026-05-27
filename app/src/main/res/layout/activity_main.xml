@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/nabd_deep_navy">
+    android:orientation="vertical">
 
     <!-- Top: URL Bar + Shield -->
     <LinearLayout
@@ -32,6 +32,7 @@
                 android:textColorHint="#7C8BA0"
                 android:inputType="textUri"
                 android:imeOptions="actionGo"
+                android:importantForAutofill="no"
                 android:singleLine="true"
                 android:textSize="14sp" />
 
@@ -96,7 +97,7 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:src="@android:drawable/ic_media_previous"
-            android:tint="@color/nabd_pulse_cyan"
+            app:tint="@color/nabd_pulse_cyan"
             android:background="@drawable/bg_nav_button"
             android:contentDescription="@string/back" />
 
@@ -106,7 +107,7 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:src="@android:drawable/ic_media_next"
-            android:tint="@color/nabd_pulse_cyan"
+            app:tint="@color/nabd_pulse_cyan"
             android:background="@drawable/bg_nav_button"
             android:contentDescription="@string/forward" />
 
@@ -116,7 +117,7 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:src="@android:drawable/ic_popup_sync"
-            android:tint="@color/nabd_pulse_cyan"
+            app:tint="@color/nabd_pulse_cyan"
             android:background="@drawable/bg_nav_button"
             android:contentDescription="@string/refresh" />
 
@@ -139,7 +140,7 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:src="@android:drawable/ic_menu_more"
-            android:tint="@color/nabd_pulse_cyan"
+            app:tint="@color/nabd_pulse_cyan"
             android:background="@drawable/bg_nav_button"
             android:contentDescription="@string/menu" />
 

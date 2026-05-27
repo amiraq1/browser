@@ -35,7 +35,7 @@ class TabSwitcherActivity : AppCompatActivity() {
         val tabs = parseTabs(tabsJson)
 
         val countLabel = findViewById<TextView>(R.id.tab_count_label)
-        countLabel.text = getString(R.string.tab_count_format, tabs.size)
+        countLabel.text = resources.getQuantityString(R.plurals.tab_count_format, tabs.size, tabs.size)
 
         val recycler = findViewById<RecyclerView>(R.id.tabs_recycler)
         recycler.layoutManager = LinearLayoutManager(this)

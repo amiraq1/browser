@@ -10,6 +10,10 @@ import android.webkit.WebResourceResponse
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.ammar.browser.engine.PrivacyNavigationPolicy.PRIVACY_HEADERS
+import com.ammar.browser.engine.PrivacyNavigationPolicy.localActionName
+import com.ammar.browser.engine.PrivacyNavigationPolicy.secureTopLevelUrl
+import com.ammar.browser.engine.PrivacyNavigationPolicy.shouldHandleAsTopLevelWebNavigation
 import com.ammar.browser.privacy.adblock.AdBlocker
 import com.ammar.browser.privacy.adblock.BlockDecision
 import com.ammar.browser.performance.LiteModeSettings
@@ -29,6 +33,9 @@ class WebViewEngine(
 
     @Volatile
     private var currentPageUrl: String? = null
+
+    @Volatile
+    private var pendingPrivacyNavigationUrl: String? = null
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun initialize(context: Context) {}
@@ -81,6 +88,9 @@ class WebViewEngine(
             webViewClient = object : WebViewClient() {
                 override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                     currentPageUrl = url
+                    if (url != null && pendingPrivacyNavigationUrl == url) {
+                        pendingPrivacyNavigationUrl = null
+                    }
                     url?.let { callback?.onPageStarted(tabId, it) }
                 }
 
@@ -99,7 +109,8 @@ class WebViewEngine(
                     request: WebResourceRequest?
                 ): Boolean {
                     val urlStr = request?.url?.toString() ?: return false
-                    if (urlStr.startsWith("ammar://action/")) {
+                    val action = localActionName(urlStr)
+                    if (action != null) {
                         // Origin gate: only honor native actions when the
                         // current page is itself a local ammar:// page.
                         // This prevents arbitrary third-party sites from
@@ -107,17 +118,25 @@ class WebViewEngine(
                         // or window.location.href.
                         val pageUrl = currentPageUrl
                         if (pageUrl != null && pageUrl.startsWith("ammar://")) {
-                            val action = urlStr
-                                .removePrefix("ammar://action/")
-                                .trimEnd('/')
-                            if (action.isNotEmpty()) {
-                                callback?.onCustomAction(tabId, action)
-                            }
+                            callback?.onCustomAction(tabId, action)
                         }
                         // Always swallow so the WebView never tries to
                         // navigate to ammar://action/* (would error out).
                         return true
                     }
+
+                    if (request.isForMainFrame && shouldHandleAsTopLevelWebNavigation(urlStr)) {
+                        val securedUrl = secureTopLevelUrl(urlStr)
+                        if (pendingPrivacyNavigationUrl == securedUrl) {
+                            pendingPrivacyNavigationUrl = null
+                            return false
+                        }
+                        (view ?: webView)?.let {
+                            loadUrlWithPrivacyHeaders(it, securedUrl)
+                            return true
+                        }
+                    }
+
                     return false
                 }
 
@@ -153,9 +172,8 @@ class WebViewEngine(
 
     override fun getView(): View? = webView
     override fun loadUrl(url: String) {
-        val upgraded = com.ammar.browser.navigation.NavigationHelper.upgradeToHttps(url)
-        val headers = mapOf("DNT" to "1", "Sec-GPC" to "1")
-        webView?.loadUrl(upgraded, headers)
+        val upgraded = secureTopLevelUrl(url)
+        webView?.let { loadUrlWithPrivacyHeaders(it, upgraded) }
     }
     override fun loadHtml(html: String, baseUrl: String?) {
         webView?.loadDataWithBaseURL(baseUrl, html, "text/html", "UTF-8", null)
@@ -194,6 +212,11 @@ class WebViewEngine(
      */
     override fun applyLiteMode(enabled: Boolean) {
         webView?.settings?.loadsImagesAutomatically = !enabled
+    }
+
+    private fun loadUrlWithPrivacyHeaders(view: WebView, url: String) {
+        pendingPrivacyNavigationUrl = url
+        view.loadUrl(url, PRIVACY_HEADERS)
     }
 
     private fun isDownloadableUrl(url: String?): Boolean {
