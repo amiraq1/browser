@@ -126,46 +126,89 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun hideAdElements() {
+        Log.d("AdBlocker", "Injected visual ad blocker")
         val js = """
             (function() {
-                const css = `
-                    .ad, .ads, .adsbygoogle, .advertisement,
-                    .banner, .popup, .pop, .sponsor, .sponsored,
-                    .native-ad, .ad-container, .ad-wrapper,
-                    iframe[src*="ads"],
-                    iframe[src*="doubleclick"],
-                    iframe[src*="googlesyndication"],
-                    div[id*="ad"],
-                    div[class*="ads"],
-                    div[class*="banner"],
-                    div[class*="popup"] {
-                        display: none !important;
-                        visibility: hidden !important;
-                        height: 0 !important;
-                        max-height: 0 !important;
-                        overflow: hidden !important;
-                    }
-                `;
-                let style = document.getElementById('browser-adblock-style');
-                if (!style) {
-                    style = document.createElement('style');
-                    style.id = 'browser-adblock-style';
-                    style.innerHTML = css;
-                    document.head.appendChild(style);
-                }
+                const adKeywords = [
+                    "Your Prize is READY", "Congratulations", "Claim your reward",
+                    "Tap to see more", "reward", "Prize", "Ad"
+                ];
+                
+                const adSelectors = [
+                    '[id*="ad"]', '[class*="ad"]', '[id*="reward"]', '[class*="reward"]',
+                    '[id*="prize"]', '[class*="prize"]', '[class*="modal"]', '[class*="overlay"]',
+                    '[class*="interstitial"]', '[class*="getbutton"]', '[id*="getbutton"]',
+                    'iframe', 'ins.adsbygoogle', '.ad', '.ads', '.adsbygoogle', '.advertisement', 
+                    '.banner', '.popup', '.pop', '.sponsor', '.sponsored', '.native-ad',
+                    '.ad-container', '.ad-wrapper'
+                ];
 
-                const hideAds = () => {
-                    document.querySelectorAll('.ad, .ads, .adsbygoogle, .advertisement, .banner, .popup, .pop, .sponsor, .sponsored, .native-ad, .ad-container, .ad-wrapper').forEach(el => {
-                        el.style.display = 'none';
-                        el.style.visibility = 'hidden';
-                        el.style.height = '0px';
+                const cleanPage = () => {
+                    // 1. Hide by specific ad selectors
+                    adSelectors.forEach(selector => {
+                        try {
+                            document.querySelectorAll(selector).forEach(el => {
+                                if (el.tagName !== 'BODY' && el.tagName !== 'HTML') {
+                                    el.style.setProperty('display', 'none', 'important');
+                                    el.style.setProperty('visibility', 'hidden', 'important');
+                                    el.style.setProperty('height', '0', 'important');
+                                }
+                            });
+                        } catch (e) {}
+                    });
+
+                    // 2. Scan for ad keywords and fixed/sticky overlays
+                    document.querySelectorAll('div, section, aside, span, a, button, ins').forEach(el => {
+                        try {
+                            // Check text content (case insensitive check for short words)
+                            const text = el.innerText || "";
+                            const hasKeyword = adKeywords.some(kw => {
+                                if (kw.length <= 3) return text === kw || text.trim() === kw;
+                                return text.includes(kw);
+                            });
+
+                            if (hasKeyword && el.children.length < 10) {
+                                el.style.setProperty('display', 'none', 'important');
+                            }
+
+                            // Detect fixed/sticky overlays (common for popups/interstitials)
+                            const style = window.getComputedStyle(el);
+                            const position = style.position;
+                            const zIndex = parseInt(style.zIndex) || 0;
+                            
+                            if ((position === 'fixed' || position === 'sticky') && zIndex > 10) {
+                                const rect = el.getBoundingClientRect();
+                                // Check if it covers a large part of the screen or looks like a banner
+                                if (rect.height < 150 || (rect.width > window.innerWidth * 0.8 && rect.height > window.innerHeight * 0.5)) {
+                                    el.style.setProperty('display', 'none', 'important');
+                                }
+                            }
+                        } catch (e) {}
                     });
                 };
 
-                hideAds();
+                // Inject CSS for immediate performance
+                let styleTag = document.getElementById('browser-adblock-style');
+                if (!styleTag) {
+                    styleTag = document.createElement('style');
+                    styleTag.id = 'browser-adblock-style';
+                    styleTag.innerHTML = adSelectors.join(', ') + " { display: none !important; visibility: hidden !important; height: 0 !important; }";
+                    document.head.appendChild(styleTag);
+                }
 
-                const observer = new MutationObserver(hideAds);
+                // Initial cleanup
+                cleanPage();
+
+                // Monitor for dynamic changes
+                const observer = new MutationObserver(cleanPage);
                 observer.observe(document.body, { childList: true, subtree: true });
+
+                // Periodic cleanup for 15 seconds after load
+                let attempts = 0;
+                const interval = setInterval(() => {
+                    cleanPage();
+                    if (++attempts > 15) clearInterval(interval);
+                }, 1000);
             })();
         """.trimIndent()
 
