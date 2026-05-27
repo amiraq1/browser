@@ -129,84 +129,62 @@ class MainActivity : AppCompatActivity() {
         Log.d("AdBlocker", "Injected visual ad blocker")
         val js = """
             (function() {
-                const adKeywords = [
-                    "Your Prize is READY", "Congratulations", "Claim your reward",
-                    "Tap to see more", "reward", "Prize", "Ad"
-                ];
-                
-                const adSelectors = [
-                    '[id*="ad"]', '[class*="ad"]', '[id*="reward"]', '[class*="reward"]',
-                    '[id*="prize"]', '[class*="prize"]', '[class*="modal"]', '[class*="overlay"]',
-                    '[class*="interstitial"]', '[class*="getbutton"]', '[id*="getbutton"]',
-                    'iframe', 'ins.adsbygoogle', '.ad', '.ads', '.adsbygoogle', '.advertisement', 
-                    '.banner', '.popup', '.pop', '.sponsor', '.sponsored', '.native-ad',
-                    '.ad-container', '.ad-wrapper'
+                const badTexts = [
+                    'Your Prize is READY',
+                    'Congratulations',
+                    'Claim your reward',
+                    'Tap to see more',
+                    'reward',
+                    'Prize'
                 ];
 
-                const cleanPage = () => {
-                    // 1. Hide by specific ad selectors
-                    adSelectors.forEach(selector => {
+                const removeBadElements = () => {
+                    document.querySelectorAll('body *').forEach(el => {
                         try {
-                            document.querySelectorAll(selector).forEach(el => {
-                                if (el.tagName !== 'BODY' && el.tagName !== 'HTML') {
-                                    el.style.setProperty('display', 'none', 'important');
-                                    el.style.setProperty('visibility', 'hidden', 'important');
-                                    el.style.setProperty('height', '0', 'important');
-                                }
-                            });
+                            const text = (el.innerText || '').trim();
+                            const style = window.getComputedStyle(el);
+                            const z = parseInt(style.zIndex || '0');
+                            const rect = el.getBoundingClientRect();
+
+                            const hasBadText = badTexts.some(t =>
+                                text.toLowerCase().includes(t.toLowerCase())
+                            );
+
+                            const isFloatingAd =
+                                (style.position === 'fixed' || style.position === 'sticky') &&
+                                z > 100 &&
+                                rect.width > 200 &&
+                                rect.height > 40;
+
+                            const hasAdLabel =
+                                text === 'Ad' || text.includes(' Ad ') || text.includes('إعلان');
+
+                            if (hasBadText || isFloatingAd || hasAdLabel) {
+                                el.remove();
+                            }
                         } catch (e) {}
                     });
-
-                    // 2. Scan for ad keywords and fixed/sticky overlays
-                    document.querySelectorAll('div, section, aside, span, a, button, ins').forEach(el => {
-                        try {
-                            // Check text content (case insensitive check for short words)
-                            const text = el.innerText || "";
-                            const hasKeyword = adKeywords.some(kw => {
-                                if (kw.length <= 3) return text === kw || text.trim() === kw;
-                                return text.includes(kw);
-                            });
-
-                            if (hasKeyword && el.children.length < 10) {
-                                el.style.setProperty('display', 'none', 'important');
-                            }
-
-                            // Detect fixed/sticky overlays (common for popups/interstitials)
-                            const style = window.getComputedStyle(el);
-                            const position = style.position;
-                            const zIndex = parseInt(style.zIndex) || 0;
-                            
-                            if ((position === 'fixed' || position === 'sticky') && zIndex > 10) {
-                                const rect = el.getBoundingClientRect();
-                                // Check if it covers a large part of the screen or looks like a banner
-                                if (rect.height < 150 || (rect.width > window.innerWidth * 0.8 && rect.height > window.innerHeight * 0.5)) {
-                                    el.style.setProperty('display', 'none', 'important');
-                                }
-                            }
-                        } catch (e) {}
+                    
+                    // Also use standard selectors for common ad containers
+                    const adSelectors = [
+                        '[id*="ad-"]', '[class*="ad-"]', '.adsbygoogle', 'iframe[src*="ads"]'
+                    ];
+                    adSelectors.forEach(sel => {
+                        document.querySelectorAll(sel).forEach(el => el.remove());
                     });
                 };
 
-                // Inject CSS for immediate performance
-                let styleTag = document.getElementById('browser-adblock-style');
-                if (!styleTag) {
-                    styleTag = document.createElement('style');
-                    styleTag.id = 'browser-adblock-style';
-                    styleTag.innerHTML = adSelectors.join(', ') + " { display: none !important; visibility: hidden !important; height: 0 !important; }";
-                    document.head.appendChild(styleTag);
-                }
-
-                // Initial cleanup
-                cleanPage();
+                // Initial run
+                removeBadElements();
 
                 // Monitor for dynamic changes
-                const observer = new MutationObserver(cleanPage);
+                const observer = new MutationObserver(removeBadElements);
                 observer.observe(document.body, { childList: true, subtree: true });
 
                 // Periodic cleanup for 15 seconds after load
                 let attempts = 0;
                 const interval = setInterval(() => {
-                    cleanPage();
+                    removeBadElements();
                     if (++attempts > 15) clearInterval(interval);
                 }, 1000);
             })();
