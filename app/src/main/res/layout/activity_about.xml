@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Focus: Zero Tracking + Ad Blocking + Speed"
-                android:textColor="#D7F8FF"
+                android:textColor="@color/nabd_text_primary"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -149,7 +149,7 @@
                 android:layout_marginTop="10dp"
                 android:lineSpacingExtra="5dp"
                 android:text="• No telemetry\n• No tracking SDKs\n• Local-only protection\n• No external privacy APIs\n• No data sent to any server"
-                android:textColor="#D7F8FF"
+                android:textColor="@color/nabd_text_primary"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -176,7 +176,7 @@
                 android:layout_marginTop="10dp"
                 android:lineSpacingExtra="5dp"
                 android:text="• Zero Tracking Defaults\n• HTTPS-Only Mode\n• Ad &amp; Tracker Blocking\n• Privacy Grade\n• Tracker Companies\n• Suspicious Domain Warning\n• Cookie Banner Control Experimental\n• Protection Stats\n• Bookmarks\n• Search Engine Selector\n• Android Download Manager support\n• Search-only Home (v0.3)\n• Plus button opens Bookmarks (v0.3)\n• AdBlock performance optimization (v0.3)\n• Startup cleanup (v0.3)"
-                android:textColor="#D7F8FF"
+                android:textColor="@color/nabd_text_primary"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -192,7 +192,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Alpha Notice"
-                android:textColor="#F59E0B"
+                android:textColor="@color/nabd_text_secondary"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -202,7 +202,7 @@
                 android:layout_marginTop="8dp"
                 android:lineSpacingExtra="4dp"
                 android:text="This is an alpha build. Some websites may break because Nabd applies strict privacy protections by default."
-                android:textColor="#FCD34D"
+                android:textColor="@color/nabd_text_muted"
                 android:textSize="13sp" />
 
         </LinearLayout>

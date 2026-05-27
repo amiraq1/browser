@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ammar.browser.R
 import com.ammar.browser.tabs.Tab
+import com.ammar.browser.utils.applySystemBarPaddingToContent
 
 class TabSwitcherActivity : AppCompatActivity() {
 
@@ -28,6 +29,7 @@ class TabSwitcherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tab_switcher)
+        applySystemBarPaddingToContent()
 
         val tabsJson = intent.getStringExtra(EXTRA_TABS) ?: "[]"
         val activeTabId = intent.getStringExtra(EXTRA_ACTIVE_TAB_ID) ?: ""

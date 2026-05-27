@@ -26,25 +26,26 @@ object NewTabPage {
         return """<!DOCTYPE html><html lang="ar" dir="ltr"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="light">
 <title>Nabd Browser</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#0B1020;
-  --bar:#101827;
-  --bar-hi:#162033;
-  --border:rgba(0,229,255,0.34);
-  --text:#E6EDF6;
-  --muted:#8DA1B8;
-  --cyan:#00E5FF;
-  --green:#39FF88;
+  --page-pad:24px;
+  --bg:#F6F7F9;
+  --bar:#FFFFFF;
+  --bar-hi:#F9FAFB;
+  --border:rgba(17,24,39,0.14);
+  --text:#111827;
+  --muted:#6B7280;
+  --cyan:#111827;
+  --green:#374151;
 }
 html,body{width:100%;min-height:100%;background:var(--bg);color:var(--text)}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   -webkit-font-smoothing:antialiased;
-  padding:24px;
+  padding:var(--page-pad);
   min-height:100vh;
   min-height:100dvh;
   display:grid;
@@ -53,7 +54,8 @@ body{
   overscroll-behavior:contain;
 }
 .newtab-center{
-  width:min(100%,620px);
+  width:min(620px,calc(100vw - var(--page-pad) - var(--page-pad)));
+  max-width:100%;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -69,11 +71,11 @@ body{
   border:1px solid var(--border);
   border-radius:999px;
   background:var(--bar);
-  box-shadow:0 14px 40px rgba(0,0,0,0.24),0 0 24px rgba(0,194,184,0.08);
+  box-shadow:0 18px 46px rgba(17,24,39,0.08);
 }
 .search-shell:focus-within{
   border-color:var(--cyan);
-  box-shadow:0 14px 40px rgba(0,0,0,0.28),0 0 0 3px rgba(0,229,255,0.16);
+  box-shadow:0 18px 46px rgba(17,24,39,0.10),0 0 0 3px rgba(17,24,39,0.08);
 }
 .search-shell input{
   min-width:0;
@@ -95,7 +97,7 @@ body{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  border:1px solid rgba(0,229,255,0.16);
+  border:1px solid rgba(17,24,39,0.12);
   border-radius:50%;
   background:var(--bar-hi);
   color:var(--cyan);
@@ -103,18 +105,18 @@ body{
   font-weight:500;
   outline:0;
 }
-.icon-btn:active{background:#0F2630;color:var(--green)}
+.icon-btn:active{background:#E5E7EB;color:var(--green)}
 .icon-btn svg{width:22px;height:22px;display:block;stroke:currentColor}
-.submit-btn{color:var(--green);border-color:rgba(57,255,136,0.24)}
+.submit-btn{color:var(--green);border-color:rgba(17,24,39,0.18)}
 .hint{
-  color:rgba(141,161,184,0.72);
+  color:rgba(75,85,99,0.76);
   font-size:11px;
   line-height:1.4;
   letter-spacing:0.01em;
   text-align:center;
 }
 @media (max-width:380px){
-  body{padding:16px}
+  :root{--page-pad:16px}
   .search-shell{gap:6px;padding:7px}
   .icon-btn{width:44px;height:44px;flex-basis:44px}
   .search-shell input{height:44px;font-size:15px}
@@ -122,7 +124,6 @@ body{
 </style></head><body>
 <main class="newtab-center" aria-label="Nabd new tab search">
 <form class="search-shell" onsubmit="go(event)" autocomplete="off">
-  <button class="icon-btn add-btn" type="button" aria-label="إضافة">+</button>
   <input type="text" id="q"
          placeholder="ابحث أو اكتب رابطاً..."
          autocapitalize="off" autocorrect="off" spellcheck="false" inputmode="url" dir="auto">

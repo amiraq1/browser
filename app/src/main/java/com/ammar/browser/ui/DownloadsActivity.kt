@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ammar.browser.R
+import com.ammar.browser.utils.applySystemBarPaddingToContent
 
 /**
  * Downloads screen.
@@ -28,6 +29,7 @@ class DownloadsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_downloads)
+        applySystemBarPaddingToContent()
         supportActionBar?.apply {
             title = getString(R.string.downloads_title)
             setDisplayHomeAsUpEnabled(true)
@@ -108,7 +110,7 @@ class DownloadsActivity : AppCompatActivity() {
             val itemView = TextView(this).apply {
                 text = "$title\n$statusText${if (sizeText.isNotEmpty()) " • $sizeText" else ""}"
                 textSize = 13f
-                setTextColor(0xFFD7F8FF.toInt())
+                setTextColor(this@DownloadsActivity.getColor(R.color.nabd_text_primary))
                 setPadding(0, dp(8), 0, dp(8))
                 setLineSpacing(4f, 1f)
             }
@@ -139,7 +141,7 @@ class DownloadsActivity : AppCompatActivity() {
         val tv = TextView(this).apply {
             text = getString(R.string.downloads_empty)
             textSize = 14f
-            setTextColor(0xFF90A4AE.toInt())
+            setTextColor(this@DownloadsActivity.getColor(R.color.nabd_text_muted))
             gravity = Gravity.CENTER
             setPadding(0, dp(16), 0, dp(16))
         }

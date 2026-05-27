@@ -7,12 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ammar.browser.BrowserApp
 import com.ammar.browser.R
 import com.ammar.browser.performance.SpeedSettings
+import com.ammar.browser.utils.applySystemBarPaddingToContent
 
 class AdBlockDebugActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_adblock_debug)
+        applySystemBarPaddingToContent()
 
         val adBlocker = (application as BrowserApp).adBlocker
         val stats = adBlocker.stats
@@ -56,14 +58,14 @@ class AdBlockDebugActivity : AppCompatActivity() {
             val tv = TextView(this)
             tv.text = "No blocked requests yet"
             tv.textSize = 13f
-            tv.setTextColor(0xFF6E7E96.toInt())  // muted on Slate card
+            tv.setTextColor(getColor(R.color.nabd_text_muted))
             container.addView(tv)
         } else {
             recent.forEach { req ->
                 val tv = TextView(this)
                 tv.textSize = 12f
                 tv.setPadding(0, 4, 0, 4)
-                tv.setTextColor(0xFFA7B6CC.toInt())  // text-soft on Slate card
+                tv.setTextColor(getColor(R.color.nabd_text_secondary))
                 tv.text = "${req.decision.name}  ${req.host}"
                 container.addView(tv)
             }

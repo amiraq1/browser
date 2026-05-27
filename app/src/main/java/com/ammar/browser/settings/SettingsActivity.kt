@@ -1,5 +1,6 @@
 package com.ammar.browser.settings
 
+import android.content.res.ColorStateList
 import android.content.Intent
 import android.os.Bundle
 import android.webkit.CookieManager
@@ -21,7 +22,9 @@ import com.ammar.browser.ui.AdBlockDebugActivity
 import com.ammar.browser.ui.AboutActivity
 import com.ammar.browser.ui.DownloadsActivity
 import com.ammar.browser.ui.ProtectionStatsActivity
+import com.ammar.browser.utils.applySystemBarPaddingToContent
 import com.ammar.browser.utils.nabdSlideOptions
+import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 
 class SettingsActivity : AppCompatActivity() {
@@ -31,6 +34,7 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+        applySystemBarPaddingToContent()
         supportActionBar?.apply { title = "Settings"; setDisplayHomeAsUpEnabled(true) }
 
         historyRepository = HistoryRepository(this)
@@ -149,16 +153,16 @@ class SettingsActivity : AppCompatActivity() {
     private fun updateSpeedModeDisplay() {
         val mode = SpeedSettings.mode
         findViewById<TextView>(R.id.txt_speed_mode).text = "Current: ${mode.name}"
-        findViewById<Button>(R.id.btn_speed_off).alpha = if (mode == SpeedMode.OFF) 1f else 0.5f
-        findViewById<Button>(R.id.btn_speed_balanced).alpha = if (mode == SpeedMode.BALANCED) 1f else 0.5f
-        findViewById<Button>(R.id.btn_speed_extreme).alpha = if (mode == SpeedMode.EXTREME) 1f else 0.5f
+        styleChoiceButton(findViewById(R.id.btn_speed_off), mode == SpeedMode.OFF)
+        styleChoiceButton(findViewById(R.id.btn_speed_balanced), mode == SpeedMode.BALANCED)
+        styleChoiceButton(findViewById(R.id.btn_speed_extreme), mode == SpeedMode.EXTREME)
         val zt = findViewById<TextView>(R.id.txt_zero_tracking)
         if (mode == SpeedMode.EXTREME) {
             zt.text = "Zero Tracking Mode: Enabled"
-            zt.setTextColor(0xFF4CAF50.toInt())
+            zt.setTextColor(getColor(R.color.nabd_text_primary))
         } else {
             zt.text = "Zero Tracking Mode: Partial"
-            zt.setTextColor(0xFFFF9800.toInt())
+            zt.setTextColor(getColor(R.color.nabd_text_secondary))
         }
     }
 
@@ -176,14 +180,21 @@ class SettingsActivity : AppCompatActivity() {
     private fun updateSearchEngineDisplay() {
         val current = SearchSettings.currentEngine
         findViewById<TextView>(R.id.txt_search_engine).text = "Current: ${current.displayName}"
-        findViewById<Button>(R.id.btn_search_duckduckgo).alpha =
-            if (current == SearchEngine.DUCKDUCKGO) 1f else 0.5f
-        findViewById<Button>(R.id.btn_search_brave).alpha =
-            if (current == SearchEngine.BRAVE) 1f else 0.5f
-        findViewById<Button>(R.id.btn_search_startpage).alpha =
-            if (current == SearchEngine.STARTPAGE) 1f else 0.5f
-        findViewById<Button>(R.id.btn_search_google).alpha =
-            if (current == SearchEngine.GOOGLE) 1f else 0.5f
+        styleChoiceButton(findViewById(R.id.btn_search_duckduckgo), current == SearchEngine.DUCKDUCKGO)
+        styleChoiceButton(findViewById(R.id.btn_search_brave), current == SearchEngine.BRAVE)
+        styleChoiceButton(findViewById(R.id.btn_search_startpage), current == SearchEngine.STARTPAGE)
+        styleChoiceButton(findViewById(R.id.btn_search_google), current == SearchEngine.GOOGLE)
+    }
+
+    private fun styleChoiceButton(button: Button, selected: Boolean) {
+        val background = if (selected) R.color.nabd_text_primary else R.color.nabd_deep_navy
+        val foreground = if (selected) R.color.surface else R.color.nabd_text_primary
+        val stroke = if (selected) R.color.nabd_text_primary else R.color.nabd_border
+
+        button.alpha = 1f
+        button.backgroundTintList = ColorStateList.valueOf(getColor(background))
+        button.setTextColor(getColor(foreground))
+        (button as? MaterialButton)?.strokeColor = ColorStateList.valueOf(getColor(stroke))
     }
 
     private fun toast(msg: String) {

@@ -10,6 +10,7 @@ import com.ammar.browser.R
 import com.ammar.browser.performance.SpeedSettings
 import com.ammar.browser.privacy.PrivacyGradeCalculator
 import com.ammar.browser.privacy.TrackerCompanyClassifier
+import com.ammar.browser.utils.applySystemBarPaddingToContent
 import com.ammar.browser.utils.nabdSlideOptions
 
 class ProtectionStatsActivity : AppCompatActivity() {
@@ -17,6 +18,7 @@ class ProtectionStatsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_protection_stats)
+        applySystemBarPaddingToContent()
 
         val adBlocker = (application as BrowserApp).adBlocker
         val stats = adBlocker.stats

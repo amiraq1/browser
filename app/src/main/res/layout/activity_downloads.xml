@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="4dp"
                 android:text="@string/downloads_info"
-                android:textColor="#D7F8FF"
+                android:textColor="@color/nabd_text_primary"
                 android:textSize="14sp" />
 
             <Button
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="3dp"
                 android:text="@string/downloads_privacy_note"
-                android:textColor="#B0BEC5"
+                android:textColor="@color/nabd_text_secondary"
                 android:textSize="13sp" />
 
         </LinearLayout>

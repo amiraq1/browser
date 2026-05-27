@@ -35,6 +35,7 @@ import com.ammar.browser.privacy.allowlist.SiteAllowlist
 import com.ammar.browser.settings.SettingsActivity
 import com.ammar.browser.tabs.Tab
 import com.ammar.browser.tabs.TabManager
+import com.ammar.browser.utils.applySystemBarPaddingToContent
 import com.ammar.browser.utils.StartupTracker
 import com.ammar.browser.utils.nabdSlideOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -97,6 +98,7 @@ class MainActivity : AppCompatActivity(), EngineCallback, TabManager.Listener {
         super.onCreate(savedInstanceState)
         StartupTracker.mark("MainActivity.setContentView")
         setContentView(R.layout.activity_main)
+        applySystemBarPaddingToContent()
         StartupTracker.mark("MainActivity.initViews")
         initViews()
         StartupTracker.mark("MainActivity.adBlocker")

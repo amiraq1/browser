@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ammar.browser.R
 import com.ammar.browser.bookmarks.BookmarkEntity
 import com.ammar.browser.bookmarks.BookmarkRepository
+import com.ammar.browser.utils.applySystemBarPaddingToContent
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -38,6 +39,7 @@ class BookmarksActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bookmarks)
+        applySystemBarPaddingToContent()
 
         repository = BookmarkRepository(this)
         recycler = findViewById(R.id.bookmarks_recycler)

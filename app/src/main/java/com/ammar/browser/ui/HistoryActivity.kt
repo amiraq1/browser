@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ammar.browser.R
 import com.ammar.browser.history.HistoryEntity
 import com.ammar.browser.history.HistoryRepository
+import com.ammar.browser.utils.applySystemBarPaddingToContent
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -33,6 +34,7 @@ class HistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
+        applySystemBarPaddingToContent()
 
         repository = HistoryRepository(this)
         recycler = findViewById(R.id.history_recycler)

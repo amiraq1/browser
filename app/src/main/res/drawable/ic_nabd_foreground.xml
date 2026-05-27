@@ -19,15 +19,15 @@
     <!-- Shield body -->
     <path
         android:pathData="M54,32 L76,40 L76,56 C76,70 66,78 54,82 C42,78 32,70 32,56 L32,40 Z"
-        android:fillColor="#1A2233"
-        android:strokeColor="#00C2B8"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#111827"
         android:strokeWidth="2.5"
         android:strokeLineJoin="round" />
 
     <!-- Heartbeat / pulse line -->
     <path
         android:pathData="M36,58 L42,58 L45,52 L48,66 L52,48 L56,66 L60,54 L64,58 L72,58"
-        android:strokeColor="#00E5FF"
+        android:strokeColor="#4B5563"
         android:strokeWidth="3"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
@@ -36,6 +36,6 @@
     <!-- Pulse endpoint dot (the "Nabd" beat) -->
     <path
         android:pathData="M72,58 m-2.5,0 a2.5,2.5 0 1,0 5,0 a2.5,2.5 0 1,0 -5,0"
-        android:fillColor="#39FF88" />
+        android:fillColor="#111827" />
 
 </vector>
