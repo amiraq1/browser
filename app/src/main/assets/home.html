@@ -3,124 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نبض - الصفحة الرئيسية</title>
+    <title>نبض - متصفحك الآمن</title>
     <style>
         :root {
-            --md-sys-color-primary: #0061A4;
-            --md-sys-color-surface: #FDFCFF;
-            --md-sys-color-surface-variant: #DFE2EB;
-            --md-sys-color-on-surface: #1A1C1E;
-            --md-sys-color-on-surface-variant: #43474E;
-            --md-sys-color-outline: #73777F;
+            --primary: #00658E;
+            --surface: #FBFCFF;
+            --surface-variant: #DDE3EA;
+            --on-surface: #191C1E;
+            --on-surface-variant: #41484D;
+            --outline: #71787D;
+            --primary-container: #C7E7FF;
         }
+        
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--surface);
+            color: var(--on-surface);
+            margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            margin: 0;
-            background-color: var(--md-sys-color-surface);
-            color: var(--md-sys-color-on-surface);
+            padding: 20px;
         }
-        .logo-container {
+
+        .logo-section {
             text-align: center;
             margin-bottom: 40px;
+            animation: fadeIn 0.8s ease-out;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         h1 {
-            color: var(--md-sys-color-primary);
-            font-size: 64px;
+            color: var(--primary);
+            font-size: 72px;
             margin: 0;
-            font-weight: 300;
-            letter-spacing: -1px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            text-shadow: 0 4px 10px rgba(0, 101, 142, 0.1);
         }
+
+        .tagline {
+            color: var(--outline);
+            font-size: 16px;
+            margin-top: -5px;
+            font-weight: 500;
+        }
+
         .search-container {
-            width: 90%;
-            max-width: 600px;
+            width: 100%;
+            max-width: 580px;
             margin-bottom: 48px;
+            position: relative;
         }
+
         .search-box {
             width: 100%;
-            padding: 16px 24px;
+            padding: 18px 28px;
             border: none;
-            border-radius: 28px;
+            border-radius: 32px;
             font-size: 18px;
             outline: none;
-            background-color: var(--md-sys-color-surface-variant);
-            color: var(--md-sys-color-on-surface);
-            box-sizing: border-box;
-            transition: box-shadow 0.2s;
+            background-color: var(--surface-variant);
+            color: var(--on-surface);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .search-box:focus {
-            box-shadow: 0 0 0 2px var(--md-sys-color-primary);
+            background-color: #fff;
+            box-shadow: 0 8px 24px rgba(0, 101, 142, 0.12);
+            transform: translateY(-2px);
         }
+
         .shortcuts {
             display: flex;
-            gap: 16px;
+            gap: 20px;
             flex-wrap: wrap;
             justify-content: center;
         }
-        .shortcut {
+
+        .shortcut-card {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-decoration: none;
-            color: var(--md-sys-color-on-surface-variant);
-            background-color: var(--md-sys-color-surface-variant);
-            padding: 20px;
-            border-radius: 24px;
-            min-width: 80px;
-            transition: transform 0.2s, background-color 0.2s;
-        }
-        .shortcut:active {
-            transform: scale(0.95);
-            background-color: #d0d7e5;
-        }
-        .shortcut-icon {
-            width: 48px;
-            height: 48px;
             background-color: #fff;
+            padding: 24px;
+            border-radius: 28px;
+            min-width: 100px;
+            transition: all 0.2s;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .shortcut-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.06);
+            background-color: var(--primary-container);
+        }
+
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            background-color: var(--surface-variant);
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 16px;
+            border-radius: 18px;
+            font-size: 28px;
             font-weight: bold;
-            font-size: 24px;
-            color: var(--md-sys-color-primary);
             margin-bottom: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: background-color 0.2s;
         }
-        span {
-            font-size: 14sp;
-            font-weight: 500;
+
+        .shortcut-card:hover .icon-box {
+            background-color: #fff;
         }
+
+        .shortcut-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--on-surface-variant);
+        }
+
+        .g-icon { color: #4285F4; }
+        .y-icon { color: #FF0000; }
+        .gh-icon { color: #000000; }
     </style>
 </head>
 <body>
-    <div class="logo-container">
+    <div class="logo-section">
         <h1>نبض</h1>
-        <div style="font-size: 14px; color: var(--md-sys-color-outline); margin-top: -8px;">متصفح آمن وذكي</div>
+        <div class="tagline">تصفح بذكاء، وبدون إعلانات</div>
     </div>
     
     <div class="search-container">
         <form action="https://www.google.com/search" method="GET">
-            <input type="text" name="q" class="search-box" placeholder="بحث أو إدخال عنوان..." autocomplete="off">
+            <input type="text" name="q" class="search-box" placeholder="ابحث في الويب..." autocomplete="off">
         </form>
     </div>
 
     <div class="shortcuts">
-        <a href="https://www.google.com" class="shortcut">
-            <div class="shortcut-icon">G</div>
-            <span>Google</span>
+        <a href="https://www.google.com" class="shortcut-card">
+            <div class="icon-box g-icon">G</div>
+            <div class="shortcut-name">Google</div>
         </a>
-        <a href="https://www.youtube.com" class="shortcut">
-            <div class="shortcut-icon" style="color: #FF0000;">Y</div>
-            <span>YouTube</span>
+        <a href="https://www.youtube.com" class="shortcut-card">
+            <div class="icon-box y-icon">Y</div>
+            <div class="shortcut-name">YouTube</div>
         </a>
-        <a href="https://www.github.com" class="shortcut">
-            <div class="shortcut-icon" style="color: #000;">GH</div>
-            <span>GitHub</span>
+        <a href="https://www.github.com" class="shortcut-card">
+            <div class="icon-box gh-icon">GH</div>
+            <div class="shortcut-name">GitHub</div>
         </a>
     </div>
 

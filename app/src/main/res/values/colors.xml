@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- M3 Light Colors -->
-    <color name="md_theme_light_primary">#0061A4</color>
+    <!-- M3 Light Colors - Refined Soft Blue & Slate -->
+    <color name="md_theme_light_primary">#00658E</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
-    <color name="md_theme_light_primaryContainer">#D1E4FF</color>
-    <color name="md_theme_light_onPrimaryContainer">#001D36</color>
-    <color name="md_theme_light_secondary">#535F70</color>
+    <color name="md_theme_light_primaryContainer">#C7E7FF</color>
+    <color name="md_theme_light_onPrimaryContainer">#001E2E</color>
+    <color name="md_theme_light_secondary">#4F616E</color>
     <color name="md_theme_light_onSecondary">#FFFFFF</color>
-    <color name="md_theme_light_secondaryContainer">#D7E3F7</color>
-    <color name="md_theme_light_onSecondaryContainer">#101C2B</color>
-    <color name="md_theme_light_tertiary">#6B5778</color>
+    <color name="md_theme_light_secondaryContainer">#D2E5F5</color>
+    <color name="md_theme_light_onSecondaryContainer">#0B1D29</color>
+    <color name="md_theme_light_tertiary">#625B7C</color>
     <color name="md_theme_light_onTertiary">#FFFFFF</color>
-    <color name="md_theme_light_tertiaryContainer">#F2DAFF</color>
-    <color name="md_theme_light_onTertiaryContainer">#251431</color>
+    <color name="md_theme_light_tertiaryContainer">#E8DFFD</color>
+    <color name="md_theme_light_onTertiaryContainer">#1E1935</color>
     <color name="md_theme_light_error">#BA1A1A</color>
     <color name="md_theme_light_onError">#FFFFFF</color>
     <color name="md_theme_light_errorContainer">#FFDAD6</color>
     <color name="md_theme_light_onErrorContainer">#410002</color>
-    <color name="md_theme_light_background">#FDFCFF</color>
-    <color name="md_theme_light_onBackground">#1A1C1E</color>
-    <color name="md_theme_light_surface">#FDFCFF</color>
-    <color name="md_theme_light_onSurface">#1A1C1E</color>
-    <color name="md_theme_light_surfaceVariant">#DFE2EB</color>
-    <color name="md_theme_light_onSurfaceVariant">#43474E</color>
-    <color name="md_theme_light_outline">#73777F</color>
+    <color name="md_theme_light_background">#FBFCFF</color>
+    <color name="md_theme_light_onBackground">#191C1E</color>
+    <color name="md_theme_light_surface">#FBFCFF</color>
+    <color name="md_theme_light_onSurface">#191C1E</color>
+    <color name="md_theme_light_surfaceVariant">#DDE3EA</color>
+    <color name="md_theme_light_onSurfaceVariant">#41484D</color>
+    <color name="md_theme_light_outline">#71787D</color>
+    <color name="md_theme_light_outlineVariant">#C1C7CE</color>
     
-    <!-- App specific -->
-    <color name="nabd_primary">#2196F3</color>
-    <color name="nabd_surface">#F5F5F5</color>
+    <!-- Specific for Nabd -->
+    <color name="nabd_accent">#00E5FF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 </resources>
