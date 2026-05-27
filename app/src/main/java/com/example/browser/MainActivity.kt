@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 progressBar.visibility = View.GONE
-                hideAdElements(view)
+                hideAdElements()
             }
         }
 
@@ -125,43 +125,51 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun hideAdElements(view: WebView?) {
-        val script = """
+    private fun hideAdElements() {
+        val js = """
             (function() {
-                const adSelectors = [
-                    '.ad', '.ads', '.adsbygoogle', '.advertisement', '.banner',
-                    '.popup', '.pop', '.sponsor', '.sponsored', '.native-ad',
-                    '.ad-container', '.ad-wrapper', 'iframe[src*="ads"]',
-                    'iframe[src*="doubleclick"]', 'iframe[src*="googlesyndication"]',
-                    'div[id*="ad"]', 'div[class*="ad"]', 'div[class*="ads"]',
-                    'div[class*="banner"]', 'div[class*="popup"]'
-                ];
-
-                function hideAds() {
-                    adSelectors.forEach(selector => {
-                        document.querySelectorAll(selector).forEach(el => {
-                            if (el.style.display !== 'none') {
-                                el.style.setProperty('display', 'none', 'important');
-                            }
-                        });
-                    });
+                const css = `
+                    .ad, .ads, .adsbygoogle, .advertisement,
+                    .banner, .popup, .pop, .sponsor, .sponsored,
+                    .native-ad, .ad-container, .ad-wrapper,
+                    iframe[src*="ads"],
+                    iframe[src*="doubleclick"],
+                    iframe[src*="googlesyndication"],
+                    div[id*="ad"],
+                    div[class*="ads"],
+                    div[class*="banner"],
+                    div[class*="popup"] {
+                        display: none !important;
+                        visibility: hidden !important;
+                        height: 0 !important;
+                        max-height: 0 !important;
+                        overflow: hidden !important;
+                    }
+                `;
+                let style = document.getElementById('browser-adblock-style');
+                if (!style) {
+                    style = document.createElement('style');
+                    style.id = 'browser-adblock-style';
+                    style.innerHTML = css;
+                    document.head.appendChild(style);
                 }
 
-                // Initial run
+                const hideAds = () => {
+                    document.querySelectorAll('.ad, .ads, .adsbygoogle, .advertisement, .banner, .popup, .pop, .sponsor, .sponsored, .native-ad, .ad-container, .ad-wrapper').forEach(el => {
+                        el.style.display = 'none';
+                        el.style.visibility = 'hidden';
+                        el.style.height = '0px';
+                    });
+                };
+
                 hideAds();
 
-                // Continuous monitoring for dynamic ads
-                const observer = new MutationObserver((mutations) => {
-                    hideAds();
-                });
-
-                observer.observe(document.body, {
-                    childList: true,
-                    subtree: true
-                });
+                const observer = new MutationObserver(hideAds);
+                observer.observe(document.body, { childList: true, subtree: true });
             })();
         """.trimIndent()
-        view?.evaluateJavascript(script, null)
+
+        webView.evaluateJavascript(js, null)
     }
 
     private fun setupListeners() {
