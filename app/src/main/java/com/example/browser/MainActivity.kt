@@ -119,6 +119,7 @@ class MainActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 progressBar.visibility = View.GONE
+                injectAntiAdblockBypass()
                 hideAdElements()
             }
         }
@@ -133,6 +134,71 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         }
+    }
+
+    private fun injectAntiAdblockBypass() {
+        Log.d("AdBlocker", "Injected anti-adblock bypass")
+        val js = """
+            (function() {
+                const antiAdblockKeywords = [
+                    "disable adblock", "adblock detected", "please disable adblock",
+                    "turn off ad blocker", "ad blocker detected", "whitelist us",
+                    "أوقف مانع الإعلانات", "يرجى تعطيل مانع الإعلانات", "تم اكتشاف مانع الإعلانات"
+                ];
+
+                const antiAdblockSelectors = [
+                    '[class*="adblock"]', '[id*="adblock"]', '[class*="anti-adblock"]',
+                    '[id*="anti-adblock"]', '[class*="ad-block"]', '[id*="ad-block"]',
+                    '[class*="whitelist"]', '[id*="whitelist"]', '[class*="blocker"]', '[id*="blocker"]'
+                ];
+
+                const bypass = () => {
+                    // 1. Remove by selectors
+                    antiAdblockSelectors.forEach(selector => {
+                        try {
+                            document.querySelectorAll(selector).forEach(el => {
+                                if (!['BODY', 'HTML', 'MAIN', 'ARTICLE'].includes(el.tagName)) {
+                                    el.remove();
+                                }
+                            });
+                        } catch (e) {}
+                    });
+
+                    // 2. Remove by keyword detection
+                    document.querySelectorAll('div, section, aside, span, p').forEach(el => {
+                        try {
+                            const text = (el.innerText || "").toLowerCase();
+                            const isMatch = antiAdblockKeywords.some(kw => text.includes(kw.toLowerCase()));
+                            
+                            if (isMatch && !['BODY', 'HTML', 'MAIN', 'ARTICLE'].includes(el.tagName) && el.children.length < 5) {
+                                el.remove();
+                            }
+                        } catch (e) {}
+                    });
+
+                    // 3. Reset overflow if anti-adblock locked scrolling
+                    if (document.body.style.overflow === 'hidden' || document.documentElement.style.overflow === 'hidden') {
+                        document.body.style.setProperty('overflow', 'auto', 'important');
+                        document.documentElement.style.setProperty('overflow', 'auto', 'important');
+                    }
+                };
+
+                // Initial run
+                bypass();
+
+                // Monitor for dynamic anti-adblock popups
+                const observer = new MutationObserver(bypass);
+                observer.observe(document.body, { childList: true, subtree: true });
+
+                // Polling for 20 seconds
+                let attempts = 0;
+                const interval = setInterval(() => {
+                    bypass();
+                    if (++attempts > 40) clearInterval(interval); // 500ms * 40 = 20s
+                }, 500);
+            })();
+        """.trimIndent()
+        webView.evaluateJavascript(js, null)
     }
 
     private fun hideAdElements() {
