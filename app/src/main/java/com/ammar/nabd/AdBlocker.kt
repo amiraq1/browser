@@ -1,4 +1,4 @@
-package com.example.browser
+package com.ammar.nabd
 
 import android.net.Uri
 import android.util.Log

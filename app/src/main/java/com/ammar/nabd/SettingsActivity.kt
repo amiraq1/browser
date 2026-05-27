@@ -1,4 +1,4 @@
-package com.example.browser
+package com.ammar.nabd
 
 import android.content.Context
 import android.content.Intent
