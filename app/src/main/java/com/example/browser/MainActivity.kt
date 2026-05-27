@@ -109,6 +109,7 @@ class MainActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 progressBar.visibility = View.GONE
+                injectAdBlockingCss(view)
             }
         }
 
@@ -122,6 +123,45 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         }
+    }
+
+    private fun injectAdBlockingCss(view: WebView?) {
+        val script = """
+            (function() {
+                const adSelectors = [
+                    '.ad', '.ads', '.adsbygoogle', '.advertisement', '.banner',
+                    '.popup', '.pop', '.sponsor', '.sponsored', '.native-ad',
+                    '.ad-container', '.ad-wrapper', 'iframe[src*="ads"]',
+                    'iframe[src*="doubleclick"]', 'iframe[src*="googlesyndication"]',
+                    'div[id*="ad"]', 'div[class*="ad"]', 'div[class*="ads"]',
+                    'div[class*="banner"]', 'div[class*="popup"]'
+                ];
+
+                function hideAds() {
+                    adSelectors.forEach(selector => {
+                        document.querySelectorAll(selector).forEach(el => {
+                            if (el.style.display !== 'none') {
+                                el.style.setProperty('display', 'none', 'important');
+                            }
+                        });
+                    });
+                }
+
+                // Initial run
+                hideAds();
+
+                // Continuous monitoring for dynamic ads
+                const observer = new MutationObserver((mutations) => {
+                    hideAds();
+                });
+
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+            })();
+        """.trimIndent()
+        view?.evaluateJavascript(script, null)
     }
 
     private fun setupListeners() {
