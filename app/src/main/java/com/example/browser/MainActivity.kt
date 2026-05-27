@@ -130,12 +130,8 @@ class MainActivity : AppCompatActivity() {
         val js = """
             (function() {
                 const badTexts = [
-                    'Your Prize is READY',
-                    'Congratulations',
-                    'Claim your reward',
-                    'Tap to see more',
-                    'reward',
-                    'Prize'
+                    'Your Prize is READY', 'Congratulations', 'Claim your reward',
+                    'Tap to see more', 'reward', 'Prize', 'Win ', 'Free '
                 ];
 
                 const removeBadElements = () => {
@@ -146,30 +142,48 @@ class MainActivity : AppCompatActivity() {
                             const z = parseInt(style.zIndex || '0');
                             const rect = el.getBoundingClientRect();
 
+                            // 1. Check for ad keywords (including Arabic)
                             const hasBadText = badTexts.some(t =>
                                 text.toLowerCase().includes(t.toLowerCase())
                             );
 
+                            const hasAdLabel =
+                                text === 'Ad' || text === 'AD' || 
+                                text.includes(' Ad ') || text.includes('إعلان') ||
+                                (text.length < 10 && (text.includes('×') || text.includes('x')));
+
+                            // 2. Detect floating/sticky ads (especially top banners)
                             const isFloatingAd =
                                 (style.position === 'fixed' || style.position === 'sticky') &&
-                                z > 100 &&
-                                rect.width > 200 &&
-                                rect.height > 40;
+                                z > 50 &&
+                                (
+                                  (rect.top <= 10 && rect.height < 150) || // Top banner
+                                  (rect.bottom >= window.innerHeight - 10 && rect.height < 150) || // Bottom banner
+                                  (rect.width > window.innerWidth * 0.9 && z > 100) // Large overlay
+                                );
 
-                            const hasAdLabel =
-                                text === 'Ad' || text.includes(' Ad ') || text.includes('إعلان');
+                            // 3. Target Telegram/WhatsApp/GetButton widgets
+                            const isSocialWidget = 
+                                el.href?.includes('t.me/') || 
+                                el.href?.includes('wa.me/') ||
+                                el.id?.includes('getbutton') ||
+                                el.className?.toString().includes('getbutton');
 
-                            if (hasBadText || isFloatingAd || hasAdLabel) {
-                                el.remove();
+                            if (hasBadText || isFloatingAd || hasAdLabel || isSocialWidget) {
+                                // Double check it's not the main content (rough heuristic)
+                                if (el.tagName !== 'BODY' && el.tagName !== 'HTML' && el.children.length < 20) {
+                                    el.remove();
+                                }
                             }
                         } catch (e) {}
                     });
                     
-                    // Also use standard selectors for common ad containers
-                    const adSelectors = [
-                        '[id*="ad-"]', '[class*="ad-"]', '.adsbygoogle', 'iframe[src*="ads"]'
+                    // Specific CSS cleanup for instmod.com and similar sites
+                    const selectors = [
+                        '[id*="ad-"]', '[class*="ad-"]', '.adsbygoogle', 'iframe[src*="ads"]',
+                        '.top-ad', '.header-ad', '.footer-ad', '#telegram-widget', '.getbutton-widget'
                     ];
-                    adSelectors.forEach(sel => {
+                    selectors.forEach(sel => {
                         document.querySelectorAll(sel).forEach(el => el.remove());
                     });
                 };
@@ -181,7 +195,7 @@ class MainActivity : AppCompatActivity() {
                 const observer = new MutationObserver(removeBadElements);
                 observer.observe(document.body, { childList: true, subtree: true });
 
-                // Periodic cleanup for 15 seconds after load
+                // Frequent cleanup for the first 15 seconds
                 let attempts = 0;
                 const interval = setInterval(() => {
                     removeBadElements();
