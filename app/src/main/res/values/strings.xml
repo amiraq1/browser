@@ -1,60 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">نبض</string>
-    <string name="url_hint">Search or enter URL</string>
+    <string name="app_name">Browser</string>
+    <string name="search_hint">Search or enter URL</string>
+    <string name="go">Go</string>
+    <string name="home">Home</string>
+    <string name="refresh">Refresh</string>
     <string name="back">Back</string>
     <string name="forward">Forward</string>
-    <string name="refresh">Refresh</string>
-    <string name="menu">Menu</string>
-    <string name="settings">Settings</string>
-    <string name="tabs">Tabs</string>
-    <string name="new_tab">New Tab</string>
-    <string name="close_tab">Close Tab</string>
-    <plurals name="tab_count_format">
-        <item quantity="one">%1$d Tab</item>
-        <item quantity="other">%1$d Tabs</item>
-    </plurals>
-    <string name="history">History</string>
-    <string name="clear_history">Clear History</string>
-    <string name="no_history">No browsing history</string>
-    <string name="speed_off">Speed: OFF</string>
-    <string name="speed_balanced">Speed: BALANCED ✓</string>
-    <string name="speed_extreme">Speed: EXTREME</string>
-    <string name="disable_blocking_site">Disable blocking for this site</string>
-    <string name="enable_blocking_site">Enable blocking for this site</string>
-    <string name="adblock_debug">AdBlock Debug</string>
-    <string name="recent_blocked">Recent Blocked Requests</string>
-    <string name="bookmarks">Bookmarks</string>
-    <string name="add_bookmark">Add Bookmark</string>
-    <string name="delete_bookmark">Delete Bookmark</string>
-    <string name="no_bookmarks">No bookmarks yet</string>
-    <string name="bookmark_added">Bookmark added</string>
-    <string name="bookmark_updated">Bookmark updated</string>
-    <string name="bookmark_skipped_private">Bookmarks are disabled in private tabs</string>
-    <string name="bookmark_skipped_invalid">This page can\'t be bookmarked</string>
-    <string name="download_dialog_title">Download file?</string>
-    <string name="download_action">Download</string>
-    <string name="download_cancel">Cancel</string>
-    <string name="download_started">Download started</string>
-    <string name="download_failed">Download failed</string>
-    <string name="download_unsupported">Unsupported download link</string>
-    <string name="download_description">Downloading file</string>
-    <string name="downloads_label">Downloads</string>
-    <string name="downloads_location">Saved to device Downloads folder</string>
-    <string name="downloads_title">Downloads</string>
-    <string name="downloads_subtitle">التنزيلات</string>
-    <string name="downloads_info">Files downloaded by Nabd are saved to your device Downloads folder.</string>
-    <string name="open_downloads_folder">Open Downloads Folder</string>
-    <string name="downloads_privacy_note">Nabd does not read or index your downloaded files.</string>
-    <string name="downloads_open_failed">Unable to open Downloads folder</string>
-    <string name="downloads_recent_title">Recent Downloads</string>
-    <string name="downloads_empty">No downloads yet</string>
-    <string name="lite_mode_title">Lite Mode</string>
-    <string name="lite_mode_description">Blocks images to reduce data usage. Some sites may look incomplete.</string>
-    <string name="lite_mode_on">Lite Mode: ON</string>
-    <string name="lite_mode_off">Lite Mode: OFF</string>
-    <string name="lite_mode_enabled">Lite Mode enabled</string>
-    <string name="lite_mode_disabled">Lite Mode disabled</string>
-    <string name="lite_mode_status_on">Lite Mode: ON</string>
-    <string name="lite_mode_status_off">Lite Mode: OFF</string>
+    <string name="blocked_status">%1$d blocked | EXTREME</string>
+    
+    <!-- Arabic translations -->
+    <string name="search_hint_ar">بحث أو أدخل رابط</string>
+    <string name="go_ar">انتقال</string>
+    <string name="home_ar">الرئيسية</string>
+    <string name="refresh_ar">تحديث</string>
+    <string name="back_ar">رجوع</string>
+    <string name="forward_ar">تقدم</string>
 </resources>

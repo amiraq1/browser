@@ -1,174 +1,44 @@
-# Nabd Browser / متصفح نبض
+# Android Ad-Blocking Browser
 
-A privacy-focused Android web browser with built-in ad/tracker blocking. Designed with a modular architecture that allows swapping the rendering engine in the future (WebView → Chromium custom / GeckoView).
+متصفح أندرويد احترافي مبني باستخدام Kotlin و WebView، يتميز بمانع إعلانات قوي وواجهة تدعم اللغة العربية.
 
-> The project was previously developed under the working name **AmmarBrowser**. Internal package and applicationId still use `com.ammar.browser` — the user-facing brand is now **Nabd Browser / نبض**.
+## المميزات
 
-## Current Status: v0.3-alpha
+- **مانع إعلانات قوي:** يحظر طلبات الإعلانات من النطاقات الشائعة (Doubleclick, Adsterra, etc.) باستخدام `shouldInterceptRequest`.
+- **خصوصية عالية:** تعطيل ملفات تعريف الارتباط للجهات الخارجية (Third-party cookies) ومنع المحتوى المختلط غير الآمن.
+- **واجهة بسيطة:** شريط بحث علوي، أزرار تحكم (رجوع، تقدم، تحديث، الرئيسية)، وشريط تقدم للتحميل.
+- **دعم RTL:** واجهة متوافقة تماماً مع اللغة العربية.
+- **صفحة بداية محلية:** وصول سريع لـ Google و YouTube و GitHub.
+- **عداد الإعلانات:** يظهر عدد الطلبات المحظورة في أسفل الشاشة.
 
-Built on top of Android WebView. All privacy and ad-blocking logic runs locally inside the app — no servers, no telemetry, no third-party SDKs.
+## طريقة البناء والتشغيل (Termux)
 
-Version: **0.3.0-alpha** (debug build, for testing only).
+للبناء من داخل Termux، اتبع الخطوات التالية:
 
-### v0.4 development highlights
+1. **تثبيت المتطلبات:**
+   ```bash
+   pkg install openjdk-17
+   ```
 
-The following improvements have landed on `main` since the v0.3-alpha tag and are part of v0.4 development. The release version inside the app is still `0.3.0-alpha` until v0.4 is formally tagged.
+2. **إعطاء صلاحية التنفيذ لـ Gradle:**
+   *(إذا كان ملف gradlew موجوداً)*
+   ```bash
+   chmod +x gradlew
+   ```
 
-- Downloads Screen — informational in-app screen reachable from Settings → Downloads, with a "Recent Downloads" list queried from Android DownloadManager and an "Open Downloads Folder" button that ladders through safe Intents and falls back to a Toast.
-- Lite Mode setting — optional, OFF by default. When ON, the WebView skips automatic image loading to reduce data usage and speed up rendering. Local-only, no proxy, no telemetry.
-- Shield Panel now shows the current Lite Mode status as a `Lite Mode: ON / OFF` row.
-- WebView performance cleanup — removed the deprecated WebSQL `databaseEnabled = true` no-op and tightened a redundant speed-mode read in the Shield counter.
-- AdBlock request-path optimization — kept and extended from v0.3 (precomputed dotted suffix and path rule fields) to remove per-request allocations.
-- Startup / NewTab cleanup — kept from v0.3.
+3. **بناء المشروع:**
+   ```bash
+   ./gradlew assembleDebug
+   ```
 
-Privacy locks remain intact across all of v0.4: HTTPS-Only, third-party cookies blocked, mixed content blocked, file/content/geolocation access disabled, DNT and GPC headers, no telemetry, no SDKs, no new permissions.
+4. **موقع ملف الـ APK:**
+   ستجد الملف الناتج في المسار:
+   `app/build/outputs/apk/debug/app-debug.apk`
 
-### v0.3-alpha highlights
+## تفاصيل مانع الإعلانات
+يعمل مانع الإعلانات من خلال فحص كل طلب URL يقوم به المتصفح. إذا كان الطلب موجهاً لنطاق إعلاني معروف أو يحتوي على كلمات دليلة للإعلانات، يتم استبدال الاستجابة ببيانات فارغة، مما يمنع تحميل الإعلان ويوفر البيانات.
 
-- Search-only Home — minimal centered search bar, no Quick Actions cards.
-- Download Manager via Android `DownloadManager` (saved to the device Downloads folder).
-- Downloads Screen — shows recent downloads list with status/size, plus "Open Downloads Folder" button.
-- Downloads surfaced in Settings and About so users know where files land.
-- AdBlock request-path performance optimization — pre-computed dotted suffix and path rule fields, zero per-request string allocations on the hot path.
-- Startup / NewTab cleanup — dead helper, dead parameter, and unused import removed.
-- Nabd brand UI polish across Home, AdBlock Debug, and the main toolbar.
-
-### Earlier alphas
-
-- **v0.2-alpha**: Bookmarks, Search Engine Selector, Shield Dashboard, Native Quick Actions, rebrand to Nabd Browser.
-- **v0.1-alpha**: MVP WebView browser, Tabs, History, AdBlock core, HTTPS-Only, Zero Tracking defaults.
-
-## Documentation
-
-- Arabic Project Review / تقرير مراجعة المشروع: [docs/PROJECT_REVIEW_AR.md](docs/PROJECT_REVIEW_AR.md)
-
-## Features
-
-### Core
-- Android WebView-based browser
-- URL / search bar with smart query detection
-- Back / Forward / Reload navigation
-- Bottom navigation toolbar
-- Tabs + Tab Switcher
-- Custom New Tab Page
-- History
-
-### Privacy
-- Zero Tracking Defaults
-- No telemetry
-- No tracking SDKs
-- Local-only protection (nothing leaves the device)
-- Third-party cookies blocked
-- Mixed content blocked
-- File / content access disabled
-- Geolocation disabled
-- DNT and GPC headers
-- HTTPS-Only Mode
-- Suspicious Domain Warning (local heuristics)
-- Cookie Banner Control (experimental)
-- Clear Browsing Data
-
-### Ad & Tracker Blocking
-- Ad and tracker blocking
-- Local blocklists shipped with the app
-- ABP (Adblock Plus) subset filter parser
-- Speed modes: OFF / BALANCED / EXTREME
-- Per-site allowlist
-- Protection Stats dashboard
-- AdBlock Debug screen
-- Privacy Grade (A–D) per site
-- Tracker company classification
-
-### Settings
-- Speed Mode
-- Cookie Banner Control
-- Clear Browsing Data
-- Protection Stats
-- AdBlock Debug
-- About page
-
-## Architecture
-
-```
-com.ammar.browser/
-├── engine/          — Browser engine abstraction (swappable)
-├── tabs/            — Tab management + Tab Switcher
-├── navigation/      — URL parsing, search detection
-├── ui/              — Activities, New Tab Page, Protection Stats, AdBlock Debug
-├── settings/        — User preferences
-├── privacy/         — Privacy/security configuration
-│   ├── adblock/     — Ad/tracker blocker, ABP parser, blocklists, stats
-│   └── allowlist/   — Per-site allowlist
-├── permissions/     — Runtime permission management
-├── performance/     — Speed modes (OFF / BALANCED / EXTREME)
-├── history/         — Browsing history (Room)
-└── utils/           — Crash logger, startup tracker
-```
-
-## Security / Privacy Notice
-
-- Nabd Browser / نبض لا يرسل URLs أو بيانات التصفح لأي سيرفر.
-- لا يوجد Firebase / Analytics / Ads SDK.
-- كل الحماية الحالية محلية داخل التطبيق.
-- v0.3-alpha هي debug build للاختبار فقط.
-- بعض المواقع قد تنكسر بسبب إعدادات الخصوصية الصارمة (يمكن إضافتها إلى الـ allowlist).
-
-## Build
-
-Requires Java 17 and Android SDK with build-tools and platform 34.
-
-```sh
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-arm64
-./gradlew assembleDebug --no-daemon
-```
-
-APK output:
-
-```
-app/build/outputs/apk/debug/app-debug.apk
-```
-
-## Roadmap
-
-### Completed
-- [x] MVP WebView browser
-- [x] Tabs + Tab Switcher
-- [x] History
-- [x] AdBlock core engine
-- [x] Local blocklists
-- [x] Speed modes (OFF / BALANCED / EXTREME)
-- [x] Shield panel
-- [x] Protection Stats dashboard
-- [x] Settings
-- [x] Custom New Tab Page
-- [x] HTTPS-Only mode
-- [x] Zero Tracking defaults
-- [x] Suspicious Domain warning
-- [x] Cookie Banner Control (experimental)
-- [x] v0.1-alpha release prep
-- [x] Bookmarks (v0.2-alpha)
-- [x] Search Engine Selector (v0.2-alpha)
-- [x] Rebrand to Nabd Browser (v0.2-alpha)
-- [x] Search-only Home (v0.3-alpha)
-- [x] Plus button opens Bookmarks (v0.3-alpha)
-- [x] Download Manager via Android DownloadManager (v0.3-alpha)
-- [x] AdBlock request-path performance optimization (v0.3-alpha)
-- [x] Startup / NewTab cleanup (v0.3-alpha)
-- [x] Downloads Screen (v0.4 development)
-- [x] Lite Mode setting — optional, OFF by default (v0.4 development)
-- [x] Lite Mode status in Shield Panel (v0.4 development)
-- [x] WebView performance cleanup (v0.4 development)
-
-### Planned
-- [ ] Bookmark folders + search + import/export
-- [ ] Settings import / export
-- [ ] Better EasyList support
-- [ ] More tracker categories
-- [ ] Better icon / branding
-- [ ] Release signing
-- [ ] GitHub Releases with attached APK
-- [ ] Later: GeckoView or Chromium engine research
-
-## License
-
-MIT
+## الخصوصية
+- لا يتم جمع أي بيانات من المستخدم.
+- لا يحتوي التطبيق على أي مكتبات تتبع أو إعلانات داخلية.
+- يتم فرض إعدادات أمان مشددة على WebView.

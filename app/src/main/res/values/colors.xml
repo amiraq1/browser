@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#374151</color>
-    <color name="primary_dark">#111827</color>
-    <color name="accent">#6B7280</color>
-    <color name="surface">#FFFFFF</color>
-
-    <!-- Professional neutral palette -->
-    <color name="nabd_deep_navy">#F6F7F9</color>
-    <color name="nabd_pulse_cyan">#111827</color>
-    <color name="nabd_teal">#6B7280</color>
-    <color name="nabd_neon_green">#374151</color>
-    <color name="nabd_slate">#FFFFFF</color>
-    <color name="nabd_border">#E5E7EB</color>
-    <color name="nabd_border_strong">#CBD5E1</color>
-    <color name="nabd_text_primary">#111827</color>
-    <color name="nabd_text_secondary">#4B5563</color>
-    <color name="nabd_text_muted">#6B7280</color>
-    <color name="nabd_pressed">#E5E7EB</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="toolbar_bg">#F5F5F5</color>
+    <color name="ad_block_status_bg">#E0E0E0</color>
+    <color name="ad_block_status_text">#D32F2F</color>
 </resources>
