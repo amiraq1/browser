@@ -36,10 +36,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initViews()
+        loadAdRules()
         setupWebView()
         setupListeners()
 
         webView.loadUrl(homeUrl)
+    }
+
+    private fun loadAdRules() {
+        try {
+            val content = assets.open("filters/easylist-lite.txt").bufferedReader().use { it.readText() }
+            adBlocker.loadRules(content)
+        } catch (e: Exception) {
+            Log.e("AdBlocker", "Failed to load EasyList Lite", e)
+        }
     }
 
     private fun initViews() {
@@ -127,12 +137,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideAdElements() {
         Log.d("AdBlocker", "Injected visual ad blocker")
+        val cosmeticSelectors = adBlocker.getCosmeticSelectors().joinToString("', '") { it }
         val js = """
             (function() {
                 const badTexts = [
                     'Your Prize is READY', 'Congratulations', 'Claim your reward',
                     'Tap to see more', 'reward', 'Prize', 'Win ', 'Free '
                 ];
+
+                const adSelectors = ['$cosmeticSelectors'];
 
                 const removeBadElements = () => {
                     document.querySelectorAll('body *').forEach(el => {
@@ -237,6 +250,7 @@ class MainActivity : AppCompatActivity() {
             webView.loadUrl(homeUrl)
             blockedCount = 0
             updateAdBlockCounter()
+            android.widget.Toast.makeText(this, "Rules loaded: ${adBlocker.rulesCount}", android.widget.Toast.LENGTH_SHORT).show()
         }
     }
 
