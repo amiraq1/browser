@@ -6,6 +6,27 @@ import java.util.HashSet
 
 class AdBlocker {
     private val adDomains: HashSet<String> = HashSet()
+    private val blockedPatterns: List<String> = listOf(
+        "/ads/",
+        "/ad/",
+        "/banner/",
+        "/banners/",
+        "/popup/",
+        "/popunder/",
+        "/prebid",
+        "/tracking/",
+        "/track/",
+        "/analytics/",
+        "ad_type=",
+        "ad_client=",
+        "ad_unit=",
+        "clickid=",
+        "campaign=",
+        "utm_source=",
+        "google_ads",
+        "doubleclick",
+        "pagead"
+    )
 
     init {
         // Load common ad domains
@@ -41,7 +62,6 @@ class AdBlocker {
         adDomains.add("vungle.com")
         adDomains.add("chartboost.com")
         adDomains.add("startappservice.com")
-        // Add more common ad-serving domains
         adDomains.add("adnxs.com")
         adDomains.add("carbonads.net")
         adDomains.add("pubmatic.com")
@@ -52,23 +72,26 @@ class AdBlocker {
     fun isAd(url: String?): Boolean {
         if (url == null) return false
         val uri = Uri.parse(url)
-        val host = uri.host?.lowercase() ?: return false
+        val host = uri.host?.lowercase() ?: ""
         
-        // Check if the host itself or any of its parent domains are in the list
+        // 1. Check Domain (Host)
         var currentHost = host
         while (currentHost.contains(".")) {
             if (adDomains.contains(currentHost)) {
-                Log.d("AdBlocker", "Blocked: $url")
+                Log.d("AdBlocker", "Blocked domain: $url")
                 return true
             }
             currentHost = currentHost.substring(currentHost.indexOf(".") + 1)
         }
         
-        // Check if common ad keywords are in the URL path/query (be careful not to over-block)
-        val adKeywords = listOf("/ads/", "/adview", "ad_type=", "ad_client=", "pagead")
-        for (keyword in adKeywords) {
-            if (url.contains(keyword)) {
-                Log.d("AdBlocker", "Blocked by keyword ($keyword): $url")
+        // 2. Check Patterns in Path and Query
+        val fullPath = uri.path ?: ""
+        val fullQuery = uri.query ?: ""
+        
+        for (pattern in blockedPatterns) {
+            if (fullPath.contains(pattern, ignoreCase = true) || 
+                fullQuery.contains(pattern, ignoreCase = true)) {
+                Log.d("AdBlocker", "Blocked pattern ($pattern): $url")
                 return true
             }
         }
