@@ -4,3 +4,10 @@ app/build/
 local.properties
 *.apk
 *.aab
+captures/
+.externalNativeBuild/
+.cxx/
+*.iml
+.idea/
+*.keystore
+!debug.keystore
