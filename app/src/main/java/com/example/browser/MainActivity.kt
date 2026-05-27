@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 progressBar.visibility = View.GONE
-                injectAdBlockingCss(view)
+                hideAdElements(view)
             }
         }
 
@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun injectAdBlockingCss(view: WebView?) {
+    private fun hideAdElements(view: WebView?) {
         val script = """
             (function() {
                 const adSelectors = [
