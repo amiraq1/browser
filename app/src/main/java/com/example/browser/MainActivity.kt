@@ -164,14 +164,24 @@ class MainActivity : AppCompatActivity() {
                         } catch (e) {}
                     });
 
-                    // 2. Remove by keyword detection
-                    document.querySelectorAll('div, section, aside, span, p').forEach(el => {
+                    // 2. Remove by keyword detection (with parent removal)
+                    document.querySelectorAll('body *').forEach(el => {
                         try {
-                            const text = (el.innerText || "").toLowerCase();
+                            if (!el || !el.getBoundingClientRect) return;
+                            const tag = el.tagName.toLowerCase();
+                            if (['html', 'body', 'main', 'article'].includes(tag)) return;
+
+                            const text = (el.innerText || el.textContent || "").toLowerCase();
                             const isMatch = antiAdblockKeywords.some(kw => text.includes(kw.toLowerCase()));
                             
-                            if (isMatch && !['BODY', 'HTML', 'MAIN', 'ARTICLE'].includes(el.tagName) && el.children.length < 5) {
-                                el.remove();
+                            if (isMatch) {
+                                let target = el;
+                                for (let i = 0; i < 3; i++) {
+                                    if (target.parentElement && target.parentElement !== document.body) {
+                                        target = target.parentElement;
+                                    }
+                                }
+                                target.remove();
                             }
                         } catch (e) {}
                     });
