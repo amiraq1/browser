@@ -23,21 +23,37 @@ chmod +x gradlew
 ```
 ستجد الملف في: `app/build/outputs/apk/debug/app-debug.apk`
 
-### 3. بناء نسخة Release (احترافية)
-لبناء نسخة Release موقعة، يجب عليك أولاً إنشاء مفتاح (Keystore) محلياً:
+### 3. بناء وتوقيع نسخة Release (من داخل Termux)
 
-**إنشاء المفتاح:**
+للحصول على نسخة نهائية قابلة للتثبيت، اتبع الخطوات التالية:
+
+**أ- إنشاء مفتاح التوقيع (يتم مرة واحدة فقط):**
 ```bash
-keytool -genkey -v -keystore my-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias my-alias
+keytool -genkey -v -keystore nabd-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias nabd-alias
 ```
 
-**البناء:**
+**ب- بناء نسخة الـ APK:**
 ```bash
 ./gradlew assembleRelease
 ```
-*ملاحظة: نسخة Release الناتجة ستكون غير موقعة (Unsigned) ما لم تقم بإعداد `signingConfigs` في ملف `build.gradle` بمفتاحك الخاص.*
+
+**ج- محاذاة الملف (Zipalign):**
+*(إذا كان متاحاً في أدوات البناء لديك)*
+```bash
+zipalign -v -p 4 app/build/outputs/apk/release/app-release-unsigned.apk Nabd-v1.0-release-aligned.apk
+```
+
+**د- التوقيع النهائي (Apksigner):**
+```bash
+apksigner sign --ks nabd-release-key.jks --out /sdcard/Download/Nabd-v1.0-release-signed.apk Nabd-v1.0-release-aligned.apk
+```
+*أو استخدم `jarsigner` إذا لم يتوفر `apksigner`:*
+```bash
+jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore nabd-release-key.jks app/build/outputs/apk/release/app-release-unsigned.apk nabd-alias
+```
 
 ## ملاحظات الخصوصية
 - التطبيق مفتوح المصدر بالكامل.
 - يتم حظر ملفات تعريف الارتباط للجهات الخارجية افتراضياً.
 - لا يتواصل التطبيق مع أي خوادم خارجية بخلاف المواقع التي تزورها.
+- **لا يحتوي التطبيق على أي أدوات تتبع (Trackers) أو إعلانات مدمجة.**
