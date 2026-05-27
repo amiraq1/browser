@@ -1,5 +1,7 @@
 package com.example.browser
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
@@ -25,9 +27,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var forwardButton: ImageButton
     private lateinit var refreshButton: ImageButton
     private lateinit var homeButton: ImageButton
+    private lateinit var settingsButton: ImageButton
 
     private val adBlocker = AdBlocker()
     private var blockedCount = 0
+    private var isAdBlockEnabled = true
 
     private val homeUrl = "file:///android_asset/home.html"
 
@@ -35,12 +39,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        updateSettings()
         initViews()
         loadAdRules()
         setupWebView()
         setupListeners()
 
         webView.loadUrl(homeUrl)
+    }
+
+    private fun updateSettings() {
+        val prefs = getSharedPreferences("browser_prefs", Context.MODE_PRIVATE)
+        isAdBlockEnabled = prefs.getBoolean("adblock_enabled", true)
     }
 
     private fun loadAdRules() {
@@ -62,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         forwardButton = findViewById(R.id.forwardButton)
         refreshButton = findViewById(R.id.refreshButton)
         homeButton = findViewById(R.id.homeButton)
+        settingsButton = findViewById(R.id.settingsButton)
     }
 
     private fun setupWebView() {
@@ -84,7 +95,7 @@ class MainActivity : AppCompatActivity() {
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 val url = request?.url?.toString() ?: return false
                 
-                if (adBlocker.isAd(url)) {
+                if (isAdBlockEnabled && adBlocker.isAd(url)) {
                     Log.d("AdBlocker", "Blocked redirect: $url")
                     runOnUiThread {
                         blockedCount++
@@ -99,7 +110,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
                 val url = request?.url?.toString()
-                if (adBlocker.isAd(url)) {
+                if (isAdBlockEnabled && adBlocker.isAd(url)) {
                     runOnUiThread {
                         blockedCount++
                         updateAdBlockCounter()
@@ -119,8 +130,10 @@ class MainActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 progressBar.visibility = View.GONE
-                injectAntiAdblockBypass()
-                hideAdElements()
+                if (isAdBlockEnabled) {
+                    injectAntiAdblockBypass()
+                    hideAdElements()
+                }
             }
         }
 
@@ -326,7 +339,27 @@ class MainActivity : AppCompatActivity() {
             webView.loadUrl(homeUrl)
             blockedCount = 0
             updateAdBlockCounter()
-            android.widget.Toast.makeText(this, "Rules loaded: ${adBlocker.rulesCount}", android.widget.Toast.LENGTH_SHORT).show()
+        }
+
+        settingsButton.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            intent.putExtra("rules_count", adBlocker.rulesCount)
+            startActivityForResult(intent, 100)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            updateSettings()
+            val action = data?.getStringExtra("action")
+            if (action == "clean_ads") {
+                injectAntiAdblockBypass()
+                hideAdElements()
+            } else if (action == "reset_counter") {
+                blockedCount = 0
+                updateAdBlockCounter()
+            }
         }
     }
 

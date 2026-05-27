@@ -15,4 +15,14 @@
     <string name="refresh_ar">تحديث</string>
     <string name="back_ar">رجوع</string>
     <string name="forward_ar">تقدم</string>
+    <string name="settings">Settings</string>
+    <string name="settings_ar">الإعدادات</string>
+    <string name="enable_adblock">Enable Ad Blocker</string>
+    <string name="enable_adblock_ar">تفعيل مانع الإعلانات</string>
+    <string name="clean_ads">Clean Ads</string>
+    <string name="clean_ads_ar">تنظيف الإعلانات</string>
+    <string name="reset_counter">Reset Counter</string>
+    <string name="reset_counter_ar">تصفير العداد</string>
+    <string name="rules_loaded">Rules Loaded: %1$d</string>
+    <string name="rules_loaded_ar">القواعد المحملة: %1$d</string>
 </resources>

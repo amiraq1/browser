@@ -34,6 +34,15 @@
             android:layout_marginStart="8dp"
             android:text="@string/go"
             android:textAllCaps="false" />
+
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/settings"
+            android:src="@android:drawable/ic_menu_preferences" />
     </LinearLayout>
 
     <!-- Progress Bar -->
