@@ -2,6 +2,7 @@ package com.example.browser
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.webkit.*
@@ -71,7 +72,18 @@ class MainActivity : AppCompatActivity() {
 
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                // Prevent opening new tabs/windows for ads or popups
+                val url = request?.url?.toString() ?: return false
+                
+                if (adBlocker.isAd(url)) {
+                    Log.d("AdBlocker", "Blocked redirect: $url")
+                    runOnUiThread {
+                        blockedCount++
+                        updateAdBlockCounter()
+                    }
+                    return true // Block the navigation
+                }
+                
+                // Allow normal navigation within the WebView
                 return false 
             }
 
