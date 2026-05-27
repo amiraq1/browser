@@ -21,8 +21,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var webView: WebView
     private lateinit var urlEditText: EditText
     private lateinit var goButton: Button
-    private lateinit var progressBar: ProgressBar
-    private lateinit var adBlockStatus: TextView
+    private lateinit var progressBar: com.google.android.material.progressindicator.LinearProgressIndicator
+    private lateinit var adBlockChip: com.google.android.material.chip.Chip
     private lateinit var backButton: ImageButton
     private lateinit var forwardButton: ImageButton
     private lateinit var refreshButton: ImageButton
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         urlEditText = findViewById(R.id.urlEditText)
         goButton = findViewById(R.id.goButton)
         progressBar = findViewById(R.id.progressBar)
-        adBlockStatus = findViewById(R.id.adBlockStatus)
+        adBlockChip = findViewById(R.id.adBlockChip)
         backButton = findViewById(R.id.backButton)
         forwardButton = findViewById(R.id.forwardButton)
         refreshButton = findViewById(R.id.refreshButton)
@@ -378,7 +378,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateAdBlockCounter() {
-        adBlockStatus.text = getString(R.string.blocked_status, blockedCount)
+        adBlockChip.text = "${blockedCount} محظور"
     }
 
     override fun onBackPressed() {

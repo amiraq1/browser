@@ -6,7 +6,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
+import com.google.android.material.materialswitch.MaterialSwitch
+import com.google.android.material.appbar.MaterialToolbar
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -14,7 +15,12 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val adblockSwitch = findViewById<SwitchCompat>(R.id.adblockSwitch)
+        val toolbar = findViewById<MaterialToolbar>(R.id.settingsToolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener { finish() }
+
+        val adblockSwitch = findViewById<MaterialSwitch>(R.id.adblockSwitch)
         val rulesCountText = findViewById<TextView>(R.id.rulesCountText)
         val cleanAdsButton = findViewById<Button>(R.id.cleanAdsButton)
         val resetCounterButton = findViewById<Button>(R.id.resetCounterButton)

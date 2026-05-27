@@ -5,74 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نبض - الصفحة الرئيسية</title>
     <style>
+        :root {
+            --md-sys-color-primary: #0061A4;
+            --md-sys-color-surface: #FDFCFF;
+            --md-sys-color-surface-variant: #DFE2EB;
+            --md-sys-color-on-surface: #1A1C1E;
+            --md-sys-color-on-surface-variant: #43474E;
+            --md-sys-color-outline: #73777F;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            background-color: #f5f5f5;
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
         }
         h1 {
-            color: #2196F3;
-            font-size: 48px;
-            margin-bottom: 20px;
+            color: var(--md-sys-color-primary);
+            font-size: 64px;
+            margin: 0;
+            font-weight: 300;
+            letter-spacing: -1px;
         }
         .search-container {
-            width: 80%;
+            width: 90%;
             max-width: 600px;
-            margin-bottom: 30px;
+            margin-bottom: 48px;
         }
-        input[type="text"] {
+        .search-box {
             width: 100%;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 25px;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 28px;
             font-size: 18px;
             outline: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: var(--md-sys-color-surface-variant);
+            color: var(--md-sys-color-on-surface);
+            box-sizing: border-box;
+            transition: box-shadow 0.2s;
+        }
+        .search-box:focus {
+            box-shadow: 0 0 0 2px var(--md-sys-color-primary);
         }
         .shortcuts {
             display: flex;
-            gap: 20px;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         .shortcut {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-decoration: none;
-            color: #333;
+            color: var(--md-sys-color-on-surface-variant);
+            background-color: var(--md-sys-color-surface-variant);
+            padding: 20px;
+            border-radius: 24px;
+            min-width: 80px;
+            transition: transform 0.2s, background-color 0.2s;
         }
-        .shortcut img {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            margin-bottom: 5px;
+        .shortcut:active {
+            transform: scale(0.95);
+            background-color: #d0d7e5;
         }
         .shortcut-icon {
-            width: 50px;
-            height: 50px;
+            width: 48px;
+            height: 48px;
             background-color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 16px;
             font-weight: bold;
-            font-size: 20px;
-            color: #2196F3;
-            margin-bottom: 8px;
+            font-size: 24px;
+            color: var(--md-sys-color-primary);
+            margin-bottom: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        span {
+            font-size: 14sp;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
-    <h1>نبض</h1>
+    <div class="logo-container">
+        <h1>نبض</h1>
+        <div style="font-size: 14px; color: var(--md-sys-color-outline); margin-top: -8px;">متصفح آمن وذكي</div>
+    </div>
     
     <div class="search-container">
         <form action="https://www.google.com/search" method="GET">
-            <input type="text" name="q" placeholder="بحث في جوجل..." autocomplete="off">
+            <input type="text" name="q" class="search-box" placeholder="بحث أو إدخال عنوان..." autocomplete="off">
         </form>
     </div>
 
@@ -92,7 +125,7 @@
     </div>
 
     <script>
-        document.querySelector('input').addEventListener('keypress', function (e) {
+        document.querySelector('.search-box').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 this.form.submit();
             }
